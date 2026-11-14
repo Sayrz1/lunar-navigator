@@ -746,9 +746,18 @@ function renderTrust() {
     card(t('trust.light'), `${illum.summary.random.sun.medianAbsPts} pts`, t('trust.light.body', { n: illum.summary.random.sun.n, sun: illum.summary.random.sun.medianAbsPts, earth: illum.summary.random.earth.medianAbsPts, sunMean: illum.summary.random.sun.meanAbsPts, earthMean: illum.summary.random.earth.meanAbsPts, r: Math.min(illum.summary.random.sun.r, illum.summary.random.earth.r).toFixed(3) })),
     card(t('trust.custom'), `${custom.sun.medianPts} pts`, t('trust.custom.body', { sun: custom.sun.medianPts, max: custom.sun.maxPts })),
     radiationCard(card),
+    regionsCard(card),
     app.checks.eclipse ? card(t('trust.eclipse'), `${app.checks.eclipse.summary.worstDiffMin} min`, t('trust.eclipse.body', app.checks.eclipse.summary)) : '',
   ].join('');
   $('limits').innerHTML = t('limits.items').split('|').map(x => `<li>${x}</li>`).join('');
+}
+
+// Our region centres against the ones NASA lists in its Lunar Surface Data Book.
+function regionsCard(card) {
+  const checked = app.regions.filter(r => r.nasa_data_book?.diff_m != null);
+  if (!checked.length) return '';
+  const worst = Math.max(...checked.map(r => r.nasa_data_book.diff_m));
+  return card(t('trust.regions'), `${worst} m`, t('trust.regions.body', { n: checked.length, worst }));
 }
 
 // CRaTER in orbit against the Chang'e-4 lander on the far side, over the same months.

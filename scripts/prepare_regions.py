@@ -8,13 +8,14 @@ Inputs (not in git):
         https://www.nasa.gov/wp-content/uploads/2024/10/artemis-iii-landing-region-candidates.jpg
 
 Why this script exists: the team's coordinate table (and the Horizons runs made from it)
-placed most regions 10-150 km away from where NASA drew them. NASA has never published
-region coordinates, so we take them from two independent sources and check one against
-the other:
+placed most regions 10-150 km away from where NASA drew them. We take positions from two
+sources and check them against a third:
   1. The 5 m DEM tiles. Their GeoTIFF extents are exact, and six of them sit on boxes of
      NASA's 2024 map to within 0.3 km.
   2. NASA's 2024 map, registered to those tiles (scale, rotation, offset). This gives the
      three 2024 regions we have no tile for.
+  3. Check: NASA's Lunar Surface Data Book (ACD-50044 Rev A, 2023), Table A2-2, lists the
+     centres of the 2022 regions. Every tile centre should land on its entry.
 
 usage: python scripts/prepare_regions.py
 """
@@ -52,10 +53,37 @@ TILES = {
     # Labelled "Faustini Rim A" by the team, but it lies on Amundsen crater's inner rim,
     # where NASA's 2022 rendering draws Amundsen Rim.
     '01_Faustini_Rim_A': ('amundsen-rim', 'on Amundsen crater rim; team label said Faustini Rim A'),
-    # Labelled "Amundsen Rim" by the team, but it lies on Shoemaker crater's rim, which is
-    # not a NASA candidate region. Kept as an extra study site.
+    # Labelled "Amundsen Rim" by the team, but it is NASA's Shoemaker Rim C (LM4 in the
+    # Data Book), not a candidate region. Kept as an extra study site.
     '13_Amundsen_Rim': ('shoemaker-rim', 'on Shoemaker crater rim; team label said Amundsen Rim'),
 }
+
+# NASA Lunar Surface Data Book, ACD-50044 Rev A (May 2023), Table A2-2: centres of the
+# south pole sites, from the PGDA DEM files (accurate to 5-10 m).
+# https://ntrs.nasa.gov/citations/20230007818
+DATA_BOOK = {
+    'amundsen-rim': (-84.2287, 69.44396),
+    'nobile-rim-2': (-83.954, 58.82206),
+    'haworth': (-86.7639, -22.777),
+    'shoemaker-rim': (-88.9645, 37.23483),
+    'faustini-rim-a': (-87.8897, 90.0),
+    'connecting-ridge': (-89.4632, -137.49),
+    'nobile-rim-1': (-85.4381, 37.36667),
+    'peak-near-shackleton': (-88.811, 123.6901),
+    'de-gerlache-rim-1': (-88.6834, -67.9321),
+    'mons-mouton': (-85.4266, 31.74276),
+    'malapert-massif': (-85.9948, -0.23578),
+    'de-gerlache-kocher-massif': (-85.8296, -116.322),
+    'de-gerlache-rim-2': (-88.23, -64.6284),
+    'connecting-ridge-extension': (-89.0324, -101.999),
+}
+DATA_BOOK_SOURCE = 'NASA Lunar Surface Data Book, ACD-50044 Rev A (2023), Table A2-2'
+
+
+def metres_between(a, b):
+    la1, lo1, la2, lo2 = map(math.radians, (*a, *b))
+    h = math.sin((la2 - la1) / 2) ** 2 + math.cos(la1) * math.cos(la2) * math.sin((lo2 - lo1) / 2) ** 2
+    return 2 * 1737.4e3 * math.asin(math.sqrt(h))
 
 REGIONS = {
     # id: (name, earlier names, lists it appears in)
@@ -75,7 +103,7 @@ REGIONS = {
     'de-gerlache-kocher-massif': ('de Gerlache-Kocher Massif', [], ['2022']),
     'amundsen-rim': ('Amundsen Rim', [], ['2022']),
     'faustini-rim-a': ('Faustini Rim A', [], ['2022']),
-    'shoemaker-rim': ('Shoemaker crater rim', [], []),
+    'shoemaker-rim': ('Shoemaker Rim C', [], []),
 }
 
 # Approximate pixel centre of each labelled box on NASA's 2024 map, read by eye from the
@@ -252,13 +280,19 @@ def main():
             })
         else:
             entry.update({'lat': None, 'lon': None,
-                          'position_source': 'not available: no tile, and not on the 2024 map'})
+                          'position_source': 'not modelled: no 5 m tile, and not on the 2024 map'})
+        if rid in DATA_BOOK:
+            nasa = DATA_BOOK[rid]
+            entry['nasa_data_book'] = {'lat': nasa[0], 'lon': nasa[1]}
+            if entry['lat'] is not None:
+                entry['nasa_data_book']['diff_m'] = round(metres_between((entry['lat'], entry['lon']), nasa))
         out.append(entry)
 
     OUT.parent.mkdir(parents=True, exist_ok=True)
     doc = {
         'about': 'NASA Artemis candidate landing regions (2022 list of 13, 2024 list of 9). '
-                 'NASA has not published coordinates; see position_source for each entry.',
+                 'See position_source for each entry; nasa_data_book is NASA\'s published centre '
+                 '(2022 regions only) and how far ours is from it.',
         'heights': 'metres above the 1737.4 km reference sphere (LOLA)',
         'map_registration': {'km_per_px': round(km_per_px, 4), 'rotation_deg': round(rot, 3),
                              'residuals_km': [round(float(r), 3) for r in res]},
@@ -268,6 +302,7 @@ def main():
             'map_2024': 'https://www.nasa.gov/wp-content/uploads/2024/10/artemis-iii-landing-region-candidates.jpg',
             'list_2024': 'https://www.nasa.gov/news-release/nasa-provides-update-on-artemis-iii-moon-landing-regions/',
             'list_2022': 'https://www.nasa.gov/news-release/nasa-identifies-candidate-regions-for-landing-next-americans-on-moon/',
+            'data_book': DATA_BOOK_SOURCE + ', https://ntrs.nasa.gov/citations/20230007818',
         },
         'regions': out,
     }
@@ -275,8 +310,10 @@ def main():
     for e in out:
         where = f'{e["lat"]:8.3f}, {e["lon"]:8.2f}' if e['lat'] is not None else '   unknown        '
         h = e.get('height_m') or {}
+        nb = e.get('nasa_data_book', {}).get('diff_m')
         print(f'{e["name"]:28s} {where}  {"/".join(e["nasa_lists"]) or "-":9s} '
-              f'centre {h.get("centre", "-")!s:>7} m  {e["position_source"][:40]}')
+              f'centre {h.get("centre", "-")!s:>7} m  {e["position_source"][:40]}'
+              + (f'  Data Book {nb} m' if nb is not None else ''))
 
 
 if __name__ == '__main__':

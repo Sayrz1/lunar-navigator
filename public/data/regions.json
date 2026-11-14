@@ -1,5 +1,5 @@
 {
- "about": "NASA Artemis candidate landing regions (2022 list of 13, 2024 list of 9). NASA has not published coordinates; see position_source for each entry.",
+ "about": "NASA Artemis candidate landing regions (2022 list of 13, 2024 list of 9). See position_source for each entry; nasa_data_book is NASA's published centre (2022 regions only) and how far ours is from it.",
  "heights": "metres above the 1737.4 km reference sphere (LOLA)",
  "map_registration": {
   "km_per_px": 0.2793,
@@ -15,7 +15,8 @@
   "dem": "LOLA 5 m/px south pole site DEMs, Barker et al., NASA GSFC Planetary Geodesy Data Archive, https://pgda.gsfc.nasa.gov/",
   "map_2024": "https://www.nasa.gov/wp-content/uploads/2024/10/artemis-iii-landing-region-candidates.jpg",
   "list_2024": "https://www.nasa.gov/news-release/nasa-provides-update-on-artemis-iii-moon-landing-regions/",
-  "list_2022": "https://www.nasa.gov/news-release/nasa-identifies-candidate-regions-for-landing-next-americans-on-moon/"
+  "list_2022": "https://www.nasa.gov/news-release/nasa-identifies-candidate-regions-for-landing-next-americans-on-moon/",
+  "data_book": "NASA Lunar Surface Data Book, ACD-50044 Rev A (2023), Table A2-2, https://ntrs.nasa.gov/citations/20230007818"
  },
  "regions": [
   {
@@ -73,7 +74,12 @@
     "pct_under_5": 14.4,
     "pct_under_10": 47.7
    },
-   "map_offset_km": 0.08
+   "map_offset_km": 0.08,
+   "nasa_data_book": {
+    "lat": -86.7639,
+    "lon": -22.777,
+    "diff_m": 0
+   }
   },
   {
    "id": "malapert-massif",
@@ -110,7 +116,12 @@
     "pct_under_5": 4.3,
     "pct_under_10": 16.8
    },
-   "map_offset_km": 0.03
+   "map_offset_km": 0.03,
+   "nasa_data_book": {
+    "lat": -85.9948,
+    "lon": -0.23578,
+    "diff_m": 0
+   }
   },
   {
    "id": "mons-mouton-plateau",
@@ -168,6 +179,11 @@
     "p90": 22.5,
     "pct_under_5": 11.0,
     "pct_under_10": 40.8
+   },
+   "nasa_data_book": {
+    "lat": -85.4266,
+    "lon": 31.74276,
+    "diff_m": 0
    }
   },
   {
@@ -204,6 +220,11 @@
     "p90": 26.52,
     "pct_under_5": 6.8,
     "pct_under_10": 20.1
+   },
+   "nasa_data_book": {
+    "lat": -85.4381,
+    "lon": 37.36667,
+    "diff_m": 0
    }
   },
   {
@@ -241,7 +262,12 @@
     "pct_under_5": 15.2,
     "pct_under_10": 43.8
    },
-   "map_offset_km": 0.04
+   "map_offset_km": 0.04,
+   "nasa_data_book": {
+    "lat": -83.954,
+    "lon": 58.82206,
+    "diff_m": 0
+   }
   },
   {
    "id": "de-gerlache-rim-2",
@@ -278,7 +304,12 @@
     "pct_under_5": 10.3,
     "pct_under_10": 33.8
    },
-   "map_offset_km": 0.09
+   "map_offset_km": 0.09,
+   "nasa_data_book": {
+    "lat": -88.23,
+    "lon": -64.6284,
+    "diff_m": 0
+   }
   },
   {
    "id": "slater-plain",
@@ -333,6 +364,11 @@
     "p90": 16.85,
     "pct_under_5": 11.8,
     "pct_under_10": 45.3
+   },
+   "nasa_data_book": {
+    "lat": -88.811,
+    "lon": 123.6901,
+    "diff_m": 0
    }
   },
   {
@@ -368,6 +404,11 @@
     "p90": 20.64,
     "pct_under_5": 9.8,
     "pct_under_10": 36.4
+   },
+   "nasa_data_book": {
+    "lat": -89.4632,
+    "lon": -137.49,
+    "diff_m": 0
    }
   },
   {
@@ -403,6 +444,11 @@
     "p90": 22.55,
     "pct_under_5": 4.7,
     "pct_under_10": 23.0
+   },
+   "nasa_data_book": {
+    "lat": -89.0324,
+    "lon": -101.999,
+    "diff_m": 0
    }
   },
   {
@@ -438,6 +484,11 @@
     "p90": 21.85,
     "pct_under_5": 5.0,
     "pct_under_10": 22.7
+   },
+   "nasa_data_book": {
+    "lat": -88.6834,
+    "lon": -67.9321,
+    "diff_m": 0
    }
   },
   {
@@ -473,6 +524,11 @@
     "p90": 21.82,
     "pct_under_5": 5.5,
     "pct_under_10": 21.0
+   },
+   "nasa_data_book": {
+    "lat": -85.8296,
+    "lon": -116.322,
+    "diff_m": 0
    }
   },
   {
@@ -508,6 +564,11 @@
     "p90": 20.94,
     "pct_under_5": 10.6,
     "pct_under_10": 33.0
+   },
+   "nasa_data_book": {
+    "lat": -84.2287,
+    "lon": 69.44396,
+    "diff_m": 0
    }
   },
   {
@@ -519,11 +580,15 @@
    ],
    "lat": null,
    "lon": null,
-   "position_source": "not available: no tile, and not on the 2024 map"
+   "position_source": "not modelled: no 5 m tile, and not on the 2024 map",
+   "nasa_data_book": {
+    "lat": -87.8897,
+    "lon": 90.0
+   }
   },
   {
    "id": "shoemaker-rim",
-   "name": "Shoemaker crater rim",
+   "name": "Shoemaker Rim C",
    "formerly": [],
    "nasa_lists": [],
    "lat": -88.9645,
@@ -552,6 +617,11 @@
     "p90": 20.2,
     "pct_under_5": 20.7,
     "pct_under_10": 46.8
+   },
+   "nasa_data_book": {
+    "lat": -88.9645,
+    "lon": 37.23483,
+    "diff_m": 0
    }
   }
  ]

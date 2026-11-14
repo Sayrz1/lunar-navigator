@@ -47,6 +47,9 @@ Everything the page needs is in `public/data`, so it runs offline and can be hos
 | 5 m tiles | LDEM_80S_80M | 1–2 m RMS, no offset |
 | Sunlight model | NASA LOLA illumination maps, 18.6 years, 200 random points | median 0.29 points (Sun), 0.06 (Earth); mean 0.68 and 0.48; correlation 0.993 (Sun), 0.997 (Earth) |
 | Custom points | full 5 m build at 32 spots | median 1.9 points (Sun), worst 19 on steep ground |
+| Region positions | NASA Lunar Surface Data Book (ACD-50044 Rev A, 2023), Table A2-2 | all 13 of our sites that it lists match to the metre; the three 2024 regions come from NASA's 2024 map |
+| Longest night | Data Book: about 150 h without sunlight in winter at the best-lit spots of Connecting Ridge and de Gerlache | 137–139 h every year, 2027–2035, at the sunniest point of NASA's map in Connecting Ridge and de Gerlache Rim 1 |
+| Highest Sun | Data Book: the Sun gets no higher than about 7° at the south pole | 7.6° at Nobile Rim 2, the region furthest from the pole; 2.1° at Connecting Ridge |
 | Lunar eclipses | NASA Five Millennium Catalog of Lunar Eclipses, 2026–2035 | 19 of 21 found, peak times within 0.9 min; the 2 missed only graze the Moon's edge |
 | Radiation | Chang'e-4 lander on the surface, Jan–Jun 2019 (Zhang et al. 2020) | absorbed: CRaTER 0.31 mGy/day vs Chang'e-4 about 0.33 without ground albedo; dose equivalent: CRaTER 1.78 vs Chang'e-4 1.37 mSv/day (the instruments weight particles differently) |
 
@@ -77,6 +80,7 @@ Not an official NASA product.
 - Artemis III site selection update: T. George, M. A. Rubio, S. J. Lawrence and P. Curell (NASA), "Artemis III Site Selection Update: Down-selection from 13 to 9 Candidate Regions", 57th Lunar and Planetary Science Conference (2026), abstract 1901: https://www.hou.usra.edu/meetings/lpsc2026/pdf/1901.pdf
 - NASA Artemis III site selection report (NTRS 20250011660): https://ntrs.nasa.gov/citations/20250011660
 - NASA Five Millennium Catalog of Lunar Eclipses (Espenak & Meeus): https://eclipse.gsfc.nasa.gov/LEcat5/LE2001-2100.html
+- NASA Lunar Surface Data Book, ACD-50044 Rev A (2023): region centres (Table A2-2), polar night survival (Appendix E): https://ntrs.nasa.gov/citations/20230007818
 - Landing regions: NASA, October 2024: https://www.nasa.gov/news-release/nasa-provides-update-on-artemis-iii-moon-landing-regions/
 
 ## Use of AI
