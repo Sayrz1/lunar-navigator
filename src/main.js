@@ -296,6 +296,7 @@ function renderRadiation() {
     row(t('rad.r.worst'), `${Math.round(rad.worst.max)} mGy/day · ${new Date(rad.worst.t).toISOString().slice(0, 7)}`);
   drawRadiation($('rad-chart'), { months: rad.months, estimate: rad.estimate, storms: rad.storms, now: app.t, locale: locale() });
   app.radNow = { rate: r.rate, total: r.rate * app.stay * share, estimated: r.estimated };
+  if ($('ice-rad')) $('ice-rad').innerHTML = iceRadText();
 }
 
 // --- named features (IAU Gazetteer, see scripts/fetch-features.mjs) ------------------------
@@ -417,14 +418,30 @@ function drawCal() {
   app.calPick = drawCalendar($('calendar'), days, app.t, app.windows, locale());
 }
 
+// The water map and the numbers beside it all follow the chosen spot: shadow (water) around
+// it, its own sunlight over the whole period, and its radiation now.
 function renderIce() {
-  const ice = app.spot.ice, near = ice.nearestKm;
-  const stat = (label, value, cls = '') => `<div><dt>${label}</dt><dd class="${cls}">${value}</dd></div>`;
+  const ice = app.spot.ice, near = ice.nearestKm, g = app.grid, s = app.spot.summary;
+  const stat = (label, value, cls = '', id = '') => `<div><dt>${label}</dt><dd class="${cls}"${id ? ` id="${id}"` : ''}>${value}</dd></div>`;
+  let shadow = 0;
+  for (const v of g.psr) if (v >= 125) shadow++;
   $('ice-stats').innerHTML = [
-    stat(t('ice.area'), `${ice.areaKm2.toFixed(1)} <small>km²</small>`),
+    stat(t('ice.area'), `${ice.areaKm2.toFixed(1)} <small>km² · ${fmtPct((shadow / g.psr.length) * 100)} ${t('ice.ofmap')}</small>`),
     stat(t('ice.near'), near == null ? t('ice.none') : `${near.toFixed(1)} <small>km · ${near <= 2 ? t('ice.inreach') : t('ice.outreach')}</small>`, near != null && near <= 2 ? 'good' : 'far'),
+    stat(t('ice.sun'), `${fmtPct(s.sunPct)} <small>${t('ice.sun.both', { both: fmtPct(s.bothPct) })}</small>`),
+    stat(t('ice.rad'), iceRadText(), '', 'ice-rad'),
   ].join('');
-  drawIceMap($('ice-map'), app.grid, markers().map(m => ({ ...m, line: m.active && ice.nearest ? ice.nearest : null })));
+  const mode = app.iceMode ?? 'ice';
+  drawIceMap($('ice-map'), g, markers().map(m => ({ ...m, line: m.active && ice.nearest ? ice.nearest : null })), mode);
+  $('ice-key').hidden = mode !== 'height';
+  $('ice-key-lo').textContent = `${Math.round(g.minM)} m`;
+  $('ice-key-hi').textContent = `${Math.round(g.maxM)} m`;
+  $('ice-caption').textContent = t(mode === 'height' ? 'ice.map.height' : 'ice.map.caption');
+}
+
+function iceRadText() {
+  const r = app.radNow;
+  return r ? `${(r.rate * skyShare(app.spot.hz)).toFixed(2)} <small>mGy/day${r.estimated ? ' · ' + t('ice.rad.est') : ''}</small>` : '–';
 }
 
 // Compare table. Scores need each region's grid (for distance to ice), loaded in the background.
@@ -827,6 +844,11 @@ function bind() {
   for (const b of document.querySelectorAll('[data-zoom]')) b.addEventListener('click', () => {
     (app.view === 'space' ? app.space : app.stage)?.zoom(Number(b.dataset.zoom));
   });
+  segPick('ice-mode', b => {
+    app.iceMode = b.dataset.mode;
+    for (const x of $('ice-mode').children) x.setAttribute('aria-checked', String(x === b));
+    renderIce();
+  });
   segPick('frame', b => {
     app.frame = b.dataset.frame;
     for (const x of $('frame').children) x.setAttribute('aria-checked', String(x === b));
@@ -854,6 +876,7 @@ function bind() {
     app.custom = null;
     await loadRegion(e.target.value);
     await setSpot(app.kind === 'custom' ? 'best' : app.kind);
+    if (app.view === 'space') app.space?.focusSite();
   });
   $('when').addEventListener('change', e => {
     const ms = Date.parse(e.target.value + 'Z');

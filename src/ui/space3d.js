@@ -228,6 +228,20 @@ export class SpaceView {
   }
 
   // Move in towards the site; resolves when the camera arrives.
+  // Swing round to face a newly chosen site from a few Moon radii out.
+  focusSite() {
+    if (!this.sitePos) return;
+    const n = this.sitePos.clone().normalize();
+    const pos = n.clone().multiplyScalar(4.2), target = n.clone().multiplyScalar(0.25);
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      this.camera.position.copy(pos);
+      this.controls.target.copy(target);
+      return;
+    }
+    gsap.to(this.controls.target, { x: target.x, y: target.y, z: target.z, duration: 1.2, ease: 'power2.inOut' });
+    gsap.to(this.camera.position, { x: pos.x, y: pos.y, z: pos.z, duration: 1.4, ease: 'power3.inOut' });
+  }
+
   flyToSite() {
     return new Promise(resolve => {
       if (!this.sitePos || matchMedia('(prefers-reduced-motion: reduce)').matches) return resolve();

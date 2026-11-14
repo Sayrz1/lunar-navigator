@@ -99,6 +99,7 @@
               <button type="button" role="radio" data-layer="relief" data-i18n="layer.relief">Real light</button>
               <button type="button" role="radio" data-layer="sun" data-i18n="layer.sun">Sunlight %</button>
               <button type="button" role="radio" data-layer="ice" data-i18n="layer.ice">Permanent shadow</button>
+              <button type="button" role="radio" data-layer="height" data-i18n="layer.height">Height</button>
             </div>
           </div>
         </div>
@@ -301,8 +302,13 @@
       </header>
       <div class="grid-2 ice-grid">
         <figure class="chart square">
+          <div class="seg ice-mode" role="radiogroup" id="ice-mode" aria-label="Map">
+            <button type="button" role="radio" data-mode="ice" aria-checked="true" data-i18n="ice.mode.ice">Permanent shadow</button>
+            <button type="button" role="radio" data-mode="height" aria-checked="false" data-i18n="ice.mode.height">Height</button>
+          </div>
           <canvas id="ice-map" width="640" height="640" aria-label="Map of permanent shadow in the region"></canvas>
-          <figcaption data-i18n="ice.map.caption"></figcaption>
+          <div id="ice-key" class="height-key" hidden><span id="ice-key-lo" class="num"></span><i aria-hidden="true"></i><span id="ice-key-hi" class="num"></span></div>
+          <figcaption id="ice-caption"></figcaption>
         </figure>
         <div>
           <dl id="ice-stats" class="stats big"></dl>

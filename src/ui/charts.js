@@ -151,7 +151,20 @@ export function drawCalendar(canvas, days, chosenMs, windows, locale) {
 }
 
 // Shaded relief with permanent shadow in ice blue, plus spot markers.
-export function drawIceMap(canvas, g, markers) {
+// Height colours as in lunar topography maps (LOLA, LunaServ): violet and blue for the
+// lowest ground through green and yellow to red for the highest. t from 0 to 1.
+const HEIGHT_STOPS = [[0, [58, 30, 120]], [0.18, [40, 90, 200]], [0.36, [50, 175, 215]], [0.52, [90, 195, 110]], [0.68, [225, 215, 80]], [0.84, [235, 140, 50]], [1, [200, 50, 45]]];
+export function heightRamp(t) {
+  t = Math.min(1, Math.max(0, t));
+  let i = 1;
+  while (i < HEIGHT_STOPS.length - 1 && t > HEIGHT_STOPS[i][0]) i++;
+  const [t0, a] = HEIGHT_STOPS[i - 1], [t1, b] = HEIGHT_STOPS[i];
+  const f = (t - t0) / (t1 - t0);
+  return a.map((v, k) => v + (b[k] - v) * f);
+}
+
+// mode 'ice': grey relief with permanent shadow in blue. 'height': relief coloured by height.
+export function drawIceMap(canvas, g, markers, mode = 'ice') {
   const { ctx, W } = fit(canvas);
   const n = g.cells;
   const img = new ImageData(n, n);
@@ -164,6 +177,12 @@ export function drawIceMap(canvas, g, markers) {
     // light from the upper left, 45 deg up
     const nx = -hx / (2 * d), ny = -hy / (2 * d);
     const shade = Math.max(0, (nx * -0.5 + ny * 0.5 + 0.7071) / Math.sqrt(nx * nx + ny * ny + 1));
+    if (mode === 'height') {
+      const c = heightRamp((g.height[k] - g.minM) / Math.max(1, g.maxM - g.minM));
+      const lit = 0.45 + shade * 0.75;
+      img.data.set([c[0] * lit, c[1] * lit, c[2] * lit, 255], k * 4);
+      continue;
+    }
     const grey = 30 + shade * 170;
     const p = g.psr[k] / 250;
     img.data.set([grey * (1 - p) + ice[0] * p, grey * (1 - p) + ice[1] * p, grey * (1 - p) + ice[2] * p, 255], k * 4);

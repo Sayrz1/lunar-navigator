@@ -9,6 +9,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { gsap } from 'gsap';
 import { fromStereo, toStereo } from '../core/horizon.js';
 import { regionSampler } from '../core/terrain.js';
+import { heightRamp } from './charts.js';
 
 const DEG = Math.PI / 180;
 
@@ -210,6 +211,7 @@ export class Stage {
     for (let k = 0; k < g.cells * g.cells; k++) {
       let rgb;
       if (this.layer === 'sun') rgb = sunRamp(g.sun[k] / 250);
+      else if (this.layer === 'height') rgb = heightRamp((g.height[k] - g.minM) / span).map(v => v / 255);
       else {
         const grey = 0.5 + 0.12 * ((g.height[k] - g.minM) / span);
         rgb = [grey, grey * 0.985, grey * 0.96];

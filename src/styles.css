@@ -290,6 +290,11 @@ body[data-view='space'] .site-only, body[data-view='site'] .space-only { display
 .rad-big { margin: 4px 0 8px; font: 700 clamp(2.4rem, 4vw, 3.4rem)/1 'Unbounded', var(--font); letter-spacing: -0.03em; }
 .rad-big small { font: 500 0.95rem var(--font); color: var(--muted); letter-spacing: 0; }
 .card.features { grid-column: 1 / -1; }
+.ice-mode { margin-bottom: 10px; }
+.height-key { display: flex; align-items: center; gap: 10px; margin-top: 8px; font-size: 0.8rem; color: var(--muted); }
+.height-key[hidden] { display: none; }
+.height-key i { flex: 1; height: 8px; border-radius: 4px; background: linear-gradient(90deg, rgb(58, 30, 120), rgb(40, 90, 200) 18%, rgb(50, 175, 215) 36%, rgb(90, 195, 110) 52%, rgb(225, 215, 80) 68%, rgb(235, 140, 50) 84%, rgb(200, 50, 45)); }
+[dir='rtl'] .height-key i { transform: scaleX(-1); }
 .card.period { margin-bottom: 16px; }
 .period-inputs { display: flex; flex-wrap: wrap; gap: 12px 20px; margin: 4px 0 14px; }
 .period-inputs .field { display: grid; gap: 4px; }
