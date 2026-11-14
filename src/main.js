@@ -230,6 +230,7 @@ function renderScore() {
   $('grade').className = `grade ${gradeKey(score)}`;
   $('score-parts').innerHTML = Object.entries(parts).map(([k, v]) =>
     `<li><span>${t(`score.${k}`)}</span><span class="meter"><i style="width:${Math.round(v * 100)}%"></i></span><span class="num">${Math.round(v * 100)}</span></li>`).join('');
+  if (app.windows) renderVerdict();
 }
 
 function renderWeights() {
@@ -337,6 +338,29 @@ function renderFeatures() {
   </details>`).join('');
 }
 
+// Where to aim so that a miss still lands somewhere good. For each flat cell, take the worst
+// value of `metric` within `radiusM` of it; the best of those worst cases is the robust aim.
+// Only cells whose whole circle lies inside the grid count.
+function robustAim(doc, size, stepM, metric, radiusM = 50) {
+  const r = Math.round(radiusM / stepM), half = (size - 1) / 2, cells = doc.cells;
+  const worstAround = (i0, j0) => {
+    let worst = Infinity;
+    for (let i = i0 - r; i <= i0 + r; i++)
+      for (let j = j0 - r; j <= j0 + r; j++)
+        if ((i - i0) ** 2 + (j - j0) ** 2 <= r * r) worst = Math.min(worst, cells[metric][i * size + j]);
+    return worst;
+  };
+  let best = null;
+  for (let i = r; i < size - r; i++)
+    for (let j = r; j < size - r; j++) {
+      if (!(cells.slope[i * size + j] < 10)) continue;
+      const worst = worstAround(i, j);
+      if (!best || worst > best.worst + 1e-9) best = { i, j, worst };
+    }
+  if (!best) return null;
+  return { ...best, own: worstAround(half, half), radiusM, offsetM: Math.hypot(best.i - half, best.j - half) * stepM };
+}
+
 // Landing scatter grid around the centre or best spot (precomputed, see scripts/landing-scatter.mjs).
 function renderScatter() {
   const doc = app.scatter?.regions[app.region.id]?.[app.kind];
@@ -346,6 +370,7 @@ function renderScatter() {
   if (!doc) {
     $('scatter-text').textContent = t('scatter.none');
     $('scatter-stats').innerHTML = '';
+    $('aim-text').textContent = '';
     return;
   }
   const w = doc.within100m, m = app.scatterMetric;
@@ -356,7 +381,13 @@ function renderScatter() {
     row('scatter.r.sun', range(w.sun)) + row('scatter.r.earth', range(w.earth)) + row('scatter.r.both', range(w.both)) +
     row('scatter.r.dark', `${fmtDays(w.dark[0])} – ${fmtDays(w.dark[1])}`) +
     row('scatter.r.steep', t('scatter.of', { n: w.tooSteep, all: w.points }));
-  drawScatter($('scatter-map'), { size: app.scatter.size, stepM: app.scatter.stepM, grid: doc }, m);
+  const aim = robustAim(doc, app.scatter.size, app.scatter.stepM, m);
+  const what = t(`scatter.what.${m}`);
+  if (!aim) $('aim-text').textContent = t('aim.none', { r: 50 });
+  else if (aim.offsetM < 1 || aim.worst - aim.own < 1) $('aim-text').textContent = t('aim.here', { what, worst: Math.round(aim.own), r: aim.radiusM });
+  else $('aim-text').textContent = t('aim.move', { what, m: Math.round(aim.offsetM), worst: Math.round(aim.worst), own: Math.round(aim.own), r: aim.radiusM });
+  app.aim = aim;
+  drawScatter($('scatter-map'), { size: app.scatter.size, stepM: app.scatter.stepM, grid: doc, aim }, m);
 }
 
 function markers() {
@@ -372,6 +403,7 @@ function renderPlanner() {
   app.windows = landingWindows(eph, spot.flags, app.stay * 24);
   app.days = dailyShare(eph, spot.flags);
   drawCal();
+  renderVerdict();
   const upcoming = app.windows.filter(w => w.close >= app.t);
   const list = (upcoming.length ? upcoming : app.windows).slice(0, 8);
   if (!app.windows.length) {
@@ -384,6 +416,31 @@ function renderPlanner() {
     const label = w.close - w.open < HOUR ? t('plan.windowAt', { open: fmtDate(w.open) }) : t('plan.window', { open: fmtDate(w.open), close: fmtDate(w.close) });
     return `<li class="${inside ? 'current' : ''}"><button type="button" data-open="${w.open}"><span>${label}${dim}</span><span class="dur">${fmtDays((w.close - w.open) / HOUR)}</span></button></li>`;
   }).join('') + (upcoming.length > list.length ? `<li class="note">${t('plan.more', { n: upcoming.length - list.length })}</li>` : '');
+}
+
+// One sentence that answers "can we land here, and when?", then the few numbers behind it.
+function renderVerdict() {
+  const { spot } = app, s = spot.summary;
+  const next = app.windows.find(w => w.close >= app.t);
+  const now = next && next.open <= app.t;
+  const days = app.stay;
+  let line, cls;
+  if (!app.windows.length) { line = t('verdict.none', { spot: spotLabel(), days }); cls = 'bad'; }
+  else if (now) { line = t('verdict.now', { spot: spotLabel(), days, close: fmtDate(next.close) }); cls = 'good'; }
+  else if (next) { line = t('verdict.next', { spot: spotLabel(), days, open: fmtDate(next.open), close: fmtDate(next.close) }); cls = 'ok'; }
+  else { line = t('verdict.past', { spot: spotLabel(), days }); cls = 'bad'; }
+  $('verdict').className = `verdict-strip ${cls}`;
+  $('verdict-line').textContent = line;
+
+  const ice = spot.ice.nearestKm;
+  const key = (label, value, note = '') => `<div><dt>${label}</dt><dd>${value}</dd>${note ? `<dd class="note">${note}</dd>` : ''}</div>`;
+  $('verdict-keys').innerHTML = [
+    key(t('verdict.k.window'), now ? t('verdict.k.open') : next ? fmtDate(next.open).split(/[,،]/)[0] : '–',
+      next ? t('verdict.k.count', { n: app.windows.filter(w => w.close >= app.t).length }) : ''),
+    key(t('verdict.k.night'), fmtDays(s.longestDarkH), t('verdict.k.nightNote')),
+    key(t('verdict.k.ice'), ice == null ? '–' : `${ice.toFixed(1)} km`, ice == null ? t('ice.none') : ice <= 2 ? t('ice.inreach') : t('ice.outreach')),
+    key(t('verdict.k.score'), `${app.score ?? '–'}<small>/100</small>`, grade(app.score ?? 0)),
+  ].join('');
 }
 
 // The mission period: from the landing time for the length of the stay. Either end can be
@@ -739,7 +796,7 @@ function renderLate() {
 function renderTrust() {
   const { validation, tiles, illum, custom } = app.checks;
   const rms = Math.max(...tiles.tiles.map(x => x.height_vs_ldem80.rms_diff_m));
-  const card = (title, big, body) => `<article class="card trust-card"><h3>${title}</h3><p class="big-num">${big}</p><p>${body}</p></article>`;
+  const card = (title, big, body) => `<tr><th scope="row">${title}</th><td class="big-num">${big}</td><td>${body}</td></tr>`;
   $('trust-cards').innerHTML = [
     card(t('trust.eph'), `${(validation.worstDeg * 3600).toFixed(1)}″`, t('trust.eph.body', { n: validation.team.length + validation.live.length, arcsec: (validation.worstDeg * 3600).toFixed(1) })),
     card(t('trust.terrain'), `≤ ${rms.toFixed(1)} m`, t('trust.terrain.body', { rms: rms.toFixed(1) })),
@@ -1051,6 +1108,7 @@ function bind() {
     setTimeout(() => { $('share-status').textContent = ''; }, 2500);
   });
   $('csv').addEventListener('click', csv);
+  bindTabs();
   $('theme').addEventListener('click', () => {
     const light = document.documentElement.dataset.theme !== 'light';
     document.documentElement.dataset.theme = light ? 'light' : 'dark';
@@ -1081,6 +1139,43 @@ function bind() {
   });
 }
 
+// Detail tabs under the verdict. A canvas in a hidden pane has no width, so each pane
+// redraws its own charts when it is shown.
+const PANE_DRAW = {
+  sky: () => renderNow({ full: true }),
+  power: () => {},
+  rad: () => renderRadiation(),
+  land: () => renderScatter(),
+  ground: () => renderIce(),
+};
+function showTab(key, focus = false) {
+  app.tab = key;
+  for (const b of $('detail-tabs').children) {
+    const on = b.dataset.tab === key;
+    b.setAttribute('aria-selected', String(on));
+    b.tabIndex = on ? 0 : -1;
+    $(`pane-${b.dataset.tab}`).hidden = !on;
+    if (on && focus) b.focus();
+  }
+  if (app.spot) PANE_DRAW[key]();
+}
+function bindTabs() {
+  const tabs = [...$('detail-tabs').children];
+  $('detail-tabs').addEventListener('click', e => {
+    const b = e.target.closest('[role="tab"]');
+    if (b) showTab(b.dataset.tab);
+  });
+  $('detail-tabs').addEventListener('keydown', e => {
+    const k = tabs.findIndex(b => b.dataset.tab === app.tab);
+    const step = { ArrowRight: 1, ArrowLeft: -1, Home: -k, End: tabs.length - 1 - k }[e.key];
+    if (step == null) return;
+    e.preventDefault();
+    const dir = document.documentElement.dir === 'rtl' && Math.abs(step) === 1 ? -step : step;
+    showTab(tabs[(k + dir + tabs.length) % tabs.length].dataset.tab, true);
+  });
+  showTab('sky');
+}
+
 function applyLang(lang) {
   setLang(lang);
   fillRegionSelect();
@@ -1097,7 +1192,7 @@ function intro() {
   if (reduceMotion) return;
   gsap.from('.hud', { opacity: 0, y: 16, duration: 1, stagger: 0.08, delay: 0.3, ease: 'power3.out' });
   for (const band of document.querySelectorAll('.band')) {
-    gsap.from(band.querySelectorAll('.band-head, .card, .chart, .table-wrap, .long'), {
+    gsap.from(band.querySelectorAll('.band-head, .verdict-strip, .card, .chart, .table-wrap, .long, .tabs, details.more'), {
       y: 30, opacity: 0, duration: 0.9, stagger: 0.05, ease: 'power3.out',
       scrollTrigger: { trigger: band, start: 'top 80%', once: true },
     });

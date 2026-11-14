@@ -23,7 +23,11 @@ function fit(canvas, cssHeight) {
 
 const font = size => `${size}px 'IBM Plex Mono', ui-monospace, monospace`;
 
+// A canvas inside a hidden tab has no size; it is drawn when its tab opens.
+const hidden = canvas => !canvas.getClientRects().length;
+
 export function drawHorizonChart(canvas, hz, path, now) {
+  if (hidden(canvas)) return;
   const narrow = (canvas.clientWidth || 600) < 560;
   const { ctx, W, H } = fit(canvas, narrow ? 240 : 300);
   const pad = { l: 44, r: 10, t: 12, b: 26 };
@@ -165,6 +169,7 @@ export function heightRamp(t) {
 
 // mode 'ice': grey relief with permanent shadow in blue. 'height': relief coloured by height.
 export function drawIceMap(canvas, g, markers, mode = 'ice') {
+  if (hidden(canvas)) return;
   const { ctx, W } = fit(canvas);
   const n = g.cells;
   const img = new ImageData(n, n);
@@ -228,6 +233,7 @@ export function drawIceMap(canvas, g, markers, mode = 'ice') {
 // coloured by one value in percent. Cells too steep to land on are crossed out, and the ring
 // marks 100 m from the aim point.
 export function drawScatter(canvas, doc, metric) {
+  if (hidden(canvas)) return;
   const n = doc.size, half = (n - 1) / 2;
   const W = canvas.clientWidth || canvas.parentElement.clientWidth;
   const { ctx } = fit(canvas, W);
@@ -269,6 +275,17 @@ export function drawScatter(canvas, doc, metric) {
   ctx.lineWidth = 2;
   ctx.strokeRect(pad + half * cell + 1, pad + half * cell + 1, cell - 2, cell - 2);
 
+  // robust aim: a diamond on the chosen cell, and the circle its worst case was taken over
+  const aim = doc.aim;
+  if (aim && aim.offsetM >= 1) {
+    const ax = pad + (aim.j + 0.5) * cell, ay = pad + (aim.i + 0.5) * cell, d = cell * 0.32;
+    ctx.strokeStyle = css('--accent'); ctx.lineWidth = 1.5; ctx.setLineDash([2, 3]);
+    ctx.beginPath(); ctx.arc(ax, ay, (aim.radiusM / doc.stepM) * cell, 0, 2 * Math.PI); ctx.stroke();
+    ctx.setLineDash([]); ctx.lineWidth = 2.5;
+    ctx.beginPath(); ctx.moveTo(ax, ay - d); ctx.lineTo(ax + d, ay); ctx.lineTo(ax, ay + d); ctx.lineTo(ax - d, ay); ctx.closePath();
+    ctx.stroke();
+  }
+
   // map up is towards 0 deg longitude (the Earth-facing side); scale bar
   ctx.fillStyle = css('--muted');
   ctx.fillText('↑ 0°E', cx, pad / 2);
@@ -290,6 +307,7 @@ export function drawScatter(canvas, doc, metric) {
 // (solid), the previous-cycle estimate for later dates (dashed), storm days as ticks along
 // the top, and the chosen landing time.
 export function drawRadiation(canvas, { months, estimate, storms, now, top = 2.5 }) {
+  if (hidden(canvas)) return;
   const { ctx, W, H } = fit(canvas, canvas.clientWidth < 560 ? 200 : 240);
   const pad = { l: 44, r: 12, t: 18, b: 24 };
   const t0 = Date.UTC(2009, 0, 1), t1 = Date.UTC(2036, 0, 1);

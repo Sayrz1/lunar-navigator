@@ -2,8 +2,7 @@
 // data-i18n-attr="aria-label:key" sets an attribute. JS uses t('key', { vars }).
 
 const en = {
-  'nav.stage': '3D', 'nav.assess': 'Assessment', 'nav.plan': 'Planner', 'nav.compare': 'Compare',
-  'nav.ice': 'Water & ice', 'nav.trust': 'Trust',
+  'nav.stage': '3D', 'nav.assess': 'Site', 'nav.plan': 'When', 'nav.compare': 'Compare', 'nav.trust': 'Trust',
   'lang.switch': 'Switch to Arabic', 'theme.light': 'Light', 'theme.dark': 'Dark', 'theme.label': 'Switch colour theme',
   'when.label': 'Landing (UTC)',
 
@@ -107,7 +106,21 @@ const en = {
 
   'foot.nologo': 'Not an official NASA product.',
 
-  'navi.open': 'Ask Navi', 'navi.title': 'Navi · mission assistant', 'navi.sub': 'Answers from this page’s data. No AI model, no data leaves your browser.',
+  'verdict.now': 'You can land now: land before {close} and Sun and Earth stay up for the whole {days}-day stay.',
+  'verdict.next': 'Land between {open} and {close} to keep Sun and Earth for the whole {days}-day stay.',
+  'verdict.none': 'No landing time from 2026 to 2035 keeps Sun and Earth here for a {days}-day stay. Try a shorter stay or the best spot.',
+  'verdict.past': 'No landing window is left before the end of 2035 for a {days}-day stay here.',
+  'verdict.k.window': 'Next window', 'verdict.k.open': 'Open now', 'verdict.k.count': '{n} windows to 2035',
+  'verdict.k.night': 'Longest night', 'verdict.k.nightNote': 'battery must last this long',
+  'verdict.k.ice': 'Nearest ice', 'verdict.k.score': 'Site score',
+  'tab.sky': 'Sky', 'tab.power': 'Power', 'tab.rad': 'Radiation', 'tab.land': 'Landing accuracy', 'tab.ground': 'Terrain & water',
+  'aim.move': 'Aim {m} m away (the diamond): a miss of up to {r} m then still gets {what} at least {worst}% of the time, against {own}% when aiming here.',
+  'aim.here': 'This spot is already the safest aim: within {r} m, {what} never drops below {worst}%.',
+  'aim.none': 'No flat cell on this map can take a {r} m miss.',
+  'plan.more.detail': 'More detail: what counts as visible, and your mission period',
+  'trust.col.what': 'What we checked', 'trust.col.result': 'Result', 'trust.col.how': 'How',
+
+  'navi.open': 'Ask Navi', 'navi.title': 'Navi · mission assistant', 'navi.sub': 'Answers from this page’s data',
   'navi.placeholder': 'Ask about sunrise, Earth, the best spot…', 'navi.send': 'Send', 'navi.close': 'Close',
   'navi.hello': 'Hi, I’m Navi. Ask me about the spot on screen: when the Sun rises, when Earth is in view, where to land, or where the ice is.',
   'navi.chips': 'When is sunrise?|Is Earth in view?|Best region?|Next landing window|How big a battery?|Where is the ice?|What if we land off target?|How much radiation?|How accurate is this?',
@@ -155,7 +168,6 @@ const en = {
   'note.space': 'Moon-fixed view: what you would see standing on the Moon. The Sun circles the sky once every 29.5 days, while Earth stays almost still, rocking a few degrees. Drag to orbit, scroll to zoom. Sizes and distances are not to scale.',
   'note.overview': 'LOLA terrain of the whole region box, lit by the Sun from its true direction. Click the ground to test your own point.',
   'note.ground': 'Standing on the spot. The grey ribbon is the real horizon from 250 km of terrain; the amber and blue lines are the Sun and Earth over the next lunar day. Drag to look around.',
-  'assess.eyebrow': 'Site assessment',
   'share.link': 'Share this scenario',
   'share.csv': 'Download hourly CSV',
   'share.copied': 'Link copied',
@@ -177,7 +189,6 @@ const en = {
   'power.kg': 'Battery mass',
   'power.centre': 'Same at the region centre',
   'power.note': 'Assumes lithium-ion at 150 Wh/kg, used down to 20 %. Landers in survival mode often need 100–400 W for heaters and radio.',
-  'plan.eyebrow': 'Mission planner · Nov 2026 – Dec 2035',
   'plan.cal.key': '0 → 100 % of the day with Sun and Earth together',
   'plan.cal.dot': 'a landing window opens',
   'plan.cal.click': 'Click a day to jump there.',
@@ -196,10 +207,7 @@ const en = {
   'late.r.earthshare': 'Earth in view during the stay',
   'late.r.both': 'Both during the stay',
   'late.r.dark': 'Longest dark spell in the stay',
-  'cmp.eyebrow': 'All candidate regions',
   'cmp.score': 'Score',
-  'ice.eyebrow': 'Cold traps',
-  'trust.eyebrow': 'Validation',
   'navi.scatter': 'If you land anywhere within 100 m of this spot, Sun and Earth together range from {lo}% to {hi}% of the time, and {steep} of {all} points there are too steep. The map is in the assessment section.',
   'navi.score': 'This spot scores {score}/100 with your weights: {grade}.',
   'navi.power': 'To get through the longest night here ({days} days) at {w} W you need about {kwh} kWh of battery, roughly {kg} kg.',
@@ -207,8 +215,7 @@ const en = {
 };
 
 const ar = {
-  'nav.stage': 'ثلاثي الأبعاد', 'nav.assess': 'التقييم', 'nav.plan': 'المخطِّط', 'nav.compare': 'المقارنة',
-  'nav.ice': 'الماء والجليد', 'nav.trust': 'الموثوقية',
+  'nav.stage': 'ثلاثي الأبعاد', 'nav.assess': 'الموقع', 'nav.plan': 'متى', 'nav.compare': 'المقارنة', 'nav.trust': 'الموثوقية',
   'lang.switch': 'التبديل إلى الإنجليزية', 'theme.light': 'فاتح', 'theme.dark': 'داكن', 'theme.label': 'تبديل ألوان الصفحة',
   'when.label': 'الهبوط (UTC)',
 
@@ -312,6 +319,20 @@ const ar = {
 
   'foot.nologo': 'ليس منتجًا رسميًا من ناسا.',
 
+  'verdict.now': 'الهبوط ممكن الآن: اهبط قبل {close} وستبقى الشمس والأرض ظاهرتين طوال مدة البقاء البالغة {days} أيام.',
+  'verdict.next': 'اهبط بين {open} و{close} لتبقى الشمس والأرض ظاهرتين طوال مدة البقاء البالغة {days} أيام.',
+  'verdict.none': 'لا يوجد وقت هبوط بين 2026 و2035 يحافظ على الشمس والأرض هنا لمدة {days} أيام. جرّب مدة أقصر أو أفضل نقطة.',
+  'verdict.past': 'لم تبقَ نافذة هبوط قبل نهاية 2035 لبقاء {days} أيام هنا.',
+  'verdict.k.window': 'النافذة التالية', 'verdict.k.open': 'مفتوحة الآن', 'verdict.k.count': '{n} نافذة حتى 2035',
+  'verdict.k.night': 'أطول ليل', 'verdict.k.nightNote': 'يجب أن تصمد البطارية طوال هذه المدة',
+  'verdict.k.ice': 'أقرب جليد', 'verdict.k.score': 'تقييم الموقع',
+  'tab.sky': 'السماء', 'tab.power': 'الطاقة', 'tab.rad': 'الإشعاع', 'tab.land': 'دقة الهبوط', 'tab.ground': 'التضاريس والماء',
+  'aim.move': 'صوّب على بعد {m} م (المعيّن): عندها تبقى نسبة {what} {worst}% على الأقل حتى مع انحراف {r} م، مقابل {own}% عند التصويب هنا.',
+  'aim.here': 'هذه النقطة هي أأمن هدف بالفعل: ضمن {r} م لا تنخفض نسبة {what} عن {worst}%.',
+  'aim.none': 'لا توجد خلية مستوية في هذه الخريطة تتحمل انحرافًا بمقدار {r} م.',
+  'plan.more.detail': 'تفاصيل أكثر: ما الذي يُعد ظاهرًا، وفترة مهمتك',
+  'trust.col.what': 'ما الذي تحققنا منه', 'trust.col.result': 'النتيجة', 'trust.col.how': 'الطريقة',
+
   'navi.open': 'اسأل نافي', 'navi.title': 'نافي · مساعد المهمة', 'navi.sub': 'إجابات من بيانات هذه الصفحة. لا يوجد نموذج ذكاء اصطناعي، ولا تغادر أي بيانات متصفحك.',
   'navi.placeholder': 'اسأل عن الشروق، الأرض، أفضل نقطة…', 'navi.send': 'إرسال', 'navi.close': 'إغلاق',
   'navi.hello': 'مرحبًا، أنا نافي. اسألني عن النقطة المعروضة: متى تشرق الشمس، ومتى تظهر الأرض، وأين تهبط، وأين الجليد.',
@@ -360,7 +381,6 @@ const ar = {
   'note.space': 'منظور ثابت على القمر: ما تراه لو وقفت عليه. تدور الشمس في السماء مرة كل 29.5 يومًا، بينما تبقى الأرض شبه ثابتة وتتمايل بضع درجات. اسحب للدوران ومرّر للتكبير. الأحجام والمسافات ليست بمقياس حقيقي.',
   'note.overview': 'تضاريس LOLA لمربع المنطقة كاملًا، مضاءة بالشمس من اتجاهها الحقيقي. انقر على الأرض لتجربة نقطتك.',
   'note.ground': 'أنت واقف في النقطة. الشريط الرمادي هو الأفق الحقيقي من 250 كم من التضاريس، والخطان الكهرماني والأزرق هما مسارا الشمس والأرض خلال اليوم القمري القادم. اسحب للنظر حولك.',
-  'assess.eyebrow': 'تقييم الموقع',
   'share.link': 'شارك هذا السيناريو',
   'share.csv': 'تنزيل CSV بالساعة',
   'share.copied': 'نُسخ الرابط',
@@ -382,7 +402,6 @@ const ar = {
   'power.kg': 'كتلة البطارية',
   'power.centre': 'الأمر نفسه عند مركز المنطقة',
   'power.note': 'نفترض بطاريات ليثيوم أيون بكثافة 150 واط·ساعة/كغ تُستخدم حتى 20%. تحتاج المركبات في وضع النجاة عادةً 100–400 واط للتدفئة والاتصال.',
-  'plan.eyebrow': 'مخطِّط المهمة · نوفمبر 2026 – ديسمبر 2035',
   'plan.cal.key': '0 ← 100% من اليوم تجتمع فيه الشمس والأرض',
   'plan.cal.dot': 'تبدأ نافذة هبوط',
   'plan.cal.click': 'انقر على يوم للانتقال إليه.',
@@ -401,10 +420,7 @@ const ar = {
   'late.r.earthshare': 'الأرض ظاهرة خلال البقاء',
   'late.r.both': 'الاثنان خلال البقاء',
   'late.r.dark': 'أطول فترة ظلام خلال البقاء',
-  'cmp.eyebrow': 'كل المناطق المرشحة',
   'cmp.score': 'التقييم',
-  'ice.eyebrow': 'المصائد الباردة',
-  'trust.eyebrow': 'التحقق',
   'navi.scatter': 'إذا هبطت في أي نقطة ضمن 100 م من هذا الموقع، تتراوح نسبة الشمس والأرض معًا بين {lo}% و{hi}% من الوقت، و{steep} من {all} نقطة هناك شديدة الانحدار. الخريطة في قسم التقييم.',
   'navi.score': 'تحصل هذه النقطة على {score}/100 حسب أولوياتك: {grade}.',
   'navi.power': 'لتجاوز أطول ليل هنا ({days} أيام) بقدرة {w} واط تحتاج نحو {kwh} كيلوواط·ساعة من البطاريات، أي قرابة {kg} كغ.',
