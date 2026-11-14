@@ -796,7 +796,7 @@ function renderLate() {
 function renderTrust() {
   const { validation, tiles, illum, custom } = app.checks;
   const rms = Math.max(...tiles.tiles.map(x => x.height_vs_ldem80.rms_diff_m));
-  const card = (title, big, body) => `<tr><th scope="row">${title}</th><td class="big-num">${big}</td><td>${body}</td></tr>`;
+  const card = (title, big, body) => `<article class="card trust-card"><h3>${title}</h3><p class="big-num">${big}</p><p>${body}</p></article>`;
   $('trust-cards').innerHTML = [
     card(t('trust.eph'), `${(validation.worstDeg * 3600).toFixed(1)}″`, t('trust.eph.body', { n: validation.team.length + validation.live.length, arcsec: (validation.worstDeg * 3600).toFixed(1) })),
     card(t('trust.terrain'), `≤ ${rms.toFixed(1)} m`, t('trust.terrain.body', { rms: rms.toFixed(1) })),

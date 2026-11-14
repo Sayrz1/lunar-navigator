@@ -18,8 +18,8 @@
     <a class="logo" href="#stage"><span class="logo-mark" aria-hidden="true"></span>Lunar Navigator<small data-i18n="logo.sub">South pole landings</small></a>
     <nav aria-label="Sections">
       <a href="#stage" data-i18n="nav.stage">3D</a>
-      <a href="#assessment" data-i18n="nav.assess">Site</a>
-      <a href="#planner" data-i18n="nav.plan">When</a>
+      <a href="#assessment" data-i18n="nav.assess">Assessment</a>
+      <a href="#planner" data-i18n="nav.plan">Planner</a>
       <a href="#compare" data-i18n="nav.compare">Compare</a>
       <a href="#trust" data-i18n="nav.trust">Trust</a>
     </nav>
@@ -121,6 +121,7 @@
 
     <section id="assessment" class="band">
       <header class="band-head">
+        <p class="eyebrow" data-i18n="assess.eyebrow">Site assessment · this lunar day</p>
         <div class="head-row">
           <h2 id="assess-name">…</h2>
           <div class="head-actions">
@@ -134,12 +135,17 @@
         <p class="verdict-line" id="verdict-line" aria-live="polite"></p>
         <dl class="verdict-keys" id="verdict-keys"></dl>
       </div>
-      <div class="assess-top">
+      <div class="assess-grid assess-top">
         <article class="card score-card">
           <h3 data-i18n="score.title">Site score</h3>
           <p class="score num" id="score">–</p>
           <p class="grade" id="grade"></p>
           <ul class="score-parts" id="score-parts"></ul>
+        </article>
+        <article class="card">
+          <h3 data-i18n="weights.title">What matters for this mission?</h3>
+          <p class="small muted" data-i18n="weights.body">Move the sliders to weigh what your mission needs. The score updates everywhere, including the compare table.</p>
+          <div class="weights" id="weights"></div>
         </article>
         <article class="card">
           <h3 data-i18n="req.title">NASA landing requirements</h3>
@@ -254,9 +260,31 @@
 
     <section id="planner" class="band">
       <header class="band-head">
+        <p class="eyebrow" data-i18n="plan.eyebrow">Mission planner · Nov 2026 – Dec 2035</p>
         <h2 data-i18n="plan.title">When should we land?</h2>
         <p class="band-lede" data-i18n="plan.lede"></p>
       </header>
+      <article class="card rules">
+        <h3 data-i18n="rules.title">What counts as visible</h3>
+        <div class="rules-row">
+          <span data-i18n="rules.sun">The Sun is up when this much of its disc clears the terrain</span>
+          <div class="seg" role="radiogroup" id="rule-sun" aria-label="Sun">
+            <button type="button" role="radio" data-rule="any" aria-checked="true" data-i18n="rules.any">Any part</button>
+            <button type="button" role="radio" data-rule="half" aria-checked="false" data-i18n="rules.half">Half</button>
+            <button type="button" role="radio" data-rule="all" aria-checked="false" data-i18n="rules.all">All of it</button>
+          </div>
+        </div>
+        <div class="rules-row">
+          <span data-i18n="rules.earth">Earth is in view when its centre is at least this far above the terrain</span>
+          <div class="seg" role="radiogroup" id="rule-earth" aria-label="Earth">
+            <button type="button" role="radio" data-rule="0" aria-checked="true">0°</button>
+            <button type="button" role="radio" data-rule="2" aria-checked="false">2°</button>
+            <button type="button" role="radio" data-rule="5" aria-checked="false">5°</button>
+          </div>
+        </div>
+        <p class="small muted" data-i18n="rules.note"></p>
+        <p class="small rules-off" id="rules-off" data-i18n="rules.off" hidden></p>
+      </article>
       <figure class="chart">
         <div class="seg cal-years" role="radiogroup" id="cal-year" aria-label="Year"></div>
         <canvas id="calendar" aria-label="Calendar of hours with Sun and Earth together"></canvas>
@@ -266,6 +294,22 @@
           <span data-i18n="plan.cal.click">Click a day to jump there.</span>
         </figcaption>
       </figure>
+      <article class="card period">
+        <div class="card-head">
+          <h3 data-i18n="per.title">Your mission period</h3>
+          <span id="per-len" class="small muted num"></span>
+        </div>
+        <div class="per-base">
+          <p id="per-base" class="small muted"></p>
+          <button type="button" class="chip" id="per-pin">Keep as baseline</button>
+          <button type="button" class="chip" id="per-clear" data-i18n="per.clear" hidden>Clear</button>
+        </div>
+        <div class="period-inputs">
+          <label class="field"><span data-i18n="per.from">From (UTC)</span><input id="per-from" type="datetime-local" step="3600"></label>
+          <label class="field"><span data-i18n="per.to">To (UTC)</span><input id="per-to" type="datetime-local" step="3600"></label>
+        </div>
+        <dl id="per-rows" class="period-rows num"></dl>
+      </article>
       <div class="grid-2">
         <article class="card">
           <div class="card-head">
@@ -296,60 +340,14 @@
           <table class="late-table num" id="late-table"></table>
         </article>
       </div>
-      <details class="more">
-        <summary data-i18n="plan.more.detail">More detail: what counts as visible, and your mission period</summary>
-        <div class="more-body">
-          <article class="card rules">
-            <h3 data-i18n="rules.title">What counts as visible</h3>
-            <div class="rules-row">
-              <span data-i18n="rules.sun">The Sun is up when this much of its disc clears the terrain</span>
-              <div class="seg" role="radiogroup" id="rule-sun" aria-label="Sun">
-                <button type="button" role="radio" data-rule="any" aria-checked="true" data-i18n="rules.any">Any part</button>
-                <button type="button" role="radio" data-rule="half" aria-checked="false" data-i18n="rules.half">Half</button>
-                <button type="button" role="radio" data-rule="all" aria-checked="false" data-i18n="rules.all">All of it</button>
-              </div>
-            </div>
-            <div class="rules-row">
-              <span data-i18n="rules.earth">Earth is in view when its centre is at least this far above the terrain</span>
-              <div class="seg" role="radiogroup" id="rule-earth" aria-label="Earth">
-                <button type="button" role="radio" data-rule="0" aria-checked="true">0°</button>
-                <button type="button" role="radio" data-rule="2" aria-checked="false">2°</button>
-                <button type="button" role="radio" data-rule="5" aria-checked="false">5°</button>
-              </div>
-            </div>
-            <p class="small muted" data-i18n="rules.note"></p>
-            <p class="small rules-off" id="rules-off" data-i18n="rules.off" hidden></p>
-          </article>
-          <article class="card period">
-            <div class="card-head">
-              <h3 data-i18n="per.title">Your mission period</h3>
-              <span id="per-len" class="small muted num"></span>
-            </div>
-            <div class="per-base">
-              <p id="per-base" class="small muted"></p>
-              <button type="button" class="chip" id="per-pin">Keep as baseline</button>
-              <button type="button" class="chip" id="per-clear" data-i18n="per.clear" hidden>Clear</button>
-            </div>
-            <div class="period-inputs">
-              <label class="field"><span data-i18n="per.from">From (UTC)</span><input id="per-from" type="datetime-local" step="3600"></label>
-              <label class="field"><span data-i18n="per.to">To (UTC)</span><input id="per-to" type="datetime-local" step="3600"></label>
-            </div>
-            <dl id="per-rows" class="period-rows num"></dl>
-          </article>
-        </div>
-      </details>
     </section>
 
     <section id="compare" class="band">
       <header class="band-head">
+        <p class="eyebrow" data-i18n="cmp.eyebrow">All candidate regions</p>
         <h2 data-i18n="cmp.title">Compare regions</h2>
         <p class="band-lede" data-i18n="cmp.lede"></p>
       </header>
-      <article class="card weights-card">
-        <h3 data-i18n="weights.title">What matters for this mission?</h3>
-        <p class="small muted" data-i18n="weights.body">Move the sliders to weigh what your mission needs. The score updates everywhere, including the compare table.</p>
-        <div class="weights" id="weights"></div>
-      </article>
       <div class="table-wrap">
         <table class="cmp num">
           <thead><tr>
@@ -364,19 +362,15 @@
 
     <section id="trust" class="band">
       <header class="band-head">
+        <p class="eyebrow" data-i18n="trust.eyebrow">Validation</p>
         <h2 data-i18n="trust.title">Can you trust it?</h2>
         <p class="band-lede" data-i18n="trust.lede"></p>
       </header>
-      <div class="table-wrap">
-        <table class="trust-table">
-          <thead><tr><th data-i18n="trust.col.what">What we checked</th><th data-i18n="trust.col.result">Result</th><th data-i18n="trust.col.how">How</th></tr></thead>
-          <tbody id="trust-cards"></tbody>
-        </table>
-      </div>
-      <details class="more limits">
-        <summary data-i18n="limits.title">What this does not model</summary>
+      <div id="trust-cards" class="grid-2"></div>
+      <article class="card limits">
+        <h3 data-i18n="limits.title">What this does not model</h3>
         <ul id="limits" class="limits-list"></ul>
-      </details>
+      </article>
     </section>
   </main>
 

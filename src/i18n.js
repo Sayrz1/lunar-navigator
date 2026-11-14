@@ -2,7 +2,7 @@
 // data-i18n-attr="aria-label:key" sets an attribute. JS uses t('key', { vars }).
 
 const en = {
-  'nav.stage': '3D', 'nav.assess': 'Site', 'nav.plan': 'When', 'nav.compare': 'Compare', 'nav.trust': 'Trust',
+  'nav.stage': '3D', 'nav.assess': 'Assessment', 'nav.plan': 'Planner', 'nav.compare': 'Compare', 'nav.trust': 'Trust',
   'lang.switch': 'Switch to Arabic', 'theme.light': 'Light', 'theme.dark': 'Dark', 'theme.label': 'Switch colour theme',
   'when.label': 'Landing (UTC)',
 
@@ -105,6 +105,10 @@ const en = {
   'trust.custom': 'Your own points', 'trust.custom.body': 'Computed in your browser from lighter grids. Against the full 5 m build: median {sun} points for the Sun, worst {max} on steep ground.',
 
   'foot.nologo': 'Not an official NASA product.',
+  'assess.eyebrow': 'Site assessment',
+  'plan.eyebrow': 'Mission planner · Nov 2026 – Dec 2035',
+  'cmp.eyebrow': 'All candidate regions',
+  'trust.eyebrow': 'Validation',
 
   'verdict.now': 'You can land now: land before {close} and Sun and Earth stay up for the whole {days}-day stay.',
   'verdict.next': 'Land between {open} and {close} to keep Sun and Earth for the whole {days}-day stay.',
@@ -117,8 +121,6 @@ const en = {
   'aim.move': 'Aim {m} m away (the diamond): a miss of up to {r} m then still gets {what} at least {worst}% of the time, against {own}% when aiming here.',
   'aim.here': 'This spot is already the safest aim: within {r} m, {what} never drops below {worst}%.',
   'aim.none': 'No flat cell on this map can take a {r} m miss.',
-  'plan.more.detail': 'More detail: what counts as visible, and your mission period',
-  'trust.col.what': 'What we checked', 'trust.col.result': 'Result', 'trust.col.how': 'How',
 
   'navi.open': 'Ask Navi', 'navi.title': 'Navi · mission assistant', 'navi.sub': 'Answers from this page’s data',
   'navi.placeholder': 'Ask about sunrise, Earth, the best spot…', 'navi.send': 'Send', 'navi.close': 'Close',
@@ -215,7 +217,7 @@ const en = {
 };
 
 const ar = {
-  'nav.stage': 'ثلاثي الأبعاد', 'nav.assess': 'الموقع', 'nav.plan': 'متى', 'nav.compare': 'المقارنة', 'nav.trust': 'الموثوقية',
+  'nav.stage': 'ثلاثي الأبعاد', 'nav.assess': 'التقييم', 'nav.plan': 'المخطِّط', 'nav.compare': 'المقارنة', 'nav.trust': 'الموثوقية',
   'lang.switch': 'التبديل إلى الإنجليزية', 'theme.light': 'فاتح', 'theme.dark': 'داكن', 'theme.label': 'تبديل ألوان الصفحة',
   'when.label': 'الهبوط (UTC)',
 
@@ -318,6 +320,10 @@ const ar = {
   'trust.custom': 'نقاطك الخاصة', 'trust.custom.body': 'تُحسب في متصفحك من شبكات أخف. مقارنةً بالبناء الكامل بدقة 5 م: فرق وسيط {sun} نقطة للشمس، وأسوأ فرق {max} على الأرض شديدة الانحدار.',
 
   'foot.nologo': 'ليس منتجًا رسميًا من ناسا.',
+  'assess.eyebrow': 'تقييم الموقع',
+  'plan.eyebrow': 'مخطِّط المهمة · نوفمبر 2026 – ديسمبر 2035',
+  'cmp.eyebrow': 'كل المناطق المرشحة',
+  'trust.eyebrow': 'التحقق',
 
   'verdict.now': 'الهبوط ممكن الآن: اهبط قبل {close} وستبقى الشمس والأرض ظاهرتين طوال مدة البقاء البالغة {days} أيام.',
   'verdict.next': 'اهبط بين {open} و{close} لتبقى الشمس والأرض ظاهرتين طوال مدة البقاء البالغة {days} أيام.',
@@ -330,8 +336,6 @@ const ar = {
   'aim.move': 'صوّب على بعد {m} م (المعيّن): عندها تبقى نسبة {what} {worst}% على الأقل حتى مع انحراف {r} م، مقابل {own}% عند التصويب هنا.',
   'aim.here': 'هذه النقطة هي أأمن هدف بالفعل: ضمن {r} م لا تنخفض نسبة {what} عن {worst}%.',
   'aim.none': 'لا توجد خلية مستوية في هذه الخريطة تتحمل انحرافًا بمقدار {r} م.',
-  'plan.more.detail': 'تفاصيل أكثر: ما الذي يُعد ظاهرًا، وفترة مهمتك',
-  'trust.col.what': 'ما الذي تحققنا منه', 'trust.col.result': 'النتيجة', 'trust.col.how': 'الطريقة',
 
   'navi.open': 'اسأل نافي', 'navi.title': 'نافي · مساعد المهمة', 'navi.sub': 'إجابات من بيانات هذه الصفحة. لا يوجد نموذج ذكاء اصطناعي، ولا تغادر أي بيانات متصفحك.',
   'navi.placeholder': 'اسأل عن الشروق، الأرض، أفضل نقطة…', 'navi.send': 'إرسال', 'navi.close': 'إغلاق',
