@@ -64,8 +64,23 @@ function writeHash() {
 
 // --- loading -----------------------------------------------------------------------------
 
-const json = url => fetch(url).then(r => { if (!r.ok) throw new Error(`${url}: ${r.status}`); return r.json(); });
-const bin = url => fetch(url).then(r => { if (!r.ok) throw new Error(`${url}: ${r.status}`); return r.arrayBuffer(); });
+// GitHub Pages now and then answers 503 for a single file, so server and network errors
+// get two more tries. A 404 fails at once.
+async function get(url, tries = 3) {
+  for (let i = 1; ; i++) {
+    let r = null;
+    try {
+      r = await fetch(url);
+    } catch (err) {
+      if (i >= tries) throw err;
+    }
+    if (r?.ok) return r;
+    if (r && (r.status < 500 || i >= tries)) throw new Error(`${url}: ${r.status}`);
+    await new Promise(done => setTimeout(done, 400 * i));
+  }
+}
+const json = url => get(url).then(r => r.json());
+const bin = url => get(url).then(r => r.arrayBuffer());
 
 function horizon(file) {
   app.hz[file] ??= json(`./data/horizons/${file}.json`).then(hz => (app.hzReady[file] = hz));
