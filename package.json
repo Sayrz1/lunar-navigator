@@ -17,6 +17,7 @@
     "data:ephemeris": "node scripts/fetch-ephemeris.mjs",
     "data:horizons": "node scripts/build-horizons.mjs",
     "check:horizons": "node scripts/validate-horizons.mjs",
-    "check:tiles": "python scripts/check_tiles.py"
+    "check:tiles": "python scripts/check_tiles.py",
+    "check:illumination": "node scripts/validate-illumination.mjs"
   }
 }

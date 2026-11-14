@@ -3,8 +3,9 @@
 //
 // One Horizons request per calendar year keeps each response well under the API limits.
 //
-// usage: node scripts/fetch-ephemeris.mjs [START] [STOP]
-//        default 2026-11-01 to 2029-01-01
+// usage: node scripts/fetch-ephemeris.mjs [START] [STOP] [STEP_HOURS] [OUT]
+//        default 2026-11-01 to 2029-01-01, 1 h, public/data/ephemeris
+//        (validate-illumination.mjs uses an 18.6-year, 6 h table in data-raw/)
 
 import fs from 'node:fs';
 import path from 'node:path';
@@ -13,8 +14,9 @@ import { horizons, tableHeader, tableRows, parseHorizonsTime } from './horizons.
 import { COLUMNS } from '../src/core/ephemeris.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const OUT = path.join(ROOT, 'public', 'data');
-const [start = '2026-11-01', stop = '2029-01-01'] = process.argv.slice(2);
+const [start = '2026-11-01', stop = '2029-01-01', stepArg = '1', outArg = 'public/data/ephemeris'] = process.argv.slice(2);
+const stepHours = Number(stepArg);
+const OUT_BASE = path.resolve(ROOT, outArg);
 
 // Moon (301) observed from Earth's centre (500@399):
 //   14 = observer sub-longitude/latitude (sub-Earth point on the Moon)
@@ -22,7 +24,7 @@ const [start = '2026-11-01', stop = '2029-01-01'] = process.argv.slice(2);
 //   19 = Sun-Moon range r (au), 20 = Earth-Moon range delta (au)
 const QUERY = {
   COMMAND: '301', CENTER: '500@399', EPHEM_TYPE: 'OBSERVER', QUANTITIES: '14,15,19,20',
-  STEP_SIZE: '1h', ANG_FORMAT: 'DEG', EXTRA_PREC: 'YES', CSV_FORMAT: 'YES',
+  STEP_SIZE: `${stepHours}h`, ANG_FORMAT: 'DEG', EXTRA_PREC: 'YES', CSV_FORMAT: 'YES',
 };
 
 function yearChunks(a, b) {
@@ -56,25 +58,25 @@ for (const [a, b] of yearChunks(start, stop)) {
 
 const times = [...rows.keys()].sort((x, y) => x - y);
 for (let i = 1; i < times.length; i++) {
-  if (times[i] - times[i - 1] !== 3600e3) throw new Error(`gap in table at ${new Date(times[i]).toISOString()}`);
+  if (times[i] - times[i - 1] !== stepHours * 3600e3) throw new Error(`gap in table at ${new Date(times[i]).toISOString()}`);
 }
 
 const values = new Float32Array(times.length * COLUMNS.length);
 times.forEach((t, i) => values.set(rows.get(t), i * COLUMNS.length));
 
-fs.mkdirSync(OUT, { recursive: true });
-fs.writeFileSync(path.join(OUT, 'ephemeris.bin'), Buffer.from(values.buffer));
+fs.mkdirSync(path.dirname(OUT_BASE), { recursive: true });
+fs.writeFileSync(`${OUT_BASE}.bin`, Buffer.from(values.buffer));
 const meta = {
   source: 'JPL Horizons API, https://ssd.jpl.nasa.gov/horizons/',
   query: { ...QUERY, START_TIME: start, STOP_TIME: stop },
   frame: frameLine,
-  description: 'Hourly sub-solar and sub-Earth points on the Moon (deg, east longitude) and Sun-Moon / Earth-Moon range (au), Moon observed from the geocentre',
+  description: 'Sub-solar and sub-Earth points on the Moon (deg, east longitude) and Sun-Moon / Earth-Moon range (au), Moon observed from the geocentre',
   columns: COLUMNS,
   dtype: 'float32 little-endian',
   start: new Date(times[0]).toISOString(),
-  stepHours: 1,
+  stepHours,
   rows: times.length,
   fetched: new Date().toISOString(),
 };
-fs.writeFileSync(path.join(OUT, 'ephemeris.json'), JSON.stringify(meta, null, 1) + '\n');
+fs.writeFileSync(`${OUT_BASE}.json`, JSON.stringify(meta, null, 1) + '\n');
 console.log(`wrote ${times.length} rows (${(values.byteLength / 1024).toFixed(0)} KB), frame ${frameLine}`);
