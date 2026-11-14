@@ -9,42 +9,12 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-import { computeHorizon, gridSampler, layered } from '../src/core/horizon.js';
+import { computeHorizon, layered } from '../src/core/horizon.js';
+import { ROOT, ldem80, ldem240, tileSampler } from './rasters.mjs';
 
-const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const RAW = path.join(ROOT, 'data-raw');
 const OUT = path.join(ROOT, 'public', 'data', 'horizons');
-
-function readTyped(file, Type) {
-  const b = fs.readFileSync(file);
-  return new Type(b.buffer, b.byteOffset, b.byteLength / Type.BYTES_PER_ELEMENT);
-}
-
-// LDEM_80S_80M, layout from its PDS label (see scripts/check_tiles.py)
-const ldem = gridSampler({
-  data: readTyped(path.join(RAW, 'ldem_80s_80m.img'), Int16Array),
-  cols: 7600, rows: 7600, cellKm: 0.08,
-  xc0: -3799.5 * 0.08, yc0: 3799.5 * 0.08, scale: 0.5,
-});
-
-// LDEM_75S_240M fills in beyond 80 deg S, so rays from the northern regions reach 250 km
-const ldem75 = gridSampler({
-  data: readTyped(path.join(RAW, 'ldem_75s_240m.img'), Int16Array),
-  cols: 3812, rows: 3812, cellKm: 0.24,
-  xc0: -1905.5 * 0.24, yc0: 1905.5 * 0.24, scale: 0.5,
-});
-
-const tileIndex = JSON.parse(fs.readFileSync(path.join(RAW, 'tiles', 'index.json'), 'utf8'));
-function tileSampler(region) {
-  const t = tileIndex[region];
-  if (!t) return null;
-  return gridSampler({
-    data: readTyped(path.join(RAW, 'tiles', `${region}.f32`), Float32Array),
-    cols: t.cols, rows: t.rows, cellKm: t.cellKm,
-    xc0: t.x0 + t.cellKm / 2, yc0: t.y1 - t.cellKm / 2,
-  });
-}
+const ldem = ldem80();
+const ldem75 = ldem240();
 
 const regions = JSON.parse(fs.readFileSync(path.join(ROOT, 'public/data/regions.json'), 'utf8')).regions;
 fs.mkdirSync(OUT, { recursive: true });

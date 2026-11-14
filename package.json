@@ -16,6 +16,7 @@
     "data:regions": "python scripts/prepare_regions.py",
     "data:ephemeris": "node scripts/fetch-ephemeris.mjs",
     "data:horizons": "node scripts/build-horizons.mjs",
+    "data:best-spots": "node scripts/find-best-spots.mjs",
     "check:horizons": "node scripts/validate-horizons.mjs",
     "check:tiles": "python scripts/check_tiles.py",
     "check:illumination": "node scripts/validate-illumination.mjs"
