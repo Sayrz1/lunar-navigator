@@ -1,0 +1,558 @@
+{
+ "about": "NASA Artemis candidate landing regions (2022 list of 13, 2024 list of 9). NASA has not published coordinates; see position_source for each entry.",
+ "heights": "metres above the 1737.4 km reference sphere (LOLA)",
+ "map_registration": {
+  "km_per_px": 0.2793,
+  "rotation_deg": -0.014,
+  "residuals_km": [
+   0.081,
+   0.03,
+   0.038,
+   0.089
+  ]
+ },
+ "sources": {
+  "dem": "LOLA 5 m/px south pole site DEMs, Barker et al., NASA GSFC Planetary Geodesy Data Archive, https://pgda.gsfc.nasa.gov/",
+  "map_2024": "https://www.nasa.gov/wp-content/uploads/2024/10/artemis-iii-landing-region-candidates.jpg",
+  "list_2024": "https://www.nasa.gov/news-release/nasa-provides-update-on-artemis-iii-moon-landing-regions/",
+  "list_2022": "https://www.nasa.gov/news-release/nasa-identifies-candidate-regions-for-landing-next-americans-on-moon/"
+ },
+ "regions": [
+  {
+   "id": "peak-near-cabeus-b",
+   "name": "Peak near Cabeus B",
+   "formerly": [],
+   "nasa_lists": [
+    "2024"
+   ],
+   "lat": -83.6389,
+   "lon": -68.7284,
+   "position_source": "NASA 2024 region map, registered to our 5 m tiles",
+   "size_km": [
+    20.9,
+    21.2
+   ],
+   "height_m": {
+    "centre": 4492.7,
+    "source": "LDEM_80S_80M"
+   },
+   "slope_deg": null
+  },
+  {
+   "id": "haworth",
+   "name": "Haworth",
+   "formerly": [],
+   "nasa_lists": [
+    "2022",
+    "2024"
+   ],
+   "lat": -86.7639,
+   "lon": -22.777,
+   "position_source": "5 m LOLA tile extent (08_Haworth_DEM_5mpp.tif)",
+   "position_check": "matches NASA 2024 map box",
+   "team_folder": "08_Haworth",
+   "extent_km": [
+    -52.9,
+    -23.1,
+    75.6,
+    105.4
+   ],
+   "size_km": [
+    29.8,
+    29.8
+   ],
+   "height_m": {
+    "centre": 1628.1,
+    "min": -1642.9,
+    "mean": 1039.3,
+    "max": 2842.2
+   },
+   "slope_deg": {
+    "mean": 10.84,
+    "p90": 18.29,
+    "pct_under_5": 14.4,
+    "pct_under_10": 47.7
+   },
+   "map_offset_km": 0.08
+  },
+  {
+   "id": "malapert-massif",
+   "name": "Malapert Massif",
+   "formerly": [],
+   "nasa_lists": [
+    "2022",
+    "2024"
+   ],
+   "lat": -85.9948,
+   "lon": -0.2358,
+   "position_source": "5 m LOLA tile extent (09_Malapert_Massif_DEM_5mpp.tif)",
+   "position_check": "matches NASA 2024 map box",
+   "team_folder": "09_Malapert_Massif",
+   "extent_km": [
+    -11.0,
+    10.0,
+    111.0,
+    132.0
+   ],
+   "size_km": [
+    21.0,
+    21.0
+   ],
+   "height_m": {
+    "centre": 4783.6,
+    "min": 902.0,
+    "mean": 3535.0,
+    "max": 5173.6
+   },
+   "slope_deg": {
+    "mean": 17.39,
+    "p90": 26.22,
+    "pct_under_5": 4.3,
+    "pct_under_10": 16.8
+   },
+   "map_offset_km": 0.03
+  },
+  {
+   "id": "mons-mouton-plateau",
+   "name": "Mons Mouton Plateau",
+   "formerly": [],
+   "nasa_lists": [
+    "2024"
+   ],
+   "lat": -84.3381,
+   "lon": 30.6004,
+   "position_source": "NASA 2024 region map, registered to our 5 m tiles",
+   "size_km": [
+    77.6,
+    58.6
+   ],
+   "height_m": {
+    "centre": 5250.3,
+    "source": "LDEM_80S_80M"
+   },
+   "slope_deg": null
+  },
+  {
+   "id": "mons-mouton",
+   "name": "Mons Mouton",
+   "formerly": [
+    "Leibnitz Beta Plateau"
+   ],
+   "nasa_lists": [
+    "2022",
+    "2024"
+   ],
+   "lat": -85.4266,
+   "lon": 31.7428,
+   "position_source": "5 m LOLA tile extent (10_Leibnitz_Beta_Plateau_DEM_5mpp.tif)",
+   "position_check": "matches NASA 2024 map box",
+   "team_folder": "10_Leibnitz_Beta_Plateau",
+   "extent_km": [
+    65.0,
+    81.0,
+    110.0,
+    126.0
+   ],
+   "size_km": [
+    16.0,
+    16.0
+   ],
+   "height_m": {
+    "centre": 6398.6,
+    "min": 2796.3,
+    "mean": 5595.0,
+    "max": 6463.9
+   },
+   "slope_deg": {
+    "mean": 12.81,
+    "p90": 22.5,
+    "pct_under_5": 11.0,
+    "pct_under_10": 40.8
+   }
+  },
+  {
+   "id": "nobile-rim-1",
+   "name": "Nobile Rim 1",
+   "formerly": [],
+   "nasa_lists": [
+    "2022",
+    "2024"
+   ],
+   "lat": -85.4381,
+   "lon": 37.3667,
+   "position_source": "5 m LOLA tile extent (11_Nobile_Rim_1_DEM_5mpp.tif)",
+   "position_check": "matches NASA 2024 map box",
+   "team_folder": "11_Nobile_Rim_1",
+   "extent_km": [
+    74.0,
+    94.0,
+    100.0,
+    120.0
+   ],
+   "size_km": [
+    20.0,
+    20.0
+   ],
+   "height_m": {
+    "centre": 5946.4,
+    "min": 859.6,
+    "mean": 5025.6,
+    "max": 6800.1
+   },
+   "slope_deg": {
+    "mean": 17.2,
+    "p90": 26.52,
+    "pct_under_5": 6.8,
+    "pct_under_10": 20.1
+   }
+  },
+  {
+   "id": "nobile-rim-2",
+   "name": "Nobile Rim 2",
+   "formerly": [],
+   "nasa_lists": [
+    "2022",
+    "2024"
+   ],
+   "lat": -83.954,
+   "lon": 58.8221,
+   "position_source": "5 m LOLA tile extent (12_Nobile_Rim_2_DEM_5mpp.tif)",
+   "position_check": "matches NASA 2024 map box",
+   "team_folder": "12_Nobile_Rim_2",
+   "extent_km": [
+    147.0,
+    167.0,
+    85.0,
+    105.0
+   ],
+   "size_km": [
+    20.0,
+    20.0
+   ],
+   "height_m": {
+    "centre": 1009.9,
+    "min": -1430.0,
+    "mean": 689.7,
+    "max": 1817.6
+   },
+   "slope_deg": {
+    "mean": 11.98,
+    "p90": 21.59,
+    "pct_under_5": 15.2,
+    "pct_under_10": 43.8
+   },
+   "map_offset_km": 0.04
+  },
+  {
+   "id": "de-gerlache-rim-2",
+   "name": "de Gerlache Rim 2",
+   "formerly": [],
+   "nasa_lists": [
+    "2022",
+    "2024"
+   ],
+   "lat": -88.23,
+   "lon": -64.6284,
+   "position_source": "5 m LOLA tile extent (06_de_Gerlache_Rim_2_DEM_5mpp.tif)",
+   "position_check": "matches NASA 2024 map box",
+   "team_folder": "06_de_Gerlache_Rim_2",
+   "extent_km": [
+    -58.5,
+    -38.5,
+    13.0,
+    33.0
+   ],
+   "size_km": [
+    20.0,
+    20.0
+   ],
+   "height_m": {
+    "centre": -87.8,
+    "min": -1860.1,
+    "mean": -128.1,
+    "max": 1765.4
+   },
+   "slope_deg": {
+    "mean": 12.72,
+    "p90": 20.55,
+    "pct_under_5": 10.3,
+    "pct_under_10": 33.8
+   },
+   "map_offset_km": 0.09
+  },
+  {
+   "id": "slater-plain",
+   "name": "Slater Plain",
+   "formerly": [],
+   "nasa_lists": [
+    "2024"
+   ],
+   "lat": -87.1656,
+   "lon": 125.5217,
+   "position_source": "NASA 2024 region map, registered to our 5 m tiles",
+   "size_km": [
+    20.9,
+    20.9
+   ],
+   "height_m": {
+    "centre": -34.3,
+    "source": "LDEM_80S_80M"
+   },
+   "slope_deg": null
+  },
+  {
+   "id": "peak-near-shackleton",
+   "name": "Peak Near Shackleton",
+   "formerly": [],
+   "nasa_lists": [
+    "2022"
+   ],
+   "lat": -88.811,
+   "lon": 123.6901,
+   "position_source": "5 m LOLA tile extent (02_Peak_Near_Shackleton_DEM_5mpp.tif)",
+   "position_check": "consistent with NASA 2022 rendering",
+   "team_folder": "02_Peak_Near_Shackleton",
+   "extent_km": [
+    22.0,
+    38.0,
+    -28.0,
+    -12.0
+   ],
+   "size_km": [
+    16.0,
+    16.0
+   ],
+   "height_m": {
+    "centre": 1645.6,
+    "min": -418.9,
+    "mean": 800.0,
+    "max": 1648.7
+   },
+   "slope_deg": {
+    "mean": 10.73,
+    "p90": 16.85,
+    "pct_under_5": 11.8,
+    "pct_under_10": 45.3
+   }
+  },
+  {
+   "id": "connecting-ridge",
+   "name": "Connecting Ridge",
+   "formerly": [],
+   "nasa_lists": [
+    "2022"
+   ],
+   "lat": -89.4632,
+   "lon": -137.4896,
+   "position_source": "5 m LOLA tile extent (03_Connecting_Ridge_DEM_5mpp.tif)",
+   "position_check": "consistent with NASA 2022 rendering",
+   "team_folder": "03_Connecting_Ridge",
+   "extent_km": [
+    -19.0,
+    -3.0,
+    -20.0,
+    -4.0
+   ],
+   "size_km": [
+    16.0,
+    16.0
+   ],
+   "height_m": {
+    "centre": 1944.5,
+    "min": -523.2,
+    "mean": 1139.1,
+    "max": 1959.5
+   },
+   "slope_deg": {
+    "mean": 12.6,
+    "p90": 20.64,
+    "pct_under_5": 9.8,
+    "pct_under_10": 36.4
+   }
+  },
+  {
+   "id": "connecting-ridge-extension",
+   "name": "Connecting Ridge Extension",
+   "formerly": [],
+   "nasa_lists": [
+    "2022"
+   ],
+   "lat": -89.0324,
+   "lon": -101.9993,
+   "position_source": "5 m LOLA tile extent (04_Connecting_Ridge_Extension_DEM_5mpp.tif)",
+   "position_check": "consistent with NASA 2022 rendering",
+   "team_folder": "04_Connecting_Ridge_Extension",
+   "extent_km": [
+    -38.7,
+    -18.7,
+    -16.1,
+    3.9
+   ],
+   "size_km": [
+    20.0,
+    20.0
+   ],
+   "height_m": {
+    "centre": 1178.4,
+    "min": -1169.8,
+    "mean": 289.8,
+    "max": 1693.1
+   },
+   "slope_deg": {
+    "mean": 14.7,
+    "p90": 22.55,
+    "pct_under_5": 4.7,
+    "pct_under_10": 23.0
+   }
+  },
+  {
+   "id": "de-gerlache-rim-1",
+   "name": "de Gerlache Rim 1",
+   "formerly": [],
+   "nasa_lists": [
+    "2022"
+   ],
+   "lat": -88.6834,
+   "lon": -67.9321,
+   "position_source": "5 m LOLA tile extent (05_de_Gerlache_Rim_1_DEM_5mpp.tif)",
+   "position_check": "consistent with NASA 2022 rendering",
+   "team_folder": "05_de_Gerlache_Rim_1",
+   "extent_km": [
+    -45.0,
+    -29.0,
+    7.0,
+    23.0
+   ],
+   "size_km": [
+    16.0,
+    16.0
+   ],
+   "height_m": {
+    "centre": 1793.7,
+    "min": -805.2,
+    "mean": 639.3,
+    "max": 1816.0
+   },
+   "slope_deg": {
+    "mean": 14.39,
+    "p90": 21.85,
+    "pct_under_5": 5.0,
+    "pct_under_10": 22.7
+   }
+  },
+  {
+   "id": "de-gerlache-kocher-massif",
+   "name": "de Gerlache-Kocher Massif",
+   "formerly": [],
+   "nasa_lists": [
+    "2022"
+   ],
+   "lat": -85.8296,
+   "lon": -116.322,
+   "position_source": "5 m LOLA tile extent (07_de_Gerlache_Kocher_Massif_DEM_5mpp.tif)",
+   "position_check": "consistent with NASA 2022 rendering",
+   "team_folder": "07_de_Gerlache_Kocher_Massif",
+   "extent_km": [
+    -123.4,
+    -103.4,
+    -66.1,
+    -46.1
+   ],
+   "size_km": [
+    20.0,
+    20.0
+   ],
+   "height_m": {
+    "centre": 2706.0,
+    "min": -1093.2,
+    "mean": 1489.9,
+    "max": 2997.7
+   },
+   "slope_deg": {
+    "mean": 14.63,
+    "p90": 21.82,
+    "pct_under_5": 5.5,
+    "pct_under_10": 21.0
+   }
+  },
+  {
+   "id": "amundsen-rim",
+   "name": "Amundsen Rim",
+   "formerly": [],
+   "nasa_lists": [
+    "2022"
+   ],
+   "lat": -84.2287,
+   "lon": 69.444,
+   "position_source": "5 m LOLA tile extent (01_Faustini_Rim_A_DEM_5mpp.tif)",
+   "position_check": "on Amundsen crater rim; team label said Faustini Rim A",
+   "team_folder": "01_Faustini_Rim_A",
+   "extent_km": [
+    154.0,
+    174.0,
+    51.5,
+    71.5
+   ],
+   "size_km": [
+    20.0,
+    20.0
+   ],
+   "height_m": {
+    "centre": 399.3,
+    "min": -1839.2,
+    "mean": -265.2,
+    "max": 1019.6
+   },
+   "slope_deg": {
+    "mean": 13.01,
+    "p90": 20.94,
+    "pct_under_5": 10.6,
+    "pct_under_10": 33.0
+   }
+  },
+  {
+   "id": "faustini-rim-a",
+   "name": "Faustini Rim A",
+   "formerly": [],
+   "nasa_lists": [
+    "2022"
+   ],
+   "lat": null,
+   "lon": null,
+   "position_source": "not available: no tile, and not on the 2024 map"
+  },
+  {
+   "id": "shoemaker-rim",
+   "name": "Shoemaker crater rim",
+   "formerly": [],
+   "nasa_lists": [],
+   "lat": -88.9645,
+   "lon": 37.2348,
+   "position_source": "5 m LOLA tile extent (13_Amundsen_Rim_DEM_5mpp.tif)",
+   "position_check": "on Shoemaker crater rim; team label said Amundsen Rim",
+   "team_folder": "13_Amundsen_Rim",
+   "extent_km": [
+    9.0,
+    29.0,
+    15.0,
+    35.0
+   ],
+   "size_km": [
+    20.0,
+    20.0
+   ],
+   "height_m": {
+    "centre": -461.1,
+    "min": -3792.1,
+    "mean": -1153.1,
+    "max": -47.6
+   },
+   "slope_deg": {
+    "mean": 11.2,
+    "p90": 20.2,
+    "pct_under_5": 20.7,
+    "pct_under_10": 46.8
+   }
+  }
+ ]
+}
