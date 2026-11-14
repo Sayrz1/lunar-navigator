@@ -296,6 +296,13 @@ body[data-view='space'] .site-only, body[data-view='site'] .space-only { display
 .height-key i { flex: 1; height: 8px; border-radius: 4px; background: linear-gradient(90deg, rgb(58, 30, 120), rgb(40, 90, 200) 18%, rgb(50, 175, 215) 36%, rgb(90, 195, 110) 52%, rgb(225, 215, 80) 68%, rgb(235, 140, 50) 84%, rgb(200, 50, 45)); }
 [dir='rtl'] .height-key i { transform: scaleX(-1); }
 .card.period { margin-bottom: 16px; }
+.card.rules { margin-bottom: 16px; }
+.rules-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; padding: 8px 0; border-bottom: 1px solid var(--line); }
+.rules-off { color: var(--sun); margin: 6px 0 0; }
+.per-base { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin: 0 0 12px; }
+.per-base p { margin: 0; flex: 1 1 260px; }
+.period-rows .delta { display: block; font: 500 0.8rem/1.4 var(--font); margin-top: 2px; }
+.period-rows .delta.better { color: var(--ok); } .period-rows .delta.worse { color: var(--bad); } .period-rows .delta.same { color: var(--muted); }
 .eclipse-tag { display: inline-block; margin-inline-start: 6px; padding: 1px 7px; border-radius: 99px; font: 500 0.72rem var(--font); background: color-mix(in srgb, var(--bad) 16%, transparent); color: var(--bad); }
 .period-rows > div:last-child { grid-column: 1 / -1; }
 .period-rows dd small { display: block; font: 400 0.95rem/1.5 var(--font); }

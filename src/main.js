@@ -1,7 +1,7 @@
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Ephemeris, siteFrame, sunEarthAt, SYNODIC_DAYS } from './core/ephemeris.js';
-import { stateAt, track, hourlyFlags, summary, landingWindows, shareBetween, dailyShare, eclipses, SUN, EARTH } from './core/analysis.js';
+import { stateAt, track, hourlyFlags, summary, landingWindows, shareBetween, dailyShare, eclipses, rules, rulesKey, SUN, EARTH } from './core/analysis.js';
 import { fromStereo, toStereo } from './core/horizon.js';
 import { decodeRegion, polarSampler, customHorizon, slopeAt, iceNear, nasaVisibility, cellAt, cellCentre } from './core/terrain.js';
 import { DEFAULT_WEIGHTS, siteScore, battery } from './core/score.js';
@@ -132,7 +132,7 @@ async function setSpot(kind, custom) {
     spot = { lat: hz.lat, lon: hz.lon, hz, slope: s?.slope100Deg ?? slopeAt(app.grid, x, y), walkable: kind === 'best' ? s.walkable2km : walkable(app.grid, x, y) };
   }
   spot.frame = siteFrame(spot.lat, spot.lon, spot.hz.groundM + spot.hz.observerM);
-  const key = kind === 'custom' ? `custom:${spot.lat},${spot.lon}` : `${r.id}:${kind}`;
+  const key = (kind === 'custom' ? `custom:${spot.lat},${spot.lon}` : `${r.id}:${kind}`) + `|${rulesKey()}`;
   if (!app.flags.has(key)) app.flags.set(key, hourlyFlags(app.eph, spot.frame, spot.hz));
   spot.flags = app.flags.get(key);
   spot.summary = summary(spot.flags, app.eph.meta.stepHours);
@@ -392,14 +392,41 @@ function renderPeriod() {
   const a = Math.max(0, Math.round((from - eph.start) / eph.stepMs));
   const b = Math.min(spot.flags.length, a + Math.round(hours * HOUR / eph.stepMs));
   const step = eph.stepMs / HOUR;
-  const pct = bit => `${Math.round(shareBetween(eph, spot.flags, from, hours, bit) * 100)}%`;
-  const rad = app.radNow ? `${(app.radNow.rate * (hours / 24) * skyShare(spot.hz)).toFixed(1)} mSv` : '–';
-  const item = (k, v) => `<div><dt>${t(k)}</dt><dd>${v}</dd></div>`;
+  const share = bit => shareBetween(eph, spot.flags, from, hours, bit) * 100;
+  const list = eclipsesBetween(from, to);
+  const m = {
+    sun: share(SUN), earth: share(EARTH), both: share(SUN | EARTH),
+    dark: longestWithout(spot.flags, a, b, SUN) * step, noEarth: longestWithout(spot.flags, a, b, EARTH) * step,
+    rad: app.radNow ? app.radNow.rate * (hours / 24) * skyShare(spot.hz) : NaN,
+    ice: spot.ice.nearestKm ?? NaN, eclipses: list.length,
+  };
+  app.periodNow = { m, label: `${app.region.name} · ${t(`spot.${app.kind}`)}`, from, to };
+  // [key, text, value, bigger is better]
+  const items = [
+    ['per.sun', `${Math.round(m.sun)}%`, m.sun, true], ['per.earth', `${Math.round(m.earth)}%`, m.earth, true],
+    ['per.both', `${Math.round(m.both)}%`, m.both, true], ['per.dark', fmtSpan(m.dark * HOUR), m.dark, false],
+    ['per.noearth', fmtSpan(m.noEarth * HOUR), m.noEarth, false], ['per.rad', Number.isFinite(m.rad) ? `${m.rad.toFixed(1)} mSv` : '–', m.rad, false],
+    ['per.ice', Number.isFinite(m.ice) ? `${m.ice.toFixed(1)} km` : '–', m.ice, false],
+  ];
+  const base = app.baseline?.m;
+  const keyOf = { 'per.sun': 'sun', 'per.earth': 'earth', 'per.both': 'both', 'per.dark': 'dark', 'per.noearth': 'noEarth', 'per.rad': 'rad', 'per.ice': 'ice' };
+  const delta = (k, v, up) => {
+    const was = base?.[keyOf[k]];
+    if (!Number.isFinite(was) || !Number.isFinite(v)) return '';
+    const d = v - was, small = k === 'per.rad' || k === 'per.ice' ? 0.05 : 0.5;
+    if (Math.abs(d) < small) return `<small class="delta same">${t('per.same')}</small>`;
+    const shown = k === 'per.dark' || k === 'per.noearth' ? fmtSpan(Math.abs(d) * HOUR)
+      : k === 'per.rad' ? `${Math.abs(d).toFixed(1)} mSv` : k === 'per.ice' ? `${Math.abs(d).toFixed(1)} km` : `${Math.round(Math.abs(d))} pts`;
+    return `<small class="delta ${(d > 0) === up ? 'better' : 'worse'}">${d > 0 ? '+' : '−'}${shown}</small>`;
+  };
+  const item = (k, v, d = '') => `<div><dt>${t(k)}</dt><dd>${v}${d}</dd></div>`;
   $('per-len').textContent = t('per.len', { len: fmtSpan(hours * HOUR) });
-  $('per-rows').innerHTML = item('per.sun', pct(SUN)) + item('per.earth', pct(EARTH)) + item('per.both', pct(SUN | EARTH)) +
-    item('per.dark', fmtSpan(longestWithout(spot.flags, a, b, SUN) * step * HOUR)) +
-    item('per.noearth', fmtSpan(longestWithout(spot.flags, a, b, EARTH) * step * HOUR)) + item('per.rad', rad) +
-    item('per.eclipse', eclipseText(eclipsesBetween(from, to)));
+  $('per-rows').innerHTML = items.map(([k, text, v, up]) => item(k, text, delta(k, v, up))).join('') +
+    item('per.eclipse', eclipseText(list));
+  const b0 = app.baseline;
+  $('per-base').innerHTML = b0 ? t('per.base', { label: b0.label, from: fmtDate(b0.from), to: fmtDate(b0.to) }) : t('per.base.none');
+  $('per-pin').textContent = t(b0 ? 'per.repin' : 'per.pin');
+  $('per-clear').hidden = !b0;
 }
 
 // Lunar eclipses that overlap a stretch of time, and a short description of them.
@@ -932,6 +959,14 @@ function bind() {
   $('stay').addEventListener('change', e => {
     const v = Number(e.target.value);
     if (v > 0) setStay(v);
+  });
+  $('per-pin').addEventListener('click', () => { app.baseline = structuredClone(app.periodNow); renderPeriod(); });
+  $('per-clear').addEventListener('click', () => { app.baseline = null; renderPeriod(); });
+  for (const id of ['rule-sun', 'rule-earth']) segPick(id, async b => {
+    for (const x of $(id).children) x.setAttribute('aria-checked', String(x === b));
+    if (id === 'rule-sun') rules.sunDisc = b.dataset.rule; else rules.earthMarginDeg = Number(b.dataset.rule);
+    $('rules-off').hidden = rulesKey() === 'any,0';
+    await setSpot(app.kind);
   });
   $('per-from').addEventListener('change', e => {
     const ms = Date.parse(e.target.value + 'Z');

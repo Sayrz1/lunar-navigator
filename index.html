@@ -224,6 +224,27 @@
         <h2 data-i18n="plan.title">When should we land?</h2>
         <p class="band-lede" data-i18n="plan.lede"></p>
       </header>
+      <article class="card rules">
+        <h3 data-i18n="rules.title">What counts as visible</h3>
+        <div class="rules-row">
+          <span data-i18n="rules.sun">The Sun is up when this much of its disc clears the terrain</span>
+          <div class="seg" role="radiogroup" id="rule-sun" aria-label="Sun">
+            <button type="button" role="radio" data-rule="any" aria-checked="true" data-i18n="rules.any">Any part</button>
+            <button type="button" role="radio" data-rule="half" aria-checked="false" data-i18n="rules.half">Half</button>
+            <button type="button" role="radio" data-rule="all" aria-checked="false" data-i18n="rules.all">All of it</button>
+          </div>
+        </div>
+        <div class="rules-row">
+          <span data-i18n="rules.earth">Earth is in view when its centre is at least this far above the terrain</span>
+          <div class="seg" role="radiogroup" id="rule-earth" aria-label="Earth">
+            <button type="button" role="radio" data-rule="0" aria-checked="true">0°</button>
+            <button type="button" role="radio" data-rule="2" aria-checked="false">2°</button>
+            <button type="button" role="radio" data-rule="5" aria-checked="false">5°</button>
+          </div>
+        </div>
+        <p class="small muted" data-i18n="rules.note"></p>
+        <p class="small rules-off" id="rules-off" data-i18n="rules.off" hidden></p>
+      </article>
       <figure class="chart">
         <div class="seg cal-years" role="radiogroup" id="cal-year" aria-label="Year"></div>
         <canvas id="calendar" aria-label="Calendar of hours with Sun and Earth together"></canvas>
@@ -237,6 +258,11 @@
         <div class="card-head">
           <h3 data-i18n="per.title">Your mission period</h3>
           <span id="per-len" class="small muted num"></span>
+        </div>
+        <div class="per-base">
+          <p id="per-base" class="small muted"></p>
+          <button type="button" class="chip" id="per-pin">Keep as baseline</button>
+          <button type="button" class="chip" id="per-clear" data-i18n="per.clear" hidden>Clear</button>
         </div>
         <div class="period-inputs">
           <label class="field"><span data-i18n="per.from">From (UTC)</span><input id="per-from" type="datetime-local" step="3600"></label>

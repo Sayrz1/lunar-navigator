@@ -6,6 +6,12 @@ import { horizonAt, discFraction } from './horizon.js';
 const HOUR = 3600e3;
 const SUN_RADIUS_DEG = 0.2666; // mean angular radius seen from the Moon (~1 au)
 
+// What counts as visible. Defaults: any part of the Sun's disc above the terrain, and
+// Earth's centre above it. A radio link that only grazes the terrain fades, so planners may
+// want Earth a few degrees clear; solar panels want more than a sliver of the Sun.
+export const rules = { sunDisc: 'any', earthMarginDeg: 0 };
+export const rulesKey = () => `${rules.sunDisc},${rules.earthMarginDeg}`;
+
 // What a lander at the site sees at time ms. frame must be built at ground + observer
 // height, the same height the horizon was computed for.
 export function stateAt(eph, ms, frame, hz) {
@@ -16,8 +22,8 @@ export function stateAt(eph, ms, frame, hz) {
   return {
     sun: { ...sun, horizon: sun.el - sunClear, clear: sunClear, disc: discFraction(sunClear, sunR) },
     earth: { ...earth, horizon: earth.el - earthClear, clear: earthClear },
-    sunlit: sunClear > -sunR,        // any part of the disc above the terrain
-    earthInView: earthClear > 0,     // Earth's centre above the terrain: line of sight for radio
+    sunlit: sunClear > (rules.sunDisc === 'all' ? sunR : rules.sunDisc === 'half' ? 0 : -sunR),
+    earthInView: earthClear > rules.earthMarginDeg,
   };
 }
 
