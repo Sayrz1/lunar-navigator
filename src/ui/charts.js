@@ -289,10 +289,10 @@ export function drawScatter(canvas, doc, metric) {
 // Radiation background through the solar cycle: monthly medians of the CRaTER surface dose
 // (solid), the previous-cycle estimate for later dates (dashed), storm days as ticks along
 // the top, and the chosen landing time.
-export function drawRadiation(canvas, { months, estimate, storms, now, locale }) {
+export function drawRadiation(canvas, { months, estimate, storms, now, top = 2.5 }) {
   const { ctx, W, H } = fit(canvas, canvas.clientWidth < 560 ? 200 : 240);
   const pad = { l: 44, r: 12, t: 18, b: 24 };
-  const t0 = Date.UTC(2009, 0, 1), t1 = Date.UTC(2036, 0, 1), top = 0.4;
+  const t0 = Date.UTC(2009, 0, 1), t1 = Date.UTC(2036, 0, 1);
   const x = t => pad.l + ((t - t0) / (t1 - t0)) * (W - pad.l - pad.r);
   const y = v => H - pad.b - (Math.min(v, top) / top) * (H - pad.t - pad.b);
 
@@ -301,7 +301,8 @@ export function drawRadiation(canvas, { months, estimate, storms, now, locale })
   ctx.strokeStyle = css('--line');
   ctx.lineWidth = 1;
   ctx.textAlign = 'end';
-  for (const v of [0, 0.1, 0.2, 0.3, 0.4]) {
+  for (let k = 0; k <= 5; k++) {
+    const v = (top / 5) * k;
     ctx.beginPath(); ctx.moveTo(pad.l, y(v)); ctx.lineTo(W - pad.r, y(v)); ctx.stroke();
     ctx.fillText(v.toFixed(1), pad.l - 6, y(v) + 3);
   }

@@ -241,21 +241,25 @@ function renderPower() {
 
 const CYCLE_MS = 11 * 365.25 * DAY; // one solar cycle, near enough for an analogue
 const STORM_MGY = 5;                // a day whose worst hour tops this is a solar storm day
+const CAREER_MSV = 600;             // NASA career limit, NASA-STD-3001 Vol. 1 Rev. B (2022)
 
+// Each day keeps absorbed dose (med, max in mGy/day) and dose equivalent (eq, eqMax in
+// mSv/day). The page shows dose equivalent, the quantity crew limits are set in.
 function prepareRadiation(doc) {
-  const days = doc.days.map(([d, med, max]) => ({ t: Date.parse(d + 'T00:00:00Z'), med, max }));
+  const days = doc.days.map(([d, med, max, , eq, eqMax]) => ({ t: Date.parse(d + 'T00:00:00Z'), med, max, eq, eqMax }));
   const monthly = new Map();
   for (const d of days) {
+    if (d.eq == null) continue;
     const k = new Date(d.t).toISOString().slice(0, 7);
     if (!monthly.has(k)) monthly.set(k, []);
-    monthly.get(k).push(d.med);
+    monthly.get(k).push(d.eq);
   }
   const median = v => [...v].sort((a, b) => a - b)[Math.floor(v.length / 2)];
   // the cosmic-ray background: the quieter quarter of the days, so storm months don't lift it
   const quiet = v => [...v].sort((a, b) => a - b)[Math.floor(v.length / 4)];
   const months = [...monthly].filter(([, v]) => v.length >= 10).map(([k, v]) => ({ t: Date.parse(k + '-15T00:00:00Z'), v: quiet(v) }));
   const storms = days.filter(d => d.max > STORM_MGY);
-  const worst = storms.reduce((a, d) => (d.max > a.max ? d : a), { max: 0 });
+  const worst = days.reduce((a, d) => ((d.eqMax ?? 0) > a.eqMax ? d : a), { eqMax: 0 });
   const rad = { days, months, storms: storms.map(d => d.t), worst, last: days.at(-1).t, median, quiet };
   // the dashed estimate on the chart: each month after the data, from one cycle earlier
   rad.estimate = [];
@@ -268,7 +272,7 @@ function prepareRadiation(doc) {
 function radiationAt(rad, ms) {
   let at = ms, estimated = false;
   while (at > rad.last) { at -= CYCLE_MS; estimated = true; }
-  const near = rad.days.filter(d => Math.abs(d.t - at) <= 14 * DAY).map(d => d.med);
+  const near = rad.days.filter(d => d.eq != null && Math.abs(d.t - at) <= 14 * DAY).map(d => d.eq);
   return { rate: near.length ? rad.quiet(near) : NaN, from: at, estimated };
 }
 
@@ -289,12 +293,14 @@ function renderRadiation() {
   $('rad-rate').textContent = r.rate.toFixed(2);
   $('rad-basis').textContent = r.estimated ? t('rad.basis.estimate', { date: fmtDate(r.from).split(',')[0] }) : t('rad.basis.measured');
   const row = (k, v) => `<dt>${k}</dt><dd>${v}</dd>`;
+  const site = r.rate * app.stay * share;
   $('rad-rows').innerHTML =
-    row(t('rad.r.stay', { days: app.stay }), `${(r.rate * app.stay).toFixed(1)} mGy`) +
-    row(blocked >= 0 ? t('rad.r.site', { pct: blocked }) : t('rad.r.siteOpen', { pct: -blocked }), `${(r.rate * app.stay * share).toFixed(1)} mGy`) +
+    row(t('rad.r.stay', { days: app.stay }), `${(r.rate * app.stay).toFixed(1)} mSv`) +
+    row(blocked >= 0 ? t('rad.r.site', { pct: blocked }) : t('rad.r.siteOpen', { pct: -blocked }), `${site.toFixed(1)} mSv`) +
+    row(t('rad.r.limit', { limit: CAREER_MSV }), `${((site / CAREER_MSV) * 100).toFixed(1)}%`) +
     row(t('rad.r.storms'), String(rad.storms.length)) +
-    row(t('rad.r.worst'), `${Math.round(rad.worst.max)} mGy/day · ${new Date(rad.worst.t).toISOString().slice(0, 7)}`);
-  drawRadiation($('rad-chart'), { months: rad.months, estimate: rad.estimate, storms: rad.storms, now: app.t, locale: locale() });
+    row(t('rad.r.worst'), `${Math.round(rad.worst.eqMax)} mSv/day · ${new Date(rad.worst.t).toISOString().slice(0, 7)}`);
+  drawRadiation($('rad-chart'), { months: rad.months, estimate: rad.estimate, storms: rad.storms, now: app.t, top: 2.5 });
   app.radNow = { rate: r.rate, total: r.rate * app.stay * share, estimated: r.estimated };
   if ($('ice-rad')) $('ice-rad').innerHTML = iceRadText();
 }
@@ -387,7 +393,7 @@ function renderPeriod() {
   const b = Math.min(spot.flags.length, a + Math.round(hours * HOUR / eph.stepMs));
   const step = eph.stepMs / HOUR;
   const pct = bit => `${Math.round(shareBetween(eph, spot.flags, from, hours, bit) * 100)}%`;
-  const rad = app.radNow ? `${(app.radNow.rate * (hours / 24) * skyShare(spot.hz)).toFixed(1)} mGy` : '–';
+  const rad = app.radNow ? `${(app.radNow.rate * (hours / 24) * skyShare(spot.hz)).toFixed(1)} mSv` : '–';
   const item = (k, v) => `<div><dt>${t(k)}</dt><dd>${v}</dd></div>`;
   $('per-len').textContent = t('per.len', { len: fmtSpan(hours * HOUR) });
   $('per-rows').innerHTML = item('per.sun', pct(SUN)) + item('per.earth', pct(EARTH)) + item('per.both', pct(SUN | EARTH)) +
@@ -454,7 +460,7 @@ function renderIce() {
 
 function iceRadText() {
   const r = app.radNow;
-  return r ? `${(r.rate * skyShare(app.spot.hz)).toFixed(2)} <small>mGy/day${r.estimated ? ' · ' + t('ice.rad.est') : ''}</small>` : '–';
+  return r ? `${(r.rate * skyShare(app.spot.hz)).toFixed(2)} <small>mSv/day${r.estimated ? ' · ' + t('ice.rad.est') : ''}</small>` : '–';
 }
 
 // Compare table. Scores need each region's grid (for distance to ice), loaded in the background.
@@ -705,13 +711,16 @@ function renderTrust() {
 
 // CRaTER in orbit against the Chang'e-4 lander on the far side, over the same months.
 // Chang'e-4 LND, Jan-Jun 2019 (Zhang et al. 2020, Sci. Adv. 6, eaaz1334): 13.2 uGy/h in
-// silicon, about 20% of it from the ground (albedo), which CRaTER's surface figure leaves out.
-const CHANGE4_MGY = 13.2e-3 * 24 * 1.3 * 0.8;
+// silicon, about 20% of it from the ground (albedo), which CRaTER's surface figure leaves
+// out; and a dose equivalent of 1369 uSv/day.
+const CHANGE4_MGY = 13.2e-3 * 24 * 1.3 * 0.8, CHANGE4_MSV = 1.369;
 function radiationCard(card) {
   if (!app.rad) return '';
   const from = Date.UTC(2019, 0, 3), to = Date.UTC(2019, 5, 30);
-  const ours = app.rad.median(app.rad.days.filter(d => d.t >= from && d.t <= to).map(d => d.med));
-  return card(t('trust.rad'), `${ours.toFixed(2)} / ${CHANGE4_MGY.toFixed(2)}`, t('trust.rad.body', { ours: ours.toFixed(2), them: CHANGE4_MGY.toFixed(2) }));
+  const span = app.rad.days.filter(d => d.t >= from && d.t <= to);
+  const gy = app.rad.median(span.map(d => d.med)), sv = app.rad.median(span.filter(d => d.eq != null).map(d => d.eq));
+  return card(t('trust.rad'), `${gy.toFixed(2)} / ${CHANGE4_MGY.toFixed(2)}`,
+    t('trust.rad.body', { ours: gy.toFixed(2), them: CHANGE4_MGY.toFixed(2), oursSv: sv.toFixed(2), themSv: CHANGE4_MSV.toFixed(2) }));
 }
 
 // --- Navi --------------------------------------------------------------------------------
