@@ -118,3 +118,72 @@ export function dailyShare(eph, flags) {
   }
   return days;
 }
+
+// Lunar eclipses, seen from the Moon: Earth passes in front of the Sun. Our horizon model
+// counts the Sun as up whenever it clears the terrain, so these hours are listed apart.
+// Uses the Moon's centre; a polar site sees the same event within a minute or two.
+const EARTH_RADIUS_KM = 6378.137, SUN_RADIUS_KM = 695700;
+
+function separation(eph, ms) {
+  const r = eph.sample(ms);
+  const s = toVec(r.sunLat, r.sunLon), e = toVec(r.earthLat, r.earthLon);
+  const cos = Math.min(1, s[0] * e[0] + s[1] * e[1] + s[2] * e[2]);
+  return {
+    sep: Math.acos(cos) / DEG_R,
+    earthR: Math.asin(EARTH_RADIUS_KM / r.earthKm) / DEG_R,
+    sunR: Math.asin(SUN_RADIUS_KM / r.sunKm) / DEG_R,
+  };
+}
+const DEG_R = Math.PI / 180;
+function toVec(lat, lon) {
+  const la = lat * DEG_R, lo = lon * DEG_R;
+  return [Math.cos(la) * Math.cos(lo), Math.cos(la) * Math.sin(lo), Math.sin(la)];
+}
+
+// [{ peak, start, end, totalStart, totalEnd, covered }] where covered is the share of the
+// Sun's disc hidden at the peak (1 = the Sun is fully behind Earth).
+export function eclipses(eph) {
+  const out = [];
+  const gap = ms => { const g = separation(eph, ms); return g.sep - (g.earthR + g.sunR); };
+  const full = ms => { const g = separation(eph, ms); return g.sep - (g.earthR - g.sunR); };
+  const cross = (f, a, b) => { // f(a) and f(b) have opposite signs
+    for (let i = 0; i < 30; i++) { const m = (a + b) / 2; if (Math.sign(f(m)) === Math.sign(f(a))) a = m; else b = m; }
+    return Math.round((a + b) / 2 / 1000) * 1000;
+  };
+  for (let k = 1; k < eph.rows - 1; k++) {
+    const t = eph.start + k * eph.stepMs;
+    const here = separation(eph, t);
+    if (here.sep > here.earthR + here.sunR + 1) continue;
+    const before = separation(eph, t - eph.stepMs).sep, after = separation(eph, t + eph.stepMs).sep;
+    if (!(here.sep <= before && here.sep < after)) continue;
+    // golden-section search for the closest approach within the hour either side
+    let a = t - eph.stepMs, b = t + eph.stepMs;
+    for (let i = 0; i < 40; i++) {
+      const m1 = a + (b - a) * 0.382, m2 = a + (b - a) * 0.618;
+      if (separation(eph, m1).sep < separation(eph, m2).sep) b = m2; else a = m1;
+    }
+    const peak = Math.round((a + b) / 2 / 1000) * 1000;
+    if (gap(peak) >= 0) continue;
+    const span = 6 * HOUR;
+    const lo = Math.max(eph.start, peak - span), hi = Math.min(eph.end, peak + span);
+    const e = {
+      peak,
+      start: gap(lo) > 0 ? cross(gap, lo, peak) : lo,
+      end: gap(hi) > 0 ? cross(gap, peak, hi) : hi,
+    };
+    if (full(peak) < 0) { e.totalStart = cross(full, e.start, peak); e.totalEnd = cross(full, peak, e.end); }
+    const g = separation(eph, peak);
+    e.covered = Math.min(1, discCovered(g.sep, g.earthR, g.sunR));
+    out.push(e);
+  }
+  return out;
+}
+
+// share of a disc of radius r hidden by a disc of radius R whose centre is d away
+function discCovered(d, R, r) {
+  if (d >= R + r) return 0;
+  if (d <= R - r) return 1;
+  const a = Math.acos((d * d + r * r - R * R) / (2 * d * r)), b = Math.acos((d * d + R * R - r * r) / (2 * d * R));
+  const area = r * r * (a - Math.sin(2 * a) / 2) + R * R * (b - Math.sin(2 * b) / 2);
+  return area / (Math.PI * r * r);
+}

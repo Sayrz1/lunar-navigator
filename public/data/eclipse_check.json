@@ -1,0 +1,180 @@
+{
+ "about": "Lunar eclipses from our ephemeris (Moon centre) vs NASA Five Millennium Catalog of Lunar Eclipses, times of greatest eclipse in UTC",
+ "source": "https://eclipse.gsfc.nasa.gov/LEcat5/LE2001-2100.html",
+ "summary": {
+  "nasa": 21,
+  "matched": 19,
+  "extraInOurs": 0,
+  "worstDiffMin": 0.9
+ },
+ "rows": [
+  {
+   "nasaPeakUtc": "2027-02-20T23:12:50Z",
+   "type": "N",
+   "ourPeakUtc": "2027-02-20T23:13:31Z",
+   "diffMin": 0.7,
+   "sunCovered": 0.36,
+   "hours": 2.5
+  },
+  {
+   "nasaPeakUtc": "2027-07-18T16:02:53Z",
+   "type": "Ne",
+   "ourPeakUtc": null,
+   "diffMin": null,
+   "sunCovered": null,
+   "hours": null
+  },
+  {
+   "nasaPeakUtc": "2027-08-17T07:13:43Z",
+   "type": "N",
+   "ourPeakUtc": "2027-08-17T07:14:32Z",
+   "diffMin": 0.8,
+   "sunCovered": 0.01,
+   "hours": 0.8
+  },
+  {
+   "nasaPeakUtc": "2028-01-12T04:12:57Z",
+   "type": "P",
+   "ourPeakUtc": "2028-01-12T04:13:39Z",
+   "diffMin": 0.7,
+   "sunCovered": 0.52,
+   "hours": 2.8
+  },
+  {
+   "nasaPeakUtc": "2028-07-06T18:19:40Z",
+   "type": "P",
+   "ourPeakUtc": "2028-07-06T18:20:28Z",
+   "diffMin": 0.8,
+   "sunCovered": 0.92,
+   "hours": 3.9
+  },
+  {
+   "nasaPeakUtc": "2028-12-31T16:51:58Z",
+   "type": "T",
+   "ourPeakUtc": "2028-12-31T16:52:43Z",
+   "diffMin": 0.8,
+   "sunCovered": 1,
+   "hours": 4.5
+  },
+  {
+   "nasaPeakUtc": "2029-06-26T03:22:05Z",
+   "type": "T+",
+   "ourPeakUtc": "2029-06-26T03:22:49Z",
+   "diffMin": 0.7,
+   "sunCovered": 1,
+   "hours": 4.6
+  },
+  {
+   "nasaPeakUtc": "2029-12-20T22:41:54Z",
+   "type": "T",
+   "ourPeakUtc": "2029-12-20T22:42:45Z",
+   "diffMin": 0.8,
+   "sunCovered": 1,
+   "hours": 4.8
+  },
+  {
+   "nasaPeakUtc": "2030-06-15T18:33:16Z",
+   "type": "P",
+   "ourPeakUtc": "2030-06-15T18:33:57Z",
+   "diffMin": 0.7,
+   "sunCovered": 1,
+   "hours": 3.5
+  },
+  {
+   "nasaPeakUtc": "2030-12-09T22:27:33Z",
+   "type": "N",
+   "ourPeakUtc": "2030-12-09T22:28:26Z",
+   "diffMin": 0.9,
+   "sunCovered": 0.32,
+   "hours": 2.9
+  },
+  {
+   "nasaPeakUtc": "2031-05-07T03:50:44Z",
+   "type": "N",
+   "ourPeakUtc": "2031-05-07T03:51:25Z",
+   "diffMin": 0.7,
+   "sunCovered": 0.32,
+   "hours": 2.4
+  },
+  {
+   "nasaPeakUtc": "2031-06-05T11:43:59Z",
+   "type": "N",
+   "ourPeakUtc": null,
+   "diffMin": null,
+   "sunCovered": null,
+   "hours": null
+  },
+  {
+   "nasaPeakUtc": "2031-10-30T07:45:26Z",
+   "type": "N",
+   "ourPeakUtc": "2031-10-30T07:46:14Z",
+   "diffMin": 0.8,
+   "sunCovered": 0.12,
+   "hours": 1.9
+  },
+  {
+   "nasaPeakUtc": "2032-04-25T15:13:32Z",
+   "type": "T",
+   "ourPeakUtc": "2032-04-25T15:14:20Z",
+   "diffMin": 0.8,
+   "sunCovered": 1,
+   "hours": 4.6
+  },
+  {
+   "nasaPeakUtc": "2032-10-18T19:02:21Z",
+   "type": "T",
+   "ourPeakUtc": "2032-10-18T19:03:06Z",
+   "diffMin": 0.8,
+   "sunCovered": 1,
+   "hours": 4.2
+  },
+  {
+   "nasaPeakUtc": "2033-04-14T19:12:31Z",
+   "type": "T",
+   "ourPeakUtc": "2033-04-14T19:13:25Z",
+   "diffMin": 0.9,
+   "sunCovered": 1,
+   "hours": 4.9
+  },
+  {
+   "nasaPeakUtc": "2033-10-08T10:55:03Z",
+   "type": "T",
+   "ourPeakUtc": "2033-10-08T10:55:46Z",
+   "diffMin": 0.7,
+   "sunCovered": 1,
+   "hours": 4.2
+  },
+  {
+   "nasaPeakUtc": "2034-04-03T19:05:39Z",
+   "type": "N",
+   "ourPeakUtc": "2034-04-03T19:06:34Z",
+   "diffMin": 0.9,
+   "sunCovered": 0.24,
+   "hours": 2.6
+  },
+  {
+   "nasaPeakUtc": "2034-09-28T02:46:16Z",
+   "type": "P",
+   "ourPeakUtc": "2034-09-28T02:47:02Z",
+   "diffMin": 0.8,
+   "sunCovered": 0.45,
+   "hours": 2.7
+  },
+  {
+   "nasaPeakUtc": "2035-02-22T09:04:51Z",
+   "type": "N",
+   "ourPeakUtc": "2035-02-22T09:05:40Z",
+   "diffMin": 0.8,
+   "sunCovered": 0.4,
+   "hours": 2.7
+  },
+  {
+   "nasaPeakUtc": "2035-08-19T01:10:54Z",
+   "type": "P",
+   "ourPeakUtc": "2035-08-19T01:11:46Z",
+   "diffMin": 0.9,
+   "sunCovered": 0.6,
+   "hours": 3.4
+  }
+ ]
+}

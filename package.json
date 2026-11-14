@@ -24,6 +24,7 @@
     "check:horizons": "node scripts/validate-horizons.mjs",
     "check:tiles": "python scripts/check_tiles.py",
     "check:illumination": "node scripts/validate-illumination.mjs",
-    "check:custom": "node scripts/check-custom-points.mjs"
+    "check:custom": "node scripts/check-custom-points.mjs",
+    "check:eclipses": "node scripts/check-eclipses.mjs"
   }
 }
