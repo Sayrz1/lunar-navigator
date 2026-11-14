@@ -612,6 +612,7 @@ function renderLate() {
     }
     return {
       time: fmtDate(ms),
+      sunlit: s.sunlit, earthUp: s.earthInView,
       sun: s.sunlit ? t('sun.lit', { disc: Math.round(s.sun.disc * 100) }) : t('sun.dark'),
       earth: t(s.earthInView ? 'earth.up' : 'earth.down'),
       next: `${t(s.sunlit ? 'row.sunset' : 'row.sunrise')} ${span(n, ms)}`,
@@ -637,18 +638,21 @@ function renderLate() {
     const d = Math.round((y - x) * 100);
     return d ? ` <small class="${d > 0 ? 'up' : 'down'}">${d > 0 ? '+' : '−'}${Math.abs(d)}</small>` : '';
   };
+  // mark the late column where the delay makes things worse: red for a loss at touchdown
+  // or a big drop, amber for a smaller one
+  const drop = (x, y) => (y < x - 0.15 ? 'bad' : y < x - 0.03 ? 'warn' : '');
   const rows = [
-    ['late.r.time', a.time, b.time],
-    ['late.r.sun', a.sun, b.sun],
-    ['late.r.earth', a.earth, b.earth],
-    ['late.r.next', a.next, b.next],
-    ['late.r.sunshare', fmtPct(a.sunshare * 100), fmtPct(b.sunshare * 100) + diff(a.sunshare, b.sunshare)],
-    ['late.r.earthshare', fmtPct(a.earthshare * 100), fmtPct(b.earthshare * 100) + diff(a.earthshare, b.earthshare)],
-    ['late.r.both', fmtPct(a.both * 100), fmtPct(b.both * 100) + diff(a.both, b.both)],
-    ['late.r.dark', fmtDays(a.dark), fmtDays(b.dark)],
+    ['late.r.time', a.time, b.time, ''],
+    ['late.r.sun', a.sun, b.sun, a.sunlit && !b.sunlit ? 'bad' : ''],
+    ['late.r.earth', a.earth, b.earth, a.earthUp && !b.earthUp ? 'bad' : ''],
+    ['late.r.next', a.next, b.next, ''],
+    ['late.r.sunshare', fmtPct(a.sunshare * 100), fmtPct(b.sunshare * 100) + diff(a.sunshare, b.sunshare), drop(a.sunshare, b.sunshare)],
+    ['late.r.earthshare', fmtPct(a.earthshare * 100), fmtPct(b.earthshare * 100) + diff(a.earthshare, b.earthshare), drop(a.earthshare, b.earthshare)],
+    ['late.r.both', fmtPct(a.both * 100), fmtPct(b.both * 100) + diff(a.both, b.both), drop(a.both, b.both)],
+    ['late.r.dark', fmtDays(a.dark), fmtDays(b.dark), b.dark > a.dark + 24 ? 'bad' : b.dark > a.dark ? 'warn' : ''],
   ];
   $('late-table').innerHTML = `<thead><tr><th></th><th>${t('late.col.ontime')}</th><th>${t('late.col.late', { d: slipText })}</th></tr></thead><tbody>` +
-    rows.map(([k, x, y]) => `<tr><th>${t(k)}</th><td>${x}</td><td>${y}</td></tr>`).join('') + '</tbody>';
+    rows.map(([k, x, y, flag]) => `<tr><th>${t(k)}</th><td>${x}</td><td${flag ? ` class="worse ${flag}"` : ''}>${y}</td></tr>`).join('') + '</tbody>';
   for (const btn of $('delays').children) btn.classList.toggle('on', Number(btn.dataset.delay) === app.slip);
 }
 

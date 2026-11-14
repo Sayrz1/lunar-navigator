@@ -325,6 +325,8 @@ body[data-view='space'] .site-only, body[data-view='site'] .space-only { display
 .late-table tbody th { font-family: var(--font); font-weight: 400; color: var(--muted); }
 .late-table td { unicode-bidi: plaintext; }
 .late-table small.up { color: var(--ok); } .late-table small.down { color: var(--bad); }
+.late-table td.worse.warn { background: color-mix(in srgb, var(--sun) 16%, transparent); }
+.late-table td.worse.bad { background: color-mix(in srgb, var(--bad) 16%, transparent); color: var(--bad); font-weight: 600; }
 .scatter { margin-top: 24px; }
 .scatter-body { display: grid; grid-template-columns: minmax(0, 420px) minmax(0, 1fr); gap: 28px; align-items: start; margin-top: 8px; }
 #scatter-map { width: 100%; display: block; }
@@ -517,3 +519,4 @@ body.hero-on .navi-fab:not([aria-expanded='true']) { opacity: 0; transform: tran
 [dir='rtl'] .coords { text-align: right; }
 .feat-list .feat-origin { font-family: var(--font); }
 :lang(ar) .period-rows dd, :lang(ar) #per-len { font-family: var(--font); }
+:lang(ar) .late-table td { font-family: var(--font); letter-spacing: 0; }
