@@ -15,6 +15,7 @@ Pick a landing region at the Moon's south pole and a time between November 2026 
 - **Power:** battery needed to get through the longest night at a chosen power draw, compared with the region centre.
 - **Planner:** a day-by-day calendar with a year picker, a mission period (from and to dates) with Sun, Earth, longest night and radiation over exactly those hours, landing windows for a chosen surface stay (6 days by default, the middle of the 5.75–6.25 days NASA gives for Artemis III), and an on-time vs late table for delays from 1 hour to 1 month.
 - **Radiation:** the daily dose on the surface from LRO CRaTER, 2009 to 2026, with storm days marked. After the last measurement the rate comes from the same point of the previous 11-year solar cycle, shown as an estimate. The dose at the spot is scaled by how much of the sky its horizon leaves open.
+- **Lunar eclipses:** when Earth passes in front of the Sun, a lander loses solar power for up to about five hours. The mission period lists any eclipse inside it, and landing windows whose stay could include one are tagged.
 - **Named features:** the official IAU names near the spot (centre, diameter, latitude and longitude range), from the USGS Gazetteer, the same records LROC QuickMap shows.
 - **Landing scatter:** a map of how sunlight and Earth contact change within 100 m of the spot, with steep ground crossed out.
 - **Compare, water and trust:** all regions side by side, permanent shadow near the spot, and how each part was checked.
@@ -46,13 +47,14 @@ Everything the page needs is in `public/data`, so it runs offline and can be hos
 | 5 m tiles | LDEM_80S_80M | 1–2 m RMS, no offset |
 | Sunlight model | NASA LOLA illumination maps, 18.6 years, 200 random points | median 0.29 points (Sun), 0.06 (Earth) |
 | Custom points | full 5 m build at 32 spots | median 1.9 points (Sun), worst 19 on steep ground |
+| Lunar eclipses | NASA Five Millennium Catalog of Lunar Eclipses, 2026–2035 | 19 of 21 found, peak times within 0.9 min; the 2 missed only graze the Moon's edge |
 | Radiation | Chang'e-4 lander on the surface, Jan–Jun 2019 (Zhang et al. 2020) | CRaTER 0.31 mGy/day vs Chang'e-4 about 0.33 without ground albedo |
 
-Scripts: `npm run check:horizons`, `check:tiles`, `check:illumination`, `check:custom`. Data builds: `data:regions`, `data:ephemeris`, `data:horizons`, `data:best-spots`, `data:terrain`, `data:scatter`, `data:radiation`, `data:features`. The raw inputs (`data-raw/`, about 2 GB) are not in the repo; the sources are listed below.
+Scripts: `npm run check:horizons`, `check:tiles`, `check:illumination`, `check:custom`, `check:eclipses`. Data builds: `data:regions`, `data:ephemeris`, `data:horizons`, `data:best-spots`, `data:terrain`, `data:scatter`, `data:radiation`, `data:features`. The raw inputs (`data-raw/`, about 2 GB) are not in the repo; the sources are listed below.
 
 ## Limits
 
-Horizons are for an eye 2 m above the ground, and times are UTC. Dates run from November 2026 to the end of 2035. Earth "in view" means a clear line of sight to its centre: no link budget or relay satellites. The Sun counts as up when any part of its disc clears the terrain; panel tilt, dust and temperature are not modelled. Terrain is 5 m only inside NASA's high-resolution tiles. The battery figure is energy only. Permanent shadow marks where ice can survive, not where it has been found. Radiation is absorbed dose (mGy), not dose equivalent (mSv, roughly 3× higher for cosmic rays); after September 2026 it is an estimate from the previous solar cycle, and it leaves out shielding by a lander or habitat.
+Horizons are for an eye 2 m above the ground, and times are UTC. Dates run from November 2026 to the end of 2035. Earth "in view" means a clear line of sight to its centre: no link budget or relay satellites. The Sun counts as up when any part of its disc clears the terrain; panel tilt, dust and temperature are not modelled. Terrain is 5 m only inside NASA's high-resolution tiles. The battery figure is energy only. Permanent shadow marks where ice can survive, not where it has been found. Sun percentages do not take out lunar eclipses (listed separately in the planner). The 9 regions were chosen for Artemis III; since February 2026 the first crewed landing is Artemis IV (targeted for 2028), and the 9 regions are still NASA's published candidates. Radiation is absorbed dose (mGy), not dose equivalent (mSv, roughly 3× higher for cosmic rays); after September 2026 it is an estimate from the previous solar cycle, and it leaves out shielding by a lander or habitat.
 
 ## Data
 
@@ -67,6 +69,8 @@ Horizons are for an eye 2 m above the ground, and times are UTC. Dates run from 
 - Chang'e-4 LND surface dose (Zhang et al. 2020, Science Advances 6, eaaz1334): https://www.science.org/doi/10.1126/sciadv.aaz1334
 - IAU Gazetteer of Planetary Nomenclature (USGS Astrogeology): https://planetarynames.wr.usgs.gov/
 - Artemis III site selection update: T. George, M. A. Rubio, S. J. Lawrence and P. Curell (NASA), "Artemis III Site Selection Update: Down-selection from 13 to 9 Candidate Regions", 57th Lunar and Planetary Science Conference (2026), abstract 1901: https://www.hou.usra.edu/meetings/lpsc2026/pdf/1901.pdf
+- NASA Artemis III site selection report (NTRS 20250011660): https://ntrs.nasa.gov/citations/20250011660
+- NASA Five Millennium Catalog of Lunar Eclipses (Espenak & Meeus): https://eclipse.gsfc.nasa.gov/LEcat5/LE2001-2100.html
 - Landing regions: NASA, October 2024: https://www.nasa.gov/news-release/nasa-provides-update-on-artemis-iii-moon-landing-regions/
 
 ## Use of AI

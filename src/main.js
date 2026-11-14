@@ -1,7 +1,7 @@
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Ephemeris, siteFrame, sunEarthAt, SYNODIC_DAYS } from './core/ephemeris.js';
-import { stateAt, track, hourlyFlags, summary, landingWindows, shareBetween, dailyShare, SUN, EARTH } from './core/analysis.js';
+import { stateAt, track, hourlyFlags, summary, landingWindows, shareBetween, dailyShare, eclipses, SUN, EARTH } from './core/analysis.js';
 import { fromStereo, toStereo } from './core/horizon.js';
 import { decodeRegion, polarSampler, customHorizon, slopeAt, iceNear, nasaVisibility, cellAt, cellCentre } from './core/terrain.js';
 import { DEFAULT_WEIGHTS, siteScore, battery } from './core/score.js';
@@ -359,8 +359,9 @@ function renderPlanner() {
   }
   $('windows').innerHTML = list.map(w => {
     const inside = app.t >= w.open && app.t <= w.close;
+    const dim = eclipsesBetween(w.open, w.close + app.stay * DAY).length ? ` <span class="eclipse-tag">${t('plan.eclipse')}</span>` : '';
     const label = w.close - w.open < HOUR ? t('plan.windowAt', { open: fmtDate(w.open) }) : t('plan.window', { open: fmtDate(w.open), close: fmtDate(w.close) });
-    return `<li class="${inside ? 'current' : ''}"><button type="button" data-open="${w.open}"><span>${label}</span><span class="dur">${fmtDays((w.close - w.open) / HOUR)}</span></button></li>`;
+    return `<li class="${inside ? 'current' : ''}"><button type="button" data-open="${w.open}"><span>${label}${dim}</span><span class="dur">${fmtDays((w.close - w.open) / HOUR)}</span></button></li>`;
   }).join('') + (upcoming.length > list.length ? `<li class="note">${t('plan.more', { n: upcoming.length - list.length })}</li>` : '');
 }
 
@@ -391,7 +392,19 @@ function renderPeriod() {
   $('per-len').textContent = t('per.len', { len: fmtSpan(hours * HOUR) });
   $('per-rows').innerHTML = item('per.sun', pct(SUN)) + item('per.earth', pct(EARTH)) + item('per.both', pct(SUN | EARTH)) +
     item('per.dark', fmtSpan(longestWithout(spot.flags, a, b, SUN) * step * HOUR)) +
-    item('per.noearth', fmtSpan(longestWithout(spot.flags, a, b, EARTH) * step * HOUR)) + item('per.rad', rad);
+    item('per.noearth', fmtSpan(longestWithout(spot.flags, a, b, EARTH) * step * HOUR)) + item('per.rad', rad) +
+    item('per.eclipse', eclipseText(eclipsesBetween(from, to)));
+}
+
+// Lunar eclipses that overlap a stretch of time, and a short description of them.
+function eclipsesBetween(from, to) {
+  return (app.eclipses ?? []).filter(e => e.end > from && e.start < to);
+}
+function eclipseText(list) {
+  if (!list.length) return t('per.eclipse.none');
+  return list.map(e => t(e.covered >= 1 ? 'per.eclipse.total' : 'per.eclipse.part', {
+    date: fmtDate(e.peak), hours: ((e.end - e.start) / HOUR).toFixed(1), pct: Math.round(e.covered * 100),
+  })).join('<br>');
 }
 
 // One year of the calendar at a time. It follows the chosen time into a new year,
@@ -685,6 +698,7 @@ function renderTrust() {
     card(t('trust.light'), `${illum.summary.random.sun.medianAbsPts} pts`, t('trust.light.body', { n: illum.summary.random.sun.n, sun: illum.summary.random.sun.medianAbsPts, earth: illum.summary.random.earth.medianAbsPts })),
     card(t('trust.custom'), `${custom.sun.medianPts} pts`, t('trust.custom.body', { sun: custom.sun.medianPts, max: custom.sun.maxPts })),
     radiationCard(card),
+    app.checks.eclipse ? card(t('trust.eclipse'), `${app.checks.eclipse.summary.worstDiffMin} min`, t('trust.eclipse.body', app.checks.eclipse.summary)) : '',
   ].join('');
   $('limits').innerHTML = t('limits.items').split('|').map(x => `<li>${x}</li>`).join('');
 }
@@ -1035,6 +1049,8 @@ async function start() {
   app.features = await json('./data/features.json').then(d => d.features).catch(() => null);
   app.rad = await json('./data/radiation.json').then(prepareRadiation).catch(() => null);
   Object.assign(app, { eph, terrainIndex, checks: { validation, tiles, illum, custom } });
+  app.eclipses = eclipses(eph);
+  app.checks.eclipse = await json('./data/eclipse_check.json').catch(() => null);
   app.regions = regionDoc.regions.filter(r => r.lat !== null && terrainIndex.regions[r.id]);
   for (const b of best.regions) app.best[b.id] = b;
   fillRegionSelect();
