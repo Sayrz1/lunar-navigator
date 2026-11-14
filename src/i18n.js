@@ -3,7 +3,7 @@
 
 const en = {
   'nav.stage': '3D', 'nav.assess': 'Assessment', 'nav.plan': 'Planner', 'nav.compare': 'Compare',
-  'nav.ice': 'Water & ice', 'nav.trust': 'Trust', 'nav.about': 'About',
+  'nav.ice': 'Water & ice', 'nav.trust': 'Trust',
   'lang.switch': 'عربي', 'theme.light': 'Light', 'theme.dark': 'Dark', 'theme.label': 'Switch colour theme',
   'when.label': 'Landing (UTC)',
 
@@ -104,10 +104,7 @@ const en = {
   'trust.rad': 'Radiation', 'trust.rad.body': 'Absorbed dose: LRO CRaTER gives {ours} mGy/day for Jan–Jun 2019, and China’s Chang’e-4 lander measured about {them} on the surface over the same months once ground albedo is removed. Dose equivalent: CRaTER {oursSv} mSv/day, Chang’e-4 {themSv}; the two instruments weight particles differently.',
   'trust.custom': 'Your own points', 'trust.custom.body': 'Computed in your browser from lighter grids. Against the full 5 m build: median {sun} points for the Sun, worst {max} on steep ground.',
 
-  'about.title': 'About',
-  'about.body': 'Built by team Tuwaiq Lunar for the NASA Space Apps Challenge 2026, for the challenge “Lunar Landing Site Navigator”.',
-  'about.data': 'Data',
-  'about.nologo': 'Not an official NASA product.',
+  'foot.nologo': 'Not an official NASA product.',
 
   'navi.open': 'Ask Navi', 'navi.title': 'Navi · mission assistant', 'navi.sub': 'Answers from this page’s data. No AI model, no data leaves your browser.',
   'navi.placeholder': 'Ask about sunrise, Earth, the best spot…', 'navi.send': 'Send', 'navi.close': 'Close',
@@ -202,7 +199,6 @@ const en = {
   'cmp.score': 'Score',
   'ice.eyebrow': 'Cold traps',
   'trust.eyebrow': 'Validation',
-  'about.eyebrow': 'Tuwaiq Lunar · NASA Space Apps 2026',
   'navi.scatter': 'If you land anywhere within 100 m of this spot, Sun and Earth together range from {lo}% to {hi}% of the time, and {steep} of {all} points there are too steep. The map is in the assessment section.',
   'navi.score': 'This spot scores {score}/100 with your weights: {grade}.',
   'navi.power': 'To get through the longest night here ({days} days) at {w} W you need about {kwh} kWh of battery, roughly {kg} kg.',
@@ -211,7 +207,7 @@ const en = {
 
 const ar = {
   'nav.stage': 'ثلاثي الأبعاد', 'nav.assess': 'التقييم', 'nav.plan': 'المخطِّط', 'nav.compare': 'المقارنة',
-  'nav.ice': 'الماء والجليد', 'nav.trust': 'الموثوقية', 'nav.about': 'عن المشروع',
+  'nav.ice': 'الماء والجليد', 'nav.trust': 'الموثوقية',
   'lang.switch': 'English', 'theme.light': 'فاتح', 'theme.dark': 'داكن', 'theme.label': 'تبديل ألوان الصفحة',
   'when.label': 'الهبوط (UTC)',
 
@@ -312,10 +308,7 @@ const ar = {
   'trust.rad': 'الإشعاع', 'trust.rad.body': 'الجرعة الممتصة: يعطي CRaTER على LRO قيمة {ours} ملي غراي/يوم لشهور يناير–يونيو 2019، وقاس المسبار الصيني Chang’e-4 على السطح نحو {them} في الشهور نفسها بعد طرح الإشعاع المرتد من التربة. الجرعة المكافئة: CRaTER ‏{oursSv} ملي سيفرت/يوم، وChang’e-4 ‏{themSv}، فالجهازان يزنان الجسيمات بطريقتين مختلفتين.',
   'trust.custom': 'نقاطك الخاصة', 'trust.custom.body': 'تُحسب في متصفحك من شبكات أخف. مقارنةً بالبناء الكامل بدقة 5 م: فرق وسيط {sun} نقطة للشمس، وأسوأ فرق {max} على الأرض شديدة الانحدار.',
 
-  'about.title': 'عن المشروع',
-  'about.body': 'من إعداد فريق «طويق لونار» لتحدي ناسا Space Apps 2026، ضمن تحدي «مستكشف مواقع الهبوط على القمر».',
-  'about.data': 'البيانات',
-  'about.nologo': 'ليس منتجًا رسميًا من ناسا.',
+  'foot.nologo': 'ليس منتجًا رسميًا من ناسا.',
 
   'navi.open': 'اسأل نافي', 'navi.title': 'نافي · مساعد المهمة', 'navi.sub': 'إجابات من بيانات هذه الصفحة. لا يوجد نموذج ذكاء اصطناعي، ولا تغادر أي بيانات متصفحك.',
   'navi.placeholder': 'اسأل عن الشروق، الأرض، أفضل نقطة…', 'navi.send': 'إرسال', 'navi.close': 'إغلاق',
@@ -410,7 +403,6 @@ const ar = {
   'cmp.score': 'التقييم',
   'ice.eyebrow': 'المصائد الباردة',
   'trust.eyebrow': 'التحقق',
-  'about.eyebrow': 'طويق لونار · ناسا Space Apps 2026',
   'navi.scatter': 'إذا هبطت في أي نقطة ضمن 100 م من هذا الموقع، تتراوح نسبة الشمس والأرض معًا بين {lo}% و{hi}% من الوقت، و{steep} من {all} نقطة هناك شديدة الانحدار. الخريطة في قسم التقييم.',
   'navi.score': 'تحصل هذه النقطة على {score}/100 حسب أولوياتك: {grade}.',
   'navi.power': 'لتجاوز أطول ليل هنا ({days} أيام) بقدرة {w} واط تحتاج نحو {kwh} كيلوواط·ساعة من البطاريات، أي قرابة {kg} كغ.',

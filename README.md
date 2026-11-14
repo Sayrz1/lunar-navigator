@@ -1,7 +1,5 @@
 # Lunar Navigator
 
-Team Tuwaiq Lunar, NASA Space Apps Challenge 2026, challenge "Lunar Landing Site Navigator".
-
 **Live site:** https://sayrz1.github.io/lunar-navigator/
 
 Pick a landing region at the Moon's south pole and a time between November 2026 and the end of 2035. The app shows whether a lander there gets sunlight and a radio line to Earth, when that changes, which spot inside the region is best, when the landing windows are, what happens if the landing slips, and how far it is to permanently shadowed ground where ice can survive, and how much radiation a crew would take. English and Arabic.
@@ -58,6 +56,12 @@ Scripts: `npm run check:horizons`, `check:tiles`, `check:illumination`, `check:c
 
 Horizons are for an eye 2 m above the ground, and times are UTC. Dates run from November 2026 to the end of 2035. Earth "in view" means a clear line of sight to its centre: no link budget or relay satellites. The Sun counts as up when any part of its disc clears the terrain; panel tilt, dust and temperature are not modelled. Terrain is 5 m only inside NASA's high-resolution tiles. The battery figure is energy only. Permanent shadow marks where ice can survive, not where it has been found. Sun percentages do not take out lunar eclipses (listed separately in the planner). The 9 regions were chosen for Artemis III; since February 2026 the first crewed landing is Artemis IV (targeted for 2028), and the 9 regions are still NASA's published candidates. Radiation is dose equivalent from CRaTER's own particle weighting; after September 2026 it is an estimate from the previous solar cycle, and it leaves out shielding by a lander or habitat.
 
+## About
+
+Built by team Tuwaiq Lunar for the NASA Space Apps Challenge 2026, for the challenge "Lunar Landing Site Navigator". The data it uses is listed below.
+
+Not an official NASA product.
+
 ## Data
 
 - High-resolution LOLA topography for south pole sites, 5 m (Barker et al. 2021): https://pgda.gsfc.nasa.gov/products/78
@@ -78,5 +82,3 @@ Horizons are for an eye 2 m above the ground, and times are UTC. Dates run from 
 ## Use of AI
 
 We used an AI coding assistant (Claude, by Anthropic) to help optimize code and clean text. We ran and checked all the data processing ourselves, and every result traces back to the NASA and JPL sources above. The in-app helper "Navi" is not an AI model: it answers from the page's own numbers with fixed rules. No AI-generated images are used. The Navi mascot is a small drawing made in CSS for this project.
-
-Not an official NASA product.
