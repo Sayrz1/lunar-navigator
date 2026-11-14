@@ -4,7 +4,7 @@
 const en = {
   'nav.stage': '3D', 'nav.assess': 'Assessment', 'nav.plan': 'Planner', 'nav.compare': 'Compare',
   'nav.ice': 'Water & ice', 'nav.trust': 'Trust',
-  'lang.switch': 'عربي', 'theme.light': 'Light', 'theme.dark': 'Dark', 'theme.label': 'Switch colour theme',
+  'lang.switch': 'Switch to Arabic', 'theme.light': 'Light', 'theme.dark': 'Dark', 'theme.label': 'Switch colour theme',
   'when.label': 'Landing (UTC)',
 
   'hero.kicker': 'NASA Space Apps 2026 · Lunar landing site navigator',
@@ -208,7 +208,7 @@ const en = {
 const ar = {
   'nav.stage': 'ثلاثي الأبعاد', 'nav.assess': 'التقييم', 'nav.plan': 'المخطِّط', 'nav.compare': 'المقارنة',
   'nav.ice': 'الماء والجليد', 'nav.trust': 'الموثوقية',
-  'lang.switch': 'English', 'theme.light': 'فاتح', 'theme.dark': 'داكن', 'theme.label': 'تبديل ألوان الصفحة',
+  'lang.switch': 'التبديل إلى الإنجليزية', 'theme.light': 'فاتح', 'theme.dark': 'داكن', 'theme.label': 'تبديل ألوان الصفحة',
   'when.label': 'الهبوط (UTC)',
 
   'hero.kicker': 'تحدي ناسا Space Apps 2026 · مستكشف مواقع الهبوط على القمر',

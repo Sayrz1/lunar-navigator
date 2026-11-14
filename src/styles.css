@@ -451,6 +451,11 @@ input[type='range'] { width: 100%; accent-color: var(--accent); }
 .sources { margin: 0; padding-inline-start: 18px; display: grid; gap: 8px; font-size: 0.92rem; }
 .sources a { color: var(--text); text-decoration-color: var(--accent); text-underline-offset: 3px; }
 
+/* EN · AR switch: always in that order, the page's language lit */
+.chip.lang { direction: ltr; gap: 0; font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.06em; }
+.chip.lang span { padding: 0 6px; color: var(--muted); }
+.chip.lang span + span { border-inline-start: 1px solid var(--line); }
+html:not([lang='ar']) .chip.lang .en, html[lang='ar'] .chip.lang .ar { color: var(--text); font-weight: 600; }
 .foot { padding: 64px clamp(16px, 4vw, 48px) 96px; color: var(--muted); font-size: 0.85rem; max-width: 1400px; margin: 0 auto; }
 
 /* --- Navi --------------------------------------------------------------------------- */
