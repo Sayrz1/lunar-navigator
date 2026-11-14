@@ -266,3 +266,42 @@ export function drawScatter(canvas, doc, metric) {
   ctx.textAlign = 'end'; ctx.fillText(`${Math.round(lo)}%`, kx - 6, ky + 3);
   ctx.textAlign = 'start'; ctx.fillText(`${Math.round(hi)}%`, kx + kw + 4, ky + 3);
 }
+
+// Radiation background through the solar cycle: monthly medians of the CRaTER surface dose
+// (solid), the previous-cycle estimate for later dates (dashed), storm days as ticks along
+// the top, and the chosen landing time.
+export function drawRadiation(canvas, { months, estimate, storms, now, locale }) {
+  const { ctx, W, H } = fit(canvas, canvas.clientWidth < 560 ? 200 : 240);
+  const pad = { l: 44, r: 12, t: 18, b: 24 };
+  const t0 = Date.UTC(2009, 0, 1), t1 = Date.UTC(2036, 0, 1), top = 0.4;
+  const x = t => pad.l + ((t - t0) / (t1 - t0)) * (W - pad.l - pad.r);
+  const y = v => H - pad.b - (Math.min(v, top) / top) * (H - pad.t - pad.b);
+
+  ctx.font = font(10);
+  ctx.fillStyle = css('--muted');
+  ctx.strokeStyle = css('--line');
+  ctx.lineWidth = 1;
+  ctx.textAlign = 'end';
+  for (const v of [0, 0.1, 0.2, 0.3, 0.4]) {
+    ctx.beginPath(); ctx.moveTo(pad.l, y(v)); ctx.lineTo(W - pad.r, y(v)); ctx.stroke();
+    ctx.fillText(v.toFixed(1), pad.l - 6, y(v) + 3);
+  }
+  ctx.textAlign = 'center';
+  for (let yr = 2010; yr <= 2035; yr += W < 560 ? 5 : 2) ctx.fillText(String(yr), x(Date.UTC(yr, 0, 1)), H - 6);
+
+  const line = (pts, colour, dash) => {
+    ctx.strokeStyle = colour; ctx.lineWidth = 2; ctx.setLineDash(dash);
+    ctx.beginPath();
+    pts.forEach((p, i) => (i ? ctx.lineTo(x(p.t), y(p.v)) : ctx.moveTo(x(p.t), y(p.v))));
+    ctx.stroke(); ctx.setLineDash([]);
+  };
+  line(months, css('--text'), []);
+  line(estimate, css('--sun'), [5, 4]);
+
+  ctx.fillStyle = css('--bad');
+  for (const t of storms) ctx.fillRect(x(t) - 0.5, pad.t - 10, 1.5, 6);
+
+  const nx = x(now);
+  ctx.strokeStyle = css('--earth'); ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.moveTo(nx, pad.t); ctx.lineTo(nx, H - pad.b); ctx.stroke();
+}

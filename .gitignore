@@ -4,6 +4,7 @@ dist/
 # raw downloads and the team's source data (too big for git)
 /DATA/
 /data-raw/
+/Radiation data/
 
 # python
 __pycache__/

@@ -6,6 +6,7 @@ import { t } from '../i18n.js';
 const INTENTS = [
   ['power', /battery|power|energy|kwh|watt|بطارية|طاقة|واط/i],
   ['scatter', /off.?target|miss|precision|landing (accuracy|error)|within 100|scatter|ellipse|بعيد(ا|ًا) عن الهدف|دقة الهبوط|خطأ الهبوط/i],
+  ['rad', /radiat|dose|cosmic|storm|flare|sievert|gray|إشعاع|جرعة|أشعة كونية|عاصف/i],
   ['score', /score|grade|rating|rank|تقييم|درجة|ترتيب/i],
   ['sun', /sun ?(rise|set)|sunlight|daylight|dark|night|light|شروق|غروب|الشمس|ضوء|ظلام|ليل/i],
   ['earth', /earth|radio|contact|signal|comm|الأرض|اتصال|إشارة|لاسلكي/i],
