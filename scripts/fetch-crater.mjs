@@ -2,12 +2,14 @@
 // Radiation). The CRaTER team publishes hourly dose rates for each detector pair, already
 // converted from silicon to water and corrected from LRO's altitude to the lunar surface:
 //   https://crater-web.sr.unh.edu/data/craterProducts/doserates/
-// Units in the files: cGy/day (absorbed dose in water). We keep D1&2, the pair behind the
-// least shielding, as the closest to a crew member on the surface.
+// Two products: absorbed dose (cGy/day, in water) and dose equivalent (cSv/day, weighted by
+// how much harm each kind of particle does, which is what crew limits use). We keep D1&2,
+// the pair behind the least shielding, as the closest to a crew member on the surface.
 //
-// Downloads the 31-day "standard" files from late 2009 to now into data-raw/crater/ and
-// writes public/data/radiation.json with one value per day (mGy/day): the daily median,
-// which follows the cosmic-ray background, and the daily maximum, which shows solar storms.
+// Downloads the 31-day "standard" and "equivalent" files from late 2009 to now into
+// data-raw/crater/ and writes public/data/radiation.json with one row per day: the daily
+// median, which follows the cosmic-ray background, and the daily maximum, which shows solar
+// storms, for both products (mGy/day and mSv/day).
 //
 // usage: node scripts/fetch-crater.mjs
 
@@ -27,48 +29,66 @@ for (let y = 2009; y <= now.getUTCFullYear(); y++) {
   wanted.push([y, y % 4 ? 365 : 366]);
 }
 
-async function get([y, doy]) {
+async function get([y, doy], kind) {
   const tag = `${y}${String(doy).padStart(3, '0')}`;
-  const file = path.join(RAW, `doserates_standard_${tag}.txt`);
+  const file = path.join(RAW, `doserates_${kind}_${tag}.txt`);
   if (fs.existsSync(file)) return fs.readFileSync(file, 'utf8');
-  const res = await fetch(`${BASE}/${tag}/doserates_standard_${tag}_31days_allevents.txt`);
+  const res = await fetch(`${BASE}/${tag}/doserates_${kind}_${tag}_31days_allevents.txt`);
   if (!res.ok) return null;
   const text = await res.text();
   fs.writeFileSync(file, text);
   return text;
 }
 
-const hours = new Map(); // julian date -> D1&2 cGy/day
-let files = 0;
-for (const w of wanted) {
-  const text = await get(w);
-  if (!text) continue;
-  files++;
-  for (const line of text.split('\n')) {
-    if (!line || line[0] === '#') continue;
-    const p = line.split('\t');
-    const jd = Number(p[0]), d12 = Number(p[7]);
-    if (Number.isFinite(jd) && d12 > 0) hours.set(jd.toFixed(4), d12);
+// julian date -> D1&2 rate (cGy/day or cSv/day)
+async function readAll(kind) {
+  const hours = new Map();
+  let files = 0;
+  for (const w of wanted) {
+    const text = await get(w, kind);
+    if (!text) continue;
+    files++;
+    for (const line of text.split('\n')) {
+      if (!line || line[0] === '#') continue;
+      const p = line.split('\t');
+      const jd = Number(p[0]), d12 = Number(p[7]);
+      if (Number.isFinite(jd) && d12 > 0) hours.set(jd.toFixed(4), d12);
+    }
   }
+  return { hours, files };
 }
 
-// one value per UTC day
-const byDay = new Map();
-for (const [jd, v] of hours) {
-  const day = new Date((Number(jd) - 2440587.5) * 86400e3).toISOString().slice(0, 10);
-  if (!byDay.has(day)) byDay.set(day, []);
-  byDay.get(day).push(v * 10); // cGy -> mGy
+// one median and one maximum per UTC day; x10 turns cGy into mGy and cSv into mSv
+function daily(hours) {
+  const byDay = new Map();
+  for (const [jd, v] of hours) {
+    const day = new Date((Number(jd) - 2440587.5) * 86400e3).toISOString().slice(0, 10);
+    if (!byDay.has(day)) byDay.set(day, []);
+    byDay.get(day).push(v * 10);
+  }
+  const out = new Map();
+  for (const [day, v] of byDay) {
+    v.sort((a, b) => a - b);
+    out.set(day, [+v[Math.floor(v.length / 2)].toFixed(4), +v.at(-1).toFixed(3), v.length]);
+  }
+  return out;
 }
-const days = [...byDay.keys()].sort().map(day => {
-  const v = byDay.get(day).sort((a, b) => a - b);
-  return [day, +v[Math.floor(v.length / 2)].toFixed(4), +v.at(-1).toFixed(3), v.length];
+
+const absorbed = await readAll('standard');
+const equivalent = await readAll('equivalent');
+const gy = daily(absorbed.hours), sv = daily(equivalent.hours);
+const days = [...gy.keys()].sort().map(day => {
+  const [med, max, n] = gy.get(day);
+  const e = sv.get(day);
+  return [day, med, max, n, e ? e[0] : null, e ? e[1] : null];
 });
 
 fs.writeFileSync(path.join(ROOT, 'public/data/radiation.json'), JSON.stringify({
-  source: 'LRO CRaTER dose rates (standard product), University of New Hampshire / NASA: https://crater-web.sr.unh.edu/data/craterProducts/doserates/',
-  quantity: 'absorbed dose in water at the lunar surface, detector pair D1&2, mGy/day',
-  note: 'Files give cGy/day with the silicon-to-water factor (1.333) and the altitude correction to the surface already applied.',
-  columns: ['dateUtc', 'medianMGyPerDay', 'maxMGyPerDay', 'hours'],
+  source: 'LRO CRaTER dose rates (standard and equivalent products), University of New Hampshire / NASA: https://crater-web.sr.unh.edu/data/craterProducts/doserates/',
+  quantity: 'detector pair D1&2 at the lunar surface: absorbed dose in water (mGy/day) and dose equivalent (mSv/day)',
+  note: 'Files give cGy/day and cSv/day with the silicon-to-water factor (1.333), the altitude correction to the surface and the good-event factor already applied.',
+  columns: ['dateUtc', 'medianMGyPerDay', 'maxMGyPerDay', 'hours', 'medianMSvPerDay', 'maxMSvPerDay'],
   days,
 }) + '\n');
-console.log(`${files} files, ${hours.size} hours, ${days.length} days: ${days[0][0]} to ${days.at(-1)[0]}`);
+console.log(`absorbed: ${absorbed.files} files, ${absorbed.hours.size} hours; equivalent: ${equivalent.files} files, ${equivalent.hours.size} hours`);
+console.log(`${days.length} days: ${days[0][0]} to ${days.at(-1)[0]}`);
