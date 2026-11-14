@@ -15,7 +15,7 @@
  "nasaMaps": "LOLA AVGVISIB 2016-08, https://pgda.gsfc.nasa.gov/products/69",
  "period": {
   "start": "2026-11-01T00:00:00.000Z",
-  "rows": 19009,
+  "rows": 80353,
   "stepHours": 1
  },
  "observerM": 2,
@@ -39,11 +39,11 @@
     "lon": -68.7284,
     "groundM": 4492.7,
     "slope100Deg": 6.4,
-    "sunPct": 46.6,
-    "earthPct": 44.8,
-    "bothPct": 22,
-    "longestDarkH": 529,
-    "longestNoEarthH": 389
+    "sunPct": 44.8,
+    "earthPct": 44.5,
+    "bothPct": 22.2,
+    "longestDarkH": 530,
+    "longestNoEarthH": 395
    },
    "best": [
     {
@@ -55,10 +55,10 @@
      "walkable2km": 1,
      "nasaSunPct": 63,
      "nasaEarthPct": 96.3,
-     "sunPct": 66.1,
-     "earthPct": 82.8,
-     "bothPct": 54.9,
-     "longestDarkH": 299,
+     "sunPct": 65.7,
+     "earthPct": 87.3,
+     "bothPct": 57.6,
+     "longestDarkH": 300,
      "longestNoEarthH": 138
     },
     {
@@ -70,26 +70,26 @@
      "walkable2km": 1,
      "nasaSunPct": 55.7,
      "nasaEarthPct": 98.9,
-     "sunPct": 56.3,
-     "earthPct": 84.6,
-     "bothPct": 47.6,
-     "longestDarkH": 390,
+     "sunPct": 55.6,
+     "earthPct": 89.5,
+     "bothPct": 49.7,
+     "longestDarkH": 391,
      "longestNoEarthH": 125
     },
     {
-     "lat": -83.51735,
-     "lon": -68.02098,
-     "groundM": 4358.9,
-     "fromCentreKm": 4.41,
-     "slope100Deg": 5.6,
-     "walkable2km": 1,
-     "nasaSunPct": 54.3,
-     "nasaEarthPct": 98.9,
-     "sunPct": 54.8,
-     "earthPct": 83.7,
-     "bothPct": 46.2,
-     "longestDarkH": 366,
-     "longestNoEarthH": 131
+     "lat": -83.48259,
+     "lon": -68.2693,
+     "groundM": 4307,
+     "fromCentreKm": 5.01,
+     "slope100Deg": 8.5,
+     "walkable2km": 0.92,
+     "nasaSunPct": 54.9,
+     "nasaEarthPct": 96.1,
+     "sunPct": 56,
+     "earthPct": 87.8,
+     "bothPct": 49,
+     "longestDarkH": 337,
+     "longestNoEarthH": 151
     },
     {
      "lat": -83.53446,
@@ -101,25 +101,25 @@
      "nasaSunPct": 55.6,
      "nasaEarthPct": 99.1,
      "sunPct": 54.6,
-     "earthPct": 84,
-     "bothPct": 45.8,
-     "longestDarkH": 345,
+     "earthPct": 89.3,
+     "bothPct": 48.7,
+     "longestDarkH": 346,
      "longestNoEarthH": 129
     },
     {
-     "lat": -83.48259,
-     "lon": -68.2693,
-     "groundM": 4307,
-     "fromCentreKm": 5.01,
-     "slope100Deg": 8.5,
-     "walkable2km": 0.92,
-     "nasaSunPct": 54.9,
-     "nasaEarthPct": 96.1,
-     "sunPct": 55.9,
-     "earthPct": 81.5,
-     "bothPct": 45.3,
-     "longestDarkH": 336,
-     "longestNoEarthH": 151
+     "lat": -83.51735,
+     "lon": -68.02098,
+     "groundM": 4358.9,
+     "fromCentreKm": 4.41,
+     "slope100Deg": 5.6,
+     "walkable2km": 1,
+     "nasaSunPct": 54.3,
+     "nasaEarthPct": 98.9,
+     "sunPct": 54.4,
+     "earthPct": 89.1,
+     "bothPct": 48.6,
+     "longestDarkH": 368,
+     "longestNoEarthH": 131
     }
    ]
   },
@@ -142,11 +142,11 @@
     "lon": -22.777,
     "groundM": 1628.5,
     "slope100Deg": 4.2,
-    "sunPct": 16.2,
-    "earthPct": 39.8,
-    "bothPct": 7.6,
-    "longestDarkH": 2822,
-    "longestNoEarthH": 417
+    "sunPct": 14.7,
+    "earthPct": 39.9,
+    "bothPct": 7.2,
+    "longestDarkH": 2834,
+    "longestNoEarthH": 420
    },
    "best": [
     {
@@ -158,41 +158,11 @@
      "walkable2km": 0.98,
      "nasaSunPct": 69.8,
      "nasaEarthPct": 69.6,
-     "sunPct": 73.1,
-     "earthPct": 64.9,
-     "bothPct": 45.2,
-     "longestDarkH": 334,
-     "longestNoEarthH": 252
-    },
-    {
-     "lat": -86.35605,
-     "lon": -23.06246,
-     "groundM": 2829.6,
-     "fromCentreKm": 12.39,
-     "slope100Deg": 4.2,
-     "walkable2km": 1,
-     "nasaSunPct": 50.7,
-     "nasaEarthPct": 81.3,
-     "sunPct": 56.9,
-     "earthPct": 76.2,
-     "bothPct": 44.4,
-     "longestDarkH": 416,
-     "longestNoEarthH": 176
-    },
-    {
-     "lat": -86.3686,
-     "lon": -23.26006,
-     "groundM": 2836.7,
-     "fromCentreKm": 12.03,
-     "slope100Deg": 3.7,
-     "walkable2km": 1,
-     "nasaSunPct": 75.2,
-     "nasaEarthPct": 68.3,
-     "sunPct": 78,
-     "earthPct": 60,
-     "bothPct": 43.8,
-     "longestDarkH": 330,
-     "longestNoEarthH": 285
+     "sunPct": 70.4,
+     "earthPct": 64.2,
+     "bothPct": 42.6,
+     "longestDarkH": 336,
+     "longestNoEarthH": 262
     },
     {
      "lat": -86.34351,
@@ -203,11 +173,41 @@
      "walkable2km": 1,
      "nasaSunPct": 56.6,
      "nasaEarthPct": 80.3,
-     "sunPct": 58.9,
-     "earthPct": 73,
-     "bothPct": 42.7,
-     "longestDarkH": 354,
-     "longestNoEarthH": 200
+     "sunPct": 58.5,
+     "earthPct": 73.1,
+     "bothPct": 42.2,
+     "longestDarkH": 356,
+     "longestNoEarthH": 206
+    },
+    {
+     "lat": -86.3686,
+     "lon": -23.26006,
+     "groundM": 2836.7,
+     "fromCentreKm": 12.03,
+     "slope100Deg": 3.7,
+     "walkable2km": 1,
+     "nasaSunPct": 75.2,
+     "nasaEarthPct": 68.3,
+     "sunPct": 75.8,
+     "earthPct": 60.1,
+     "bothPct": 42,
+     "longestDarkH": 339,
+     "longestNoEarthH": 288
+    },
+    {
+     "lat": -86.35605,
+     "lon": -23.06246,
+     "groundM": 2829.6,
+     "fromCentreKm": 12.39,
+     "slope100Deg": 4.2,
+     "walkable2km": 1,
+     "nasaSunPct": 50.7,
+     "nasaEarthPct": 81.3,
+     "sunPct": 55.6,
+     "earthPct": 74.9,
+     "bothPct": 41.2,
+     "longestDarkH": 417,
+     "longestNoEarthH": 193
     },
     {
      "lat": -86.32448,
@@ -218,11 +218,11 @@
      "walkable2km": 0.98,
      "nasaSunPct": 55.2,
      "nasaEarthPct": 79.4,
-     "sunPct": 56.3,
-     "earthPct": 73.6,
-     "bothPct": 41.3,
-     "longestDarkH": 354,
-     "longestNoEarthH": 191
+     "sunPct": 56.2,
+     "earthPct": 73.3,
+     "bothPct": 40.8,
+     "longestDarkH": 355,
+     "longestNoEarthH": 200
     }
    ]
   },
@@ -245,11 +245,11 @@
     "lon": -0.2358,
     "groundM": 4783.8,
     "slope100Deg": 3.8,
-    "sunPct": 25.9,
-    "earthPct": 48.3,
-    "bothPct": 12.6,
-    "longestDarkH": 2802,
-    "longestNoEarthH": 364
+    "sunPct": 23.3,
+    "earthPct": 48,
+    "bothPct": 11.3,
+    "longestDarkH": 3492,
+    "longestNoEarthH": 370
    },
    "best": [
     {
@@ -261,10 +261,10 @@
      "walkable2km": 1,
      "nasaSunPct": 60.2,
      "nasaEarthPct": 100,
-     "sunPct": 68,
+     "sunPct": 67.4,
      "earthPct": 100,
-     "bothPct": 68,
-     "longestDarkH": 285,
+     "bothPct": 67.4,
+     "longestDarkH": 286,
      "longestNoEarthH": 0
     },
     {
@@ -276,25 +276,10 @@
      "walkable2km": 1,
      "nasaSunPct": 50.8,
      "nasaEarthPct": 100,
-     "sunPct": 62.7,
+     "sunPct": 61.2,
      "earthPct": 100,
-     "bothPct": 62.7,
-     "longestDarkH": 317,
-     "longestNoEarthH": 0
-    },
-    {
-     "lat": -85.9901,
-     "lon": 2.78008,
-     "groundM": 5150.9,
-     "fromCentreKm": 6.4,
-     "slope100Deg": 2.6,
-     "walkable2km": 1,
-     "nasaSunPct": 57.9,
-     "nasaEarthPct": 100,
-     "sunPct": 60.6,
-     "earthPct": 100,
-     "bothPct": 60.6,
-     "longestDarkH": 413,
+     "bothPct": 61.2,
+     "longestDarkH": 319,
      "longestNoEarthH": 0
     },
     {
@@ -306,10 +291,10 @@
      "walkable2km": 1,
      "nasaSunPct": 53.2,
      "nasaEarthPct": 100,
-     "sunPct": 59.9,
+     "sunPct": 59.6,
      "earthPct": 100,
-     "bothPct": 59.9,
-     "longestDarkH": 327,
+     "bothPct": 59.6,
+     "longestDarkH": 328,
      "longestNoEarthH": 0
     },
     {
@@ -321,10 +306,25 @@
      "walkable2km": 1,
      "nasaSunPct": 59.1,
      "nasaEarthPct": 100,
-     "sunPct": 59.6,
+     "sunPct": 59.4,
      "earthPct": 100,
-     "bothPct": 59.6,
-     "longestDarkH": 328,
+     "bothPct": 59.4,
+     "longestDarkH": 329,
+     "longestNoEarthH": 0
+    },
+    {
+     "lat": -85.9901,
+     "lon": 2.78008,
+     "groundM": 5150.9,
+     "fromCentreKm": 6.4,
+     "slope100Deg": 2.6,
+     "walkable2km": 1,
+     "nasaSunPct": 57.9,
+     "nasaEarthPct": 100,
+     "sunPct": 58.8,
+     "earthPct": 100,
+     "bothPct": 58.8,
+     "longestDarkH": 415,
      "longestNoEarthH": 0
     }
    ]
@@ -348,11 +348,11 @@
     "lon": 30.6004,
     "groundM": 5250.2,
     "slope100Deg": 3,
-    "sunPct": 27.9,
-    "earthPct": 66.8,
-    "bothPct": 21.2,
-    "longestDarkH": 574,
-    "longestNoEarthH": 238
+    "sunPct": 27.2,
+    "earthPct": 65.6,
+    "bothPct": 19.2,
+    "longestDarkH": 578,
+    "longestNoEarthH": 258
    },
    "best": [
     {
@@ -364,10 +364,10 @@
      "walkable2km": 0.94,
      "nasaSunPct": 61,
      "nasaEarthPct": 100,
-     "sunPct": 69.4,
+     "sunPct": 68.7,
      "earthPct": 100,
-     "bothPct": 69.4,
-     "longestDarkH": 282,
+     "bothPct": 68.7,
+     "longestDarkH": 283,
      "longestNoEarthH": 0
     },
     {
@@ -379,26 +379,11 @@
      "walkable2km": 1,
      "nasaSunPct": 63.6,
      "nasaEarthPct": 99.8,
-     "sunPct": 65,
-     "earthPct": 100,
-     "bothPct": 65,
-     "longestDarkH": 295,
-     "longestNoEarthH": 0
-    },
-    {
-     "lat": -85.40409,
-     "lon": 31.65058,
-     "groundM": 6457.9,
-     "fromCentreKm": 32.51,
-     "slope100Deg": 2.8,
-     "walkable2km": 0.99,
-     "nasaSunPct": 58.9,
-     "nasaEarthPct": 100,
-     "sunPct": 65.3,
-     "earthPct": 99.3,
-     "bothPct": 64.8,
-     "longestDarkH": 367,
-     "longestNoEarthH": 57
+     "sunPct": 64.5,
+     "earthPct": 99.8,
+     "bothPct": 64.3,
+     "longestDarkH": 296,
+     "longestNoEarthH": 39
     },
     {
      "lat": -85.0805,
@@ -409,10 +394,25 @@
      "walkable2km": 0.92,
      "nasaSunPct": 62.8,
      "nasaEarthPct": 100,
-     "sunPct": 64.5,
+     "sunPct": 63.9,
+     "earthPct": 99.3,
+     "bothPct": 63.4,
+     "longestDarkH": 301,
+     "longestNoEarthH": 57
+    },
+    {
+     "lat": -84.80195,
+     "lon": 38.58308,
+     "groundM": 6845.7,
+     "fromCentreKm": 26.91,
+     "slope100Deg": 1.8,
+     "walkable2km": 0.96,
+     "nasaSunPct": 56.9,
+     "nasaEarthPct": 99.2,
+     "sunPct": 62.1,
      "earthPct": 100,
-     "bothPct": 64.5,
-     "longestDarkH": 300,
+     "bothPct": 62.1,
+     "longestDarkH": 306,
      "longestNoEarthH": 0
     },
     {
@@ -424,10 +424,10 @@
      "walkable2km": 1,
      "nasaSunPct": 61.8,
      "nasaEarthPct": 100,
-     "sunPct": 62.6,
+     "sunPct": 62.1,
      "earthPct": 100,
-     "bothPct": 62.6,
-     "longestDarkH": 307,
+     "bothPct": 62.1,
+     "longestDarkH": 308,
      "longestNoEarthH": 0
     }
    ]
@@ -451,11 +451,11 @@
     "lon": 31.7428,
     "groundM": 6398.6,
     "slope100Deg": 7.9,
-    "sunPct": 27.2,
-    "earthPct": 38.2,
-    "bothPct": 6.9,
-    "longestDarkH": 2809,
-    "longestNoEarthH": 430
+    "sunPct": 24.6,
+    "earthPct": 37.7,
+    "bothPct": 6.6,
+    "longestDarkH": 3329,
+    "longestNoEarthH": 441
    },
    "best": [
     {
@@ -467,26 +467,11 @@
      "walkable2km": 0.99,
      "nasaSunPct": 58.9,
      "nasaEarthPct": 100,
-     "sunPct": 60.6,
-     "earthPct": 99.3,
-     "bothPct": 60,
+     "sunPct": 59.4,
+     "earthPct": 93.7,
+     "bothPct": 55,
      "longestDarkH": 397,
-     "longestNoEarthH": 59
-    },
-    {
-     "lat": -85.3884,
-     "lon": 31.49751,
-     "groundM": 6402.1,
-     "fromCentreKm": 1.3,
-     "slope100Deg": 6.5,
-     "walkable2km": 0.99,
-     "nasaSunPct": 55.4,
-     "nasaEarthPct": 99.7,
-     "sunPct": 54.6,
-     "earthPct": 98.8,
-     "bothPct": 54.1,
-     "longestDarkH": 372,
-     "longestNoEarthH": 64
+     "longestNoEarthH": 114
     },
     {
      "lat": -85.27935,
@@ -497,11 +482,41 @@
      "walkable2km": 1,
      "nasaSunPct": 54.3,
      "nasaEarthPct": 100,
-     "sunPct": 54.9,
-     "earthPct": 96.5,
-     "bothPct": 52.8,
-     "longestDarkH": 377,
-     "longestNoEarthH": 57
+     "sunPct": 54.3,
+     "earthPct": 94.8,
+     "bothPct": 51.2,
+     "longestDarkH": 378,
+     "longestNoEarthH": 98
+    },
+    {
+     "lat": -85.3884,
+     "lon": 31.49751,
+     "groundM": 6402.1,
+     "fromCentreKm": 1.3,
+     "slope100Deg": 6.5,
+     "walkable2km": 0.99,
+     "nasaSunPct": 55.4,
+     "nasaEarthPct": 99.7,
+     "sunPct": 54.2,
+     "earthPct": 93.1,
+     "bothPct": 50.2,
+     "longestDarkH": 373,
+     "longestNoEarthH": 117
+    },
+    {
+     "lat": -85.26085,
+     "lon": 31.9547,
+     "groundM": 6266.7,
+     "fromCentreKm": 5.06,
+     "slope100Deg": 8.1,
+     "walkable2km": 1,
+     "nasaSunPct": 53.1,
+     "nasaEarthPct": 100,
+     "sunPct": 51.9,
+     "earthPct": 93.8,
+     "bothPct": 48.6,
+     "longestDarkH": 379,
+     "longestNoEarthH": 98
     },
     {
      "lat": -85.37607,
@@ -512,26 +527,11 @@
      "walkable2km": 0.99,
      "nasaSunPct": 53.3,
      "nasaEarthPct": 99,
-     "sunPct": 53.1,
-     "earthPct": 97.4,
-     "bothPct": 51.9,
-     "longestDarkH": 380,
-     "longestNoEarthH": 73
-    },
-    {
-     "lat": -85.30726,
-     "lon": 31.88168,
-     "groundM": 6280.5,
-     "fromCentreKm": 3.64,
-     "slope100Deg": 4.1,
-     "walkable2km": 1,
-     "nasaSunPct": 51.7,
-     "nasaEarthPct": 99.3,
-     "sunPct": 53.1,
-     "earthPct": 95.3,
-     "bothPct": 50.5,
-     "longestDarkH": 418,
-     "longestNoEarthH": 64
+     "sunPct": 52.7,
+     "earthPct": 91.6,
+     "bothPct": 48.1,
+     "longestDarkH": 381,
+     "longestNoEarthH": 124
     }
    ]
   },
@@ -554,11 +554,11 @@
     "lon": 37.3667,
     "groundM": 5946.9,
     "slope100Deg": 15.6,
-    "sunPct": 32.2,
-    "earthPct": 35,
-    "bothPct": 12.2,
-    "longestDarkH": 512,
-    "longestNoEarthH": 451
+    "sunPct": 31.5,
+    "earthPct": 32.5,
+    "bothPct": 11.3,
+    "longestDarkH": 514,
+    "longestNoEarthH": 489
    },
    "best": [
     {
@@ -570,11 +570,11 @@
      "walkable2km": 0.99,
      "nasaSunPct": 68,
      "nasaEarthPct": 85,
-     "sunPct": 71.7,
-     "earthPct": 78.9,
-     "bothPct": 55.5,
-     "longestDarkH": 331,
-     "longestNoEarthH": 156
+     "sunPct": 70.4,
+     "earthPct": 77.7,
+     "bothPct": 52.9,
+     "longestDarkH": 333,
+     "longestNoEarthH": 175
     },
     {
      "lat": -85.54594,
@@ -585,41 +585,11 @@
      "walkable2km": 1,
      "nasaSunPct": 83.5,
      "nasaEarthPct": 64.2,
-     "sunPct": 83.3,
-     "earthPct": 62.1,
-     "bothPct": 51.5,
-     "longestDarkH": 336,
-     "longestNoEarthH": 274
-    },
-    {
-     "lat": -85.08863,
-     "lon": 37.00831,
-     "groundM": 6683.1,
-     "fromCentreKm": 10.65,
-     "slope100Deg": 4.4,
-     "walkable2km": 1,
-     "nasaSunPct": 54.6,
-     "nasaEarthPct": 97.8,
-     "sunPct": 54.9,
-     "earthPct": 91.2,
-     "bothPct": 50.5,
-     "longestDarkH": 356,
-     "longestNoEarthH": 89
-    },
-    {
-     "lat": -85.39347,
-     "lon": 32.01842,
-     "groundM": 6411.7,
-     "fromCentreKm": 13.05,
-     "slope100Deg": 4.1,
-     "walkable2km": 1,
-     "nasaSunPct": 50.2,
-     "nasaEarthPct": 99,
-     "sunPct": 51.1,
-     "earthPct": 97,
-     "bothPct": 50,
-     "longestDarkH": 389,
-     "longestNoEarthH": 54
+     "sunPct": 80.9,
+     "earthPct": 61.7,
+     "bothPct": 49.7,
+     "longestDarkH": 338,
+     "longestNoEarthH": 283
     },
     {
      "lat": -85.01066,
@@ -630,11 +600,41 @@
      "walkable2km": 1,
      "nasaSunPct": 62,
      "nasaEarthPct": 87,
-     "sunPct": 64.7,
-     "earthPct": 77.1,
-     "bothPct": 49.9,
-     "longestDarkH": 324,
-     "longestNoEarthH": 170
+     "sunPct": 63.9,
+     "earthPct": 77.9,
+     "bothPct": 49,
+     "longestDarkH": 325,
+     "longestNoEarthH": 171
+    },
+    {
+     "lat": -85.19415,
+     "lon": 36.04471,
+     "groundM": 6750.6,
+     "fromCentreKm": 8.1,
+     "slope100Deg": 5.3,
+     "walkable2km": 1,
+     "nasaSunPct": 58,
+     "nasaEarthPct": 93.2,
+     "sunPct": 59.3,
+     "earthPct": 81.8,
+     "bothPct": 48.1,
+     "longestDarkH": 365,
+     "longestNoEarthH": 144
+    },
+    {
+     "lat": -85.21891,
+     "lon": 36.50652,
+     "groundM": 6792,
+     "fromCentreKm": 6.99,
+     "slope100Deg": 1.9,
+     "walkable2km": 1,
+     "nasaSunPct": 63.9,
+     "nasaEarthPct": 88.1,
+     "sunPct": 60.6,
+     "earthPct": 79.8,
+     "bothPct": 47.9,
+     "longestDarkH": 348,
+     "longestNoEarthH": 155
     }
    ]
   },
@@ -657,28 +657,13 @@
     "lon": 58.8221,
     "groundM": 1009.7,
     "slope100Deg": 4.3,
-    "sunPct": 42.2,
-    "earthPct": 65.3,
-    "bothPct": 29.2,
-    "longestDarkH": 438,
-    "longestNoEarthH": 248
+    "sunPct": 41.6,
+    "earthPct": 64.3,
+    "bothPct": 27,
+    "longestDarkH": 440,
+    "longestNoEarthH": 264
    },
    "best": [
-    {
-     "lat": -83.57636,
-     "lon": 58.35592,
-     "groundM": 1171.5,
-     "fromCentreKm": 11.59,
-     "slope100Deg": 2.2,
-     "walkable2km": 1,
-     "nasaSunPct": 50.2,
-     "nasaEarthPct": 88,
-     "sunPct": 50.6,
-     "earthPct": 82.9,
-     "bothPct": 42.6,
-     "longestDarkH": 391,
-     "longestNoEarthH": 137
-    },
     {
      "lat": -84.11318,
      "lon": 57.68868,
@@ -688,26 +673,41 @@
      "walkable2km": 0.97,
      "nasaSunPct": 50.3,
      "nasaEarthPct": 85.9,
-     "sunPct": 51.1,
-     "earthPct": 81.2,
-     "bothPct": 42.5,
-     "longestDarkH": 375,
-     "longestNoEarthH": 143
+     "sunPct": 50.4,
+     "earthPct": 78.1,
+     "bothPct": 39.5,
+     "longestDarkH": 377,
+     "longestNoEarthH": 188
     },
     {
-     "lat": -83.5419,
-     "lon": 58.30442,
-     "groundM": 1122.1,
-     "fromCentreKm": 12.65,
-     "slope100Deg": 3.5,
+     "lat": -84.05046,
+     "lon": 59.25935,
+     "groundM": 1444.4,
+     "fromCentreKm": 3.25,
+     "slope100Deg": 4.9,
      "walkable2km": 1,
-     "nasaSunPct": 49.4,
+     "nasaSunPct": 53.7,
+     "nasaEarthPct": 79.8,
+     "sunPct": 53.2,
+     "earthPct": 73.5,
+     "bothPct": 39.1,
+     "longestDarkH": 357,
+     "longestNoEarthH": 206
+    },
+    {
+     "lat": -83.57636,
+     "lon": 58.35592,
+     "groundM": 1171.5,
+     "fromCentreKm": 11.59,
+     "slope100Deg": 2.2,
+     "walkable2km": 1,
+     "nasaSunPct": 50.2,
      "nasaEarthPct": 88,
-     "sunPct": 49.8,
-     "earthPct": 82.8,
-     "bothPct": 42,
-     "longestDarkH": 390,
-     "longestNoEarthH": 136
+     "sunPct": 49.9,
+     "earthPct": 79.3,
+     "bothPct": 39,
+     "longestDarkH": 392,
+     "longestNoEarthH": 188
     },
     {
      "lat": -84.06761,
@@ -718,26 +718,26 @@
      "walkable2km": 1,
      "nasaSunPct": 50.4,
      "nasaEarthPct": 85.9,
-     "sunPct": 50.5,
-     "earthPct": 81.7,
-     "bothPct": 41.9,
-     "longestDarkH": 385,
-     "longestNoEarthH": 141
+     "sunPct": 49.7,
+     "earthPct": 78.3,
+     "bothPct": 38.8,
+     "longestDarkH": 388,
+     "longestNoEarthH": 196
     },
     {
-     "lat": -83.55892,
-     "lon": 58.3829,
-     "groundM": 1148.2,
-     "fromCentreKm": 12.1,
-     "slope100Deg": 4.9,
+     "lat": -83.5419,
+     "lon": 58.30442,
+     "groundM": 1122.1,
+     "fromCentreKm": 12.65,
+     "slope100Deg": 3.5,
      "walkable2km": 1,
-     "nasaSunPct": 48.9,
+     "nasaSunPct": 49.4,
      "nasaEarthPct": 88,
-     "sunPct": 49.3,
-     "earthPct": 82.8,
-     "bothPct": 41.7,
-     "longestDarkH": 389,
-     "longestNoEarthH": 136
+     "sunPct": 49.2,
+     "earthPct": 79.2,
+     "bothPct": 38.7,
+     "longestDarkH": 391,
+     "longestNoEarthH": 189
     }
    ]
   },
@@ -760,11 +760,11 @@
     "lon": -64.6284,
     "groundM": -88.2,
     "slope100Deg": 10.9,
-    "sunPct": 37.6,
-    "earthPct": 51.3,
-    "bothPct": 21.6,
-    "longestDarkH": 502,
-    "longestNoEarthH": 348
+    "sunPct": 37.4,
+    "earthPct": 50.8,
+    "bothPct": 20.8,
+    "longestDarkH": 504,
+    "longestNoEarthH": 351
    },
    "best": [
     {
@@ -776,10 +776,10 @@
      "walkable2km": 1,
      "nasaSunPct": 78.5,
      "nasaEarthPct": 61.3,
-     "sunPct": 80.4,
-     "earthPct": 56.9,
-     "bothPct": 45.9,
-     "longestDarkH": 255,
+     "sunPct": 79,
+     "earthPct": 57.5,
+     "bothPct": 45.4,
+     "longestDarkH": 256,
      "longestNoEarthH": 304
     },
     {
@@ -791,11 +791,11 @@
      "walkable2km": 1,
      "nasaSunPct": 74.3,
      "nasaEarthPct": 61.8,
-     "sunPct": 75.8,
-     "earthPct": 57,
-     "bothPct": 43.1,
-     "longestDarkH": 255,
-     "longestNoEarthH": 305
+     "sunPct": 74.7,
+     "earthPct": 57.5,
+     "bothPct": 42.9,
+     "longestDarkH": 256,
+     "longestNoEarthH": 306
     },
     {
      "lat": -88.59158,
@@ -806,11 +806,11 @@
      "walkable2km": 0.91,
      "nasaSunPct": 78.6,
      "nasaEarthPct": 61.3,
-     "sunPct": 76.2,
-     "earthPct": 47.7,
-     "bothPct": 39.9,
-     "longestDarkH": 277,
-     "longestNoEarthH": 366
+     "sunPct": 73.8,
+     "earthPct": 47.5,
+     "bothPct": 38.9,
+     "longestDarkH": 279,
+     "longestNoEarthH": 370
     },
     {
      "lat": -88.51626,
@@ -821,26 +821,26 @@
      "walkable2km": 0.98,
      "nasaSunPct": 66.8,
      "nasaEarthPct": 61.3,
-     "sunPct": 65.5,
-     "earthPct": 56.5,
-     "bothPct": 36.8,
-     "longestDarkH": 344,
+     "sunPct": 64.1,
+     "earthPct": 57.1,
+     "bothPct": 36,
+     "longestDarkH": 346,
      "longestNoEarthH": 308
     },
     {
-     "lat": -88.46786,
-     "lon": -67.7406,
-     "groundM": 1570.6,
-     "fromCentreKm": 7.71,
-     "slope100Deg": 3.1,
-     "walkable2km": 1,
-     "nasaSunPct": 70.8,
-     "nasaEarthPct": 61.7,
-     "sunPct": 68.5,
-     "earthPct": 56.8,
-     "bothPct": 36.4,
-     "longestDarkH": 412,
-     "longestNoEarthH": 304
+     "lat": -88.53648,
+     "lon": -68.17462,
+     "groundM": 1597.2,
+     "fromCentreKm": 9.77,
+     "slope100Deg": 8.4,
+     "walkable2km": 0.91,
+     "nasaSunPct": 58.7,
+     "nasaEarthPct": 61.4,
+     "sunPct": 62.2,
+     "earthPct": 57.2,
+     "bothPct": 35.6,
+     "longestDarkH": 308,
+     "longestNoEarthH": 308
     }
    ]
   },
@@ -863,11 +863,11 @@
     "lon": 125.5217,
     "groundM": -34.3,
     "slope100Deg": 3,
-    "sunPct": 4,
-    "earthPct": 37.1,
-    "bothPct": 3.4,
-    "longestDarkH": 5631,
-    "longestNoEarthH": 440
+    "sunPct": 3.4,
+    "earthPct": 37,
+    "bothPct": 2.8,
+    "longestDarkH": 5644,
+    "longestNoEarthH": 443
    },
    "best": [
     {
@@ -879,11 +879,11 @@
      "walkable2km": 1,
      "nasaSunPct": 65.6,
      "nasaEarthPct": 49.9,
-     "sunPct": 70.1,
-     "earthPct": 46.2,
-     "bothPct": 36.1,
-     "longestDarkH": 343,
-     "longestNoEarthH": 375
+     "sunPct": 68.4,
+     "earthPct": 46,
+     "bothPct": 35.4,
+     "longestDarkH": 348,
+     "longestNoEarthH": 380
     },
     {
      "lat": -87.26738,
@@ -894,11 +894,11 @@
      "walkable2km": 1,
      "nasaSunPct": 63.2,
      "nasaEarthPct": 49.8,
-     "sunPct": 68.2,
-     "earthPct": 46,
-     "bothPct": 34.4,
-     "longestDarkH": 377,
-     "longestNoEarthH": 376
+     "sunPct": 66.2,
+     "earthPct": 45.8,
+     "bothPct": 33.6,
+     "longestDarkH": 378,
+     "longestNoEarthH": 381
     },
     {
      "lat": -87.23257,
@@ -909,11 +909,11 @@
      "walkable2km": 1,
      "nasaSunPct": 64.5,
      "nasaEarthPct": 49.5,
-     "sunPct": 66.3,
-     "earthPct": 45.6,
-     "bothPct": 33,
+     "sunPct": 64.4,
+     "earthPct": 45.5,
+     "bothPct": 32.4,
      "longestDarkH": 379,
-     "longestNoEarthH": 379
+     "longestNoEarthH": 383
     },
     {
      "lat": -87.18896,
@@ -924,11 +924,11 @@
      "walkable2km": 1,
      "nasaSunPct": 61.6,
      "nasaEarthPct": 49,
-     "sunPct": 65.7,
-     "earthPct": 45.6,
-     "bothPct": 31.9,
-     "longestDarkH": 332,
-     "longestNoEarthH": 384
+     "sunPct": 64.2,
+     "earthPct": 45.1,
+     "bothPct": 31.7,
+     "longestDarkH": 333,
+     "longestNoEarthH": 393
     },
     {
      "lat": -87.29716,
@@ -939,11 +939,11 @@
      "walkable2km": 1,
      "nasaSunPct": 58.2,
      "nasaEarthPct": 49.9,
-     "sunPct": 60.1,
-     "earthPct": 46.2,
-     "bothPct": 31.7,
-     "longestDarkH": 522,
-     "longestNoEarthH": 375
+     "sunPct": 57.2,
+     "earthPct": 46,
+     "bothPct": 30.5,
+     "longestDarkH": 528,
+     "longestNoEarthH": 380
     }
    ]
   },
@@ -966,11 +966,11 @@
     "lon": 123.6901,
     "groundM": 1645.3,
     "slope100Deg": 2.4,
-    "sunPct": 77.2,
-    "earthPct": 56.1,
-    "bothPct": 43.9,
-    "longestDarkH": 392,
-    "longestNoEarthH": 313
+    "sunPct": 74.1,
+    "earthPct": 55.4,
+    "bothPct": 41.7,
+    "longestDarkH": 393,
+    "longestNoEarthH": 335
    },
    "best": [
     {
@@ -982,11 +982,11 @@
      "walkable2km": 0.99,
      "nasaSunPct": 75.1,
      "nasaEarthPct": 60.6,
-     "sunPct": 80.8,
-     "earthPct": 57.4,
-     "bothPct": 47.7,
-     "longestDarkH": 329,
-     "longestNoEarthH": 307
+     "sunPct": 78.3,
+     "earthPct": 56.5,
+     "bothPct": 46,
+     "longestDarkH": 330,
+     "longestNoEarthH": 330
     },
     {
      "lat": -88.81077,
@@ -997,11 +997,11 @@
      "walkable2km": 1,
      "nasaSunPct": 68,
      "nasaEarthPct": 55.6,
-     "sunPct": 73.9,
-     "earthPct": 52.5,
-     "bothPct": 41.8,
-     "longestDarkH": 379,
-     "longestNoEarthH": 338
+     "sunPct": 72,
+     "earthPct": 52.1,
+     "bothPct": 41.5,
+     "longestDarkH": 380,
+     "longestNoEarthH": 353
     },
     {
      "lat": -88.86314,
@@ -1012,11 +1012,11 @@
      "walkable2km": 1,
      "nasaSunPct": 70,
      "nasaEarthPct": 55,
-     "sunPct": 71.2,
-     "earthPct": 53.3,
-     "bothPct": 41.4,
-     "longestDarkH": 479,
-     "longestNoEarthH": 337
+     "sunPct": 68.3,
+     "earthPct": 52.7,
+     "bothPct": 40.1,
+     "longestDarkH": 482,
+     "longestNoEarthH": 350
     },
     {
      "lat": -88.84446,
@@ -1027,11 +1027,11 @@
      "walkable2km": 1,
      "nasaSunPct": 60.9,
      "nasaEarthPct": 57.9,
-     "sunPct": 64.1,
-     "earthPct": 56.8,
-     "bothPct": 38,
-     "longestDarkH": 260,
-     "longestNoEarthH": 315
+     "sunPct": 62.1,
+     "earthPct": 55.9,
+     "bothPct": 37.5,
+     "longestDarkH": 262,
+     "longestNoEarthH": 333
     },
     {
      "lat": -88.84379,
@@ -1042,11 +1042,11 @@
      "walkable2km": 1,
      "nasaSunPct": 64.5,
      "nasaEarthPct": 54.7,
-     "sunPct": 65.7,
-     "earthPct": 51.9,
-     "bothPct": 35.7,
-     "longestDarkH": 297,
-     "longestNoEarthH": 341
+     "sunPct": 63.4,
+     "earthPct": 51.3,
+     "bothPct": 35.3,
+     "longestDarkH": 299,
+     "longestNoEarthH": 366
     }
    ]
   },
@@ -1069,11 +1069,11 @@
     "lon": -137.4896,
     "groundM": 1944.8,
     "slope100Deg": 4.9,
-    "sunPct": 54,
-    "earthPct": 43.2,
-    "bothPct": 24.6,
-    "longestDarkH": 498,
-    "longestNoEarthH": 397
+    "sunPct": 51.3,
+    "earthPct": 43.1,
+    "bothPct": 23.7,
+    "longestDarkH": 499,
+    "longestNoEarthH": 400
    },
    "best": [
     {
@@ -1085,11 +1085,11 @@
      "walkable2km": 0.99,
      "nasaSunPct": 85.3,
      "nasaEarthPct": 58.1,
-     "sunPct": 83.7,
-     "earthPct": 53.8,
-     "bothPct": 41.9,
-     "longestDarkH": 270,
-     "longestNoEarthH": 323
+     "sunPct": 81.4,
+     "earthPct": 54,
+     "bothPct": 40.4,
+     "longestDarkH": 271,
+     "longestNoEarthH": 326
     },
     {
      "lat": -89.48842,
@@ -1100,11 +1100,11 @@
      "walkable2km": 0.99,
      "nasaSunPct": 81.4,
      "nasaEarthPct": 56.9,
-     "sunPct": 74.6,
-     "earthPct": 53.3,
-     "bothPct": 40.8,
-     "longestDarkH": 299,
-     "longestNoEarthH": 329
+     "sunPct": 71.7,
+     "earthPct": 53.2,
+     "bothPct": 39,
+     "longestDarkH": 301,
+     "longestNoEarthH": 333
     },
     {
      "lat": -89.50485,
@@ -1115,11 +1115,11 @@
      "walkable2km": 0.98,
      "nasaSunPct": 67.1,
      "nasaEarthPct": 57.9,
-     "sunPct": 66.9,
-     "earthPct": 53.6,
-     "bothPct": 37.6,
-     "longestDarkH": 253,
-     "longestNoEarthH": 324
+     "sunPct": 65.8,
+     "earthPct": 53.8,
+     "bothPct": 36.1,
+     "longestDarkH": 255,
+     "longestNoEarthH": 327
     },
     {
      "lat": -89.52284,
@@ -1130,11 +1130,11 @@
      "walkable2km": 0.96,
      "nasaSunPct": 67.6,
      "nasaEarthPct": 57.7,
-     "sunPct": 65.1,
-     "earthPct": 53.4,
-     "bothPct": 37.1,
+     "sunPct": 63.6,
+     "earthPct": 53.6,
+     "bothPct": 35.8,
      "longestDarkH": 282,
-     "longestNoEarthH": 325
+     "longestNoEarthH": 328
     },
     {
      "lat": -89.49416,
@@ -1145,11 +1145,11 @@
      "walkable2km": 1,
      "nasaSunPct": 65.4,
      "nasaEarthPct": 57.1,
-     "sunPct": 65.9,
-     "earthPct": 52.1,
-     "bothPct": 36.5,
+     "sunPct": 64.2,
+     "earthPct": 51.7,
+     "bothPct": 35.7,
      "longestDarkH": 306,
-     "longestNoEarthH": 341
+     "longestNoEarthH": 349
     }
    ]
   },
@@ -1172,11 +1172,11 @@
     "lon": -101.9993,
     "groundM": 1179.4,
     "slope100Deg": 10.1,
-    "sunPct": 37.2,
+    "sunPct": 36.1,
     "earthPct": 0,
     "bothPct": 0,
-    "longestDarkH": 509,
-    "longestNoEarthH": 19009
+    "longestDarkH": 512,
+    "longestNoEarthH": 80353
    },
    "best": [
     {
@@ -1188,11 +1188,11 @@
      "walkable2km": 0.98,
      "nasaSunPct": 82.1,
      "nasaEarthPct": 53.3,
-     "sunPct": 84.2,
-     "earthPct": 50.8,
-     "bothPct": 45.5,
-     "longestDarkH": 120,
-     "longestNoEarthH": 344
+     "sunPct": 82.4,
+     "earthPct": 50.7,
+     "bothPct": 44.7,
+     "longestDarkH": 121,
+     "longestNoEarthH": 348
     },
     {
      "lat": -89.31358,
@@ -1203,11 +1203,11 @@
      "walkable2km": 0.99,
      "nasaSunPct": 82.2,
      "nasaEarthPct": 58.7,
-     "sunPct": 80.5,
-     "earthPct": 53.2,
-     "bothPct": 45.1,
-     "longestDarkH": 301,
-     "longestNoEarthH": 335
+     "sunPct": 78.7,
+     "earthPct": 52.8,
+     "bothPct": 44,
+     "longestDarkH": 309,
+     "longestNoEarthH": 338
     },
     {
      "lat": -89.00726,
@@ -1218,11 +1218,11 @@
      "walkable2km": 1,
      "nasaSunPct": 76.2,
      "nasaEarthPct": 57.9,
-     "sunPct": 76.5,
-     "earthPct": 55.7,
-     "bothPct": 43.6,
-     "longestDarkH": 288,
-     "longestNoEarthH": 318
+     "sunPct": 73.9,
+     "earthPct": 55.3,
+     "bothPct": 41.7,
+     "longestDarkH": 290,
+     "longestNoEarthH": 331
     },
     {
      "lat": -89.21027,
@@ -1233,11 +1233,11 @@
      "walkable2km": 0.91,
      "nasaSunPct": 59,
      "nasaEarthPct": 58.3,
-     "sunPct": 62.4,
-     "earthPct": 54.7,
-     "bothPct": 35.7,
-     "longestDarkH": 366,
-     "longestNoEarthH": 327
+     "sunPct": 60.8,
+     "earthPct": 54.2,
+     "bothPct": 34.8,
+     "longestDarkH": 367,
+     "longestNoEarthH": 337
     },
     {
      "lat": -89.01068,
@@ -1248,11 +1248,11 @@
      "walkable2km": 0.96,
      "nasaSunPct": 56.3,
      "nasaEarthPct": 59.2,
-     "sunPct": 55.8,
-     "earthPct": 55.6,
-     "bothPct": 34.4,
-     "longestDarkH": 288,
-     "longestNoEarthH": 320
+     "sunPct": 54.6,
+     "earthPct": 55.1,
+     "bothPct": 32.7,
+     "longestDarkH": 290,
+     "longestNoEarthH": 333
     }
    ]
   },
@@ -1275,11 +1275,11 @@
     "lon": -67.9321,
     "groundM": 1793.7,
     "slope100Deg": 3.7,
-    "sunPct": 61.8,
-    "earthPct": 57.3,
-    "bothPct": 34.4,
-    "longestDarkH": 431,
-    "longestNoEarthH": 305
+    "sunPct": 58.8,
+    "earthPct": 57.2,
+    "bothPct": 31.5,
+    "longestDarkH": 432,
+    "longestNoEarthH": 310
    },
    "best": [
     {
@@ -1291,11 +1291,11 @@
      "walkable2km": 0.94,
      "nasaSunPct": 79.1,
      "nasaEarthPct": 61.4,
-     "sunPct": 86.1,
+     "sunPct": 84.2,
      "earthPct": 57.3,
-     "bothPct": 49.4,
-     "longestDarkH": 256,
-     "longestNoEarthH": 305
+     "bothPct": 47.8,
+     "longestDarkH": 258,
+     "longestNoEarthH": 308
     },
     {
      "lat": -88.70179,
@@ -1306,11 +1306,11 @@
      "walkable2km": 0.99,
      "nasaSunPct": 79.7,
      "nasaEarthPct": 61.1,
-     "sunPct": 81.5,
-     "earthPct": 57.3,
-     "bothPct": 47.5,
-     "longestDarkH": 165,
-     "longestNoEarthH": 306
+     "sunPct": 79.1,
+     "earthPct": 57.1,
+     "bothPct": 46.1,
+     "longestDarkH": 166,
+     "longestNoEarthH": 311
     },
     {
      "lat": -88.45135,
@@ -1321,10 +1321,10 @@
      "walkable2km": 1,
      "nasaSunPct": 78.5,
      "nasaEarthPct": 61.3,
-     "sunPct": 80.4,
-     "earthPct": 56.9,
-     "bothPct": 45.9,
-     "longestDarkH": 255,
+     "sunPct": 79,
+     "earthPct": 57.5,
+     "bothPct": 45.4,
+     "longestDarkH": 256,
      "longestNoEarthH": 304
     },
     {
@@ -1336,10 +1336,10 @@
      "walkable2km": 0.91,
      "nasaSunPct": 67.3,
      "nasaEarthPct": 59,
-     "sunPct": 75.7,
-     "earthPct": 57,
-     "bothPct": 44.1,
-     "longestDarkH": 164,
+     "sunPct": 74,
+     "earthPct": 57.2,
+     "bothPct": 43.2,
+     "longestDarkH": 165,
      "longestNoEarthH": 308
     },
     {
@@ -1351,11 +1351,11 @@
      "walkable2km": 1,
      "nasaSunPct": 71.9,
      "nasaEarthPct": 61.3,
-     "sunPct": 76.6,
-     "earthPct": 57.1,
-     "bothPct": 42.5,
-     "longestDarkH": 240,
-     "longestNoEarthH": 308
+     "sunPct": 73.4,
+     "earthPct": 57,
+     "bothPct": 40.5,
+     "longestDarkH": 241,
+     "longestNoEarthH": 311
     }
    ]
   },
@@ -1378,10 +1378,10 @@
     "lon": -116.322,
     "groundM": 2705.8,
     "slope100Deg": 4,
-    "sunPct": 83.2,
-    "earthPct": 55.8,
+    "sunPct": 82.1,
+    "earthPct": 56.4,
     "bothPct": 47.7,
-    "longestDarkH": 211,
+    "longestDarkH": 214,
     "longestNoEarthH": 312
    },
    "best": [
@@ -1394,11 +1394,11 @@
      "walkable2km": 0.95,
      "nasaSunPct": 78.8,
      "nasaEarthPct": 60.2,
-     "sunPct": 83.1,
-     "earthPct": 55.6,
-     "bothPct": 47.6,
-     "longestDarkH": 232,
-     "longestNoEarthH": 311
+     "sunPct": 81.9,
+     "earthPct": 56,
+     "bothPct": 47.5,
+     "longestDarkH": 234,
+     "longestNoEarthH": 312
     },
     {
      "lat": -85.8266,
@@ -1409,10 +1409,10 @@
      "walkable2km": 1,
      "nasaSunPct": 81.3,
      "nasaEarthPct": 60.5,
-     "sunPct": 79.1,
-     "earthPct": 55.8,
-     "bothPct": 44.6,
-     "longestDarkH": 271,
+     "sunPct": 77.7,
+     "earthPct": 56.2,
+     "bothPct": 44.3,
+     "longestDarkH": 273,
      "longestNoEarthH": 311
     },
     {
@@ -1424,10 +1424,10 @@
      "walkable2km": 1,
      "nasaSunPct": 72.7,
      "nasaEarthPct": 60.5,
-     "sunPct": 77.2,
-     "earthPct": 55.8,
-     "bothPct": 43.7,
-     "longestDarkH": 212,
+     "sunPct": 75.4,
+     "earthPct": 56.4,
+     "bothPct": 43.2,
+     "longestDarkH": 214,
      "longestNoEarthH": 312
     },
     {
@@ -1439,11 +1439,11 @@
      "walkable2km": 1,
      "nasaSunPct": 76.8,
      "nasaEarthPct": 58,
-     "sunPct": 78.7,
-     "earthPct": 55,
-     "bothPct": 43.3,
-     "longestDarkH": 212,
-     "longestNoEarthH": 315
+     "sunPct": 77.4,
+     "earthPct": 54.8,
+     "bothPct": 42.6,
+     "longestDarkH": 213,
+     "longestNoEarthH": 321
     },
     {
      "lat": -85.87878,
@@ -1454,11 +1454,11 @@
      "walkable2km": 0.98,
      "nasaSunPct": 67.7,
      "nasaEarthPct": 60.6,
-     "sunPct": 70.6,
-     "earthPct": 54.9,
-     "bothPct": 37.1,
-     "longestDarkH": 222,
-     "longestNoEarthH": 314
+     "sunPct": 68.6,
+     "earthPct": 54.8,
+     "bothPct": 35.7,
+     "longestDarkH": 224,
+     "longestNoEarthH": 320
     }
    ]
   },
@@ -1481,11 +1481,11 @@
     "lon": 69.444,
     "groundM": 399.5,
     "slope100Deg": 2.9,
-    "sunPct": 35.7,
-    "earthPct": 49.5,
-    "bothPct": 19.9,
-    "longestDarkH": 493,
-    "longestNoEarthH": 358
+    "sunPct": 34.8,
+    "earthPct": 49.3,
+    "bothPct": 18,
+    "longestDarkH": 496,
+    "longestNoEarthH": 362
    },
    "best": [
     {
@@ -1497,11 +1497,11 @@
      "walkable2km": 0.99,
      "nasaSunPct": 56.7,
      "nasaEarthPct": 63.9,
-     "sunPct": 57.6,
-     "earthPct": 61,
-     "bothPct": 35.7,
+     "sunPct": 56.4,
+     "earthPct": 59.9,
+     "bothPct": 33.6,
      "longestDarkH": 352,
-     "longestNoEarthH": 283
+     "longestNoEarthH": 298
     },
     {
      "lat": -83.95998,
@@ -1512,11 +1512,11 @@
      "walkable2km": 1,
      "nasaSunPct": 56.5,
      "nasaEarthPct": 63.7,
-     "sunPct": 57.6,
-     "earthPct": 60.7,
-     "bothPct": 35.5,
-     "longestDarkH": 353,
-     "longestNoEarthH": 284
+     "sunPct": 56.4,
+     "earthPct": 59.6,
+     "bothPct": 33.5,
+     "longestDarkH": 354,
+     "longestNoEarthH": 299
     },
     {
      "lat": -84.4964,
@@ -1527,11 +1527,11 @@
      "walkable2km": 1,
      "nasaSunPct": 56.6,
      "nasaEarthPct": 61.7,
-     "sunPct": 57.3,
-     "earthPct": 58.8,
-     "bothPct": 34.1,
+     "sunPct": 56.3,
+     "earthPct": 57.8,
+     "bothPct": 32.4,
      "longestDarkH": 362,
-     "longestNoEarthH": 294
+     "longestNoEarthH": 305
     },
     {
      "lat": -84.46953,
@@ -1542,11 +1542,11 @@
      "walkable2km": 0.95,
      "nasaSunPct": 55.4,
      "nasaEarthPct": 61.2,
-     "sunPct": 56.9,
-     "earthPct": 58.3,
-     "bothPct": 33.9,
-     "longestDarkH": 363,
-     "longestNoEarthH": 300
+     "sunPct": 56,
+     "earthPct": 57.3,
+     "bothPct": 32.1,
+     "longestDarkH": 364,
+     "longestNoEarthH": 308
     },
     {
      "lat": -84.26907,
@@ -1557,11 +1557,11 @@
      "walkable2km": 1,
      "nasaSunPct": 56,
      "nasaEarthPct": 61.4,
-     "sunPct": 57,
-     "earthPct": 58.1,
-     "bothPct": 33.6,
-     "longestDarkH": 359,
-     "longestNoEarthH": 298
+     "sunPct": 55.9,
+     "earthPct": 57.4,
+     "bothPct": 32,
+     "longestDarkH": 360,
+     "longestNoEarthH": 309
     }
    ]
   },
@@ -1584,11 +1584,11 @@
     "lon": 37.2348,
     "groundM": -460.7,
     "slope100Deg": 4.6,
-    "sunPct": 19.6,
-    "earthPct": 27.5,
-    "bothPct": 3.4,
-    "longestDarkH": 2781,
-    "longestNoEarthH": 493
+    "sunPct": 17.5,
+    "earthPct": 28,
+    "bothPct": 3.3,
+    "longestDarkH": 2814,
+    "longestNoEarthH": 495
    },
    "best": [
     {
@@ -1600,11 +1600,11 @@
      "walkable2km": 1,
      "nasaSunPct": 44.2,
      "nasaEarthPct": 54.8,
-     "sunPct": 46.3,
-     "earthPct": 51.4,
-     "bothPct": 27.7,
-     "longestDarkH": 537,
-     "longestNoEarthH": 352
+     "sunPct": 42.9,
+     "earthPct": 50.8,
+     "bothPct": 24.6,
+     "longestDarkH": 540,
+     "longestNoEarthH": 354
     },
     {
      "lat": -88.96322,
@@ -1615,11 +1615,11 @@
      "walkable2km": 1,
      "nasaSunPct": 42.5,
      "nasaEarthPct": 51.7,
-     "sunPct": 45.3,
-     "earthPct": 48.4,
-     "bothPct": 26.7,
-     "longestDarkH": 699,
-     "longestNoEarthH": 373
+     "sunPct": 41.9,
+     "earthPct": 47.9,
+     "bothPct": 24.1,
+     "longestDarkH": 702,
+     "longestNoEarthH": 378
     },
     {
      "lat": -88.93273,
@@ -1630,11 +1630,11 @@
      "walkable2km": 1,
      "nasaSunPct": 38,
      "nasaEarthPct": 55.4,
-     "sunPct": 38.9,
-     "earthPct": 52.1,
-     "bothPct": 24.4,
-     "longestDarkH": 693,
-     "longestNoEarthH": 351
+     "sunPct": 35.8,
+     "earthPct": 51.5,
+     "bothPct": 21.3,
+     "longestDarkH": 696,
+     "longestNoEarthH": 354
     },
     {
      "lat": -89.30977,
@@ -1645,11 +1645,11 @@
      "walkable2km": 1,
      "nasaSunPct": 35.1,
      "nasaEarthPct": 49.4,
-     "sunPct": 37.6,
-     "earthPct": 45.7,
-     "bothPct": 23.1,
-     "longestDarkH": 2071,
-     "longestNoEarthH": 381
+     "sunPct": 34.5,
+     "earthPct": 45.4,
+     "bothPct": 20.7,
+     "longestDarkH": 2074,
+     "longestNoEarthH": 389
     },
     {
      "lat": -88.9155,
@@ -1660,11 +1660,11 @@
      "walkable2km": 1,
      "nasaSunPct": 34.1,
      "nasaEarthPct": 55.5,
-     "sunPct": 36,
-     "earthPct": 52.2,
-     "bothPct": 23,
-     "longestDarkH": 539,
-     "longestNoEarthH": 351
+     "sunPct": 33.5,
+     "earthPct": 51.5,
+     "bothPct": 20.3,
+     "longestDarkH": 541,
+     "longestNoEarthH": 354
     }
    ]
   }

@@ -4,7 +4,7 @@
 // One Horizons request per calendar year keeps each response well under the API limits.
 //
 // usage: node scripts/fetch-ephemeris.mjs [START] [STOP] [STEP_HOURS] [OUT]
-//        default 2026-11-01 to 2029-01-01, 1 h, public/data/ephemeris
+//        default 2026-11-01 to 2036-01-01, 1 h, public/data/ephemeris
 //        (validate-illumination.mjs uses an 18.6-year, 6 h table in data-raw/)
 
 import fs from 'node:fs';
@@ -14,7 +14,7 @@ import { horizons, tableHeader, tableRows, parseHorizonsTime } from './horizons.
 import { COLUMNS } from '../src/core/ephemeris.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const [start = '2026-11-01', stop = '2029-01-01', stepArg = '1', outArg = 'public/data/ephemeris'] = process.argv.slice(2);
+const [start = '2026-11-01', stop = '2036-01-01', stepArg = '1', outArg = 'public/data/ephemeris'] = process.argv.slice(2);
 const stepHours = Number(stepArg);
 const OUT_BASE = path.resolve(ROOT, outArg);
 

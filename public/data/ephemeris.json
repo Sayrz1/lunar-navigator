@@ -10,10 +10,10 @@
   "EXTRA_PREC": "YES",
   "CSV_FORMAT": "YES",
   "START_TIME": "2026-11-01",
-  "STOP_TIME": "2029-01-01"
+  "STOP_TIME": "2036-01-01"
  },
  "frame": "MOON_ME",
- "description": "Hourly sub-solar and sub-Earth points on the Moon (deg, east longitude) and Sun-Moon / Earth-Moon range (au), Moon observed from the geocentre",
+ "description": "Sub-solar and sub-Earth points on the Moon (deg, east longitude) and Sun-Moon / Earth-Moon range (au), Moon observed from the geocentre",
  "columns": [
   "sunLon",
   "sunLat",
@@ -25,6 +25,6 @@
  "dtype": "float32 little-endian",
  "start": "2026-11-01T00:00:00.000Z",
  "stepHours": 1,
- "rows": 19009,
- "fetched": "2026-11-14T08:38:00.493Z"
+ "rows": 80353,
+ "fetched": "2026-11-14T12:51:56.896Z"
 }

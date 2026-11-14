@@ -34,6 +34,6 @@ for (const r of best) {
 
 const diffs = k => rows.map(x => Math.abs(x.full[k] - x.light[k])).sort((a, b) => a - b);
 const stat = k => { const d = diffs(k); const r = v => +v.toFixed(1); return { medianPts: r(d[Math.floor(d.length / 2)]), p90Pts: r(d[Math.floor(0.9 * (d.length - 1))]), maxPts: r(d.at(-1)) }; };
-const out = { about: 'Custom-point horizons from the light browser grids vs the full build, share of hours Nov 2026 - Jan 2029', sun: stat('sunPct'), earth: stat('earthPct'), both: stat('bothPct'), rows };
+const out = { about: 'Custom-point horizons from the light browser grids vs the full build, share of hours Nov 2026 - Dec 2035', sun: stat('sunPct'), earth: stat('earthPct'), both: stat('bothPct'), rows };
 console.log('Sun', out.sun, 'Earth', out.earth, 'both', out.both);
 fs.writeFileSync(path.join(ROOT, 'public/data/custom_check.json'), JSON.stringify(out, null, 1) + '\n');

@@ -9,7 +9,7 @@
 //    the landing slope, and look up NASA's long-term Sun and Earth visibility maps
 //    (Mazarico et al. 2011, 120 m). Keep the 40 best points that pass, at least 500 m apart.
 // 2. Refine: for those points build the app's own horizon (5 m tile + 80 m + 240 m, 2 m mast)
-//    and run it hour by hour over the app's ephemeris (Nov 2026 - Jan 2029).
+//    and run it hour by hour over the app's ephemeris (Nov 2026 - Dec 2035).
 // 3. Rank by the share of hours with the Sun on the panels and Earth in view at once.
 //
 // Writes public/data/best_spots.json and public/data/horizons/<region>--best.json.

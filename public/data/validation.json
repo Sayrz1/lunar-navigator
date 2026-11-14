@@ -1,11 +1,11 @@
 {
- "checked": "2026-11-14T08:38:37.764Z",
+ "checked": "2026-11-14T12:52:15.835Z",
  "ephemeris": {
   "start": "2026-11-01T00:00:00.000Z",
-  "rows": 19009,
-  "fetched": "2026-11-14T08:38:00.493Z"
+  "rows": 80353,
+  "fetched": "2026-11-14T12:51:56.896Z"
  },
- "worstDeg": 0.000352,
+ "worstDeg": 0.000379,
  "team": [
   {
    "file": "ar,e.txt",
@@ -300,110 +300,110 @@
    "body": "sun",
    "lat": -83.6389,
    "lon": -68.7284,
-   "heightM": 2,
+   "heightM": 4494.7,
    "n": 12,
-   "maxDeg": 0.000196,
-   "meanDeg": 0.000184,
-   "p95Deg": 0.000192
+   "maxDeg": 0.000191,
+   "meanDeg": 0.000182,
+   "p95Deg": 0.00019
   },
   {
    "region": "peak-near-cabeus-b",
    "body": "earth",
    "lat": -83.6389,
    "lon": -68.7284,
-   "heightM": 2,
+   "heightM": 4494.7,
    "n": 12,
-   "maxDeg": 0.00028,
-   "meanDeg": 0.000234,
-   "p95Deg": 0.000277
-  },
-  {
-   "region": "haworth",
-   "body": "sun",
-   "lat": -86.7639,
-   "lon": -22.777,
-   "heightM": 1630.1,
-   "n": 12,
-   "maxDeg": 0.000193,
-   "meanDeg": 0.000183,
-   "p95Deg": 0.000189
-  },
-  {
-   "region": "haworth",
-   "body": "earth",
-   "lat": -86.7639,
-   "lon": -22.777,
-   "heightM": 1630.1,
-   "n": 12,
-   "maxDeg": 0.000297,
-   "meanDeg": 0.000255,
-   "p95Deg": 0.000292
-  },
-  {
-   "region": "malapert-massif",
-   "body": "sun",
-   "lat": -85.9948,
-   "lon": -0.2358,
-   "heightM": 4785.6,
-   "n": 12,
-   "maxDeg": 0.000192,
-   "meanDeg": 0.000179,
-   "p95Deg": 0.000189
-  },
-  {
-   "region": "malapert-massif",
-   "body": "earth",
-   "lat": -85.9948,
-   "lon": -0.2358,
-   "heightM": 4785.6,
-   "n": 12,
-   "maxDeg": 0.000326,
+   "maxDeg": 0.000379,
    "meanDeg": 0.000252,
    "p95Deg": 0.000326
   },
   {
-   "region": "mons-mouton-plateau",
+   "region": "haworth",
    "body": "sun",
-   "lat": -84.3381,
-   "lon": 30.6004,
-   "heightM": 2,
-   "n": 12,
-   "maxDeg": 0.000192,
-   "meanDeg": 0.00018,
-   "p95Deg": 0.00019
-  },
-  {
-   "region": "mons-mouton-plateau",
-   "body": "earth",
-   "lat": -84.3381,
-   "lon": 30.6004,
-   "heightM": 2,
-   "n": 12,
-   "maxDeg": 0.000352,
-   "meanDeg": 0.000247,
-   "p95Deg": 0.000296
-  },
-  {
-   "region": "mons-mouton",
-   "body": "sun",
-   "lat": -85.4266,
-   "lon": 31.7428,
-   "heightM": 6400.6,
+   "lat": -86.7639,
+   "lon": -22.777,
+   "heightM": 1630.1,
    "n": 12,
    "maxDeg": 0.00019,
-   "meanDeg": 0.000179,
+   "meanDeg": 0.000177,
    "p95Deg": 0.000189
   },
   {
+   "region": "haworth",
+   "body": "earth",
+   "lat": -86.7639,
+   "lon": -22.777,
+   "heightM": 1630.1,
+   "n": 12,
+   "maxDeg": 0.000307,
+   "meanDeg": 0.000222,
+   "p95Deg": 0.000279
+  },
+  {
+   "region": "malapert-massif",
+   "body": "sun",
+   "lat": -85.9948,
+   "lon": -0.2358,
+   "heightM": 4785.6,
+   "n": 12,
+   "maxDeg": 0.000202,
+   "meanDeg": 0.000187,
+   "p95Deg": 0.000195
+  },
+  {
+   "region": "malapert-massif",
+   "body": "earth",
+   "lat": -85.9948,
+   "lon": -0.2358,
+   "heightM": 4785.6,
+   "n": 12,
+   "maxDeg": 0.00034,
+   "meanDeg": 0.000209,
+   "p95Deg": 0.000238
+  },
+  {
+   "region": "mons-mouton-plateau",
+   "body": "sun",
+   "lat": -84.3381,
+   "lon": 30.6004,
+   "heightM": 5252.3,
+   "n": 12,
+   "maxDeg": 0.000192,
+   "meanDeg": 0.000181,
+   "p95Deg": 0.00019
+  },
+  {
+   "region": "mons-mouton-plateau",
+   "body": "earth",
+   "lat": -84.3381,
+   "lon": 30.6004,
+   "heightM": 5252.3,
+   "n": 12,
+   "maxDeg": 0.000352,
+   "meanDeg": 0.000252,
+   "p95Deg": 0.000325
+  },
+  {
+   "region": "mons-mouton",
+   "body": "sun",
+   "lat": -85.4266,
+   "lon": 31.7428,
+   "heightM": 6400.6,
+   "n": 12,
+   "maxDeg": 0.000195,
+   "meanDeg": 0.000181,
+   "p95Deg": 0.000191
+  },
+  {
    "region": "mons-mouton",
    "body": "earth",
    "lat": -85.4266,
    "lon": 31.7428,
    "heightM": 6400.6,
    "n": 12,
-   "maxDeg": 0.000324,
-   "meanDeg": 0.000228,
-   "p95Deg": 0.000322
+   "maxDeg": 0.000276,
+   "meanDeg": 0.00024,
+   "p95Deg": 0.000272
   },
   {
    "region": "nobile-rim-1",
@@ -412,174 +412,174 @@
    "lon": 37.3667,
    "heightM": 5948.4,
    "n": 12,
-   "maxDeg": 0.000193,
-   "meanDeg": 0.00018,
-   "p95Deg": 0.000193
-  },
-  {
-   "region": "nobile-rim-1",
-   "body": "earth",
-   "lat": -85.4381,
-   "lon": 37.3667,
-   "heightM": 5948.4,
-   "n": 12,
-   "maxDeg": 0.000315,
-   "meanDeg": 0.000236,
-   "p95Deg": 0.000304
-  },
-  {
-   "region": "nobile-rim-2",
-   "body": "sun",
-   "lat": -83.954,
-   "lon": 58.8221,
-   "heightM": 1011.9,
-   "n": 12,
-   "maxDeg": 0.000197,
-   "meanDeg": 0.000179,
+   "maxDeg": 0.000192,
+   "meanDeg": 0.000178,
    "p95Deg": 0.00019
   },
   {
+   "region": "nobile-rim-1",
+   "body": "earth",
+   "lat": -85.4381,
+   "lon": 37.3667,
+   "heightM": 5948.4,
+   "n": 12,
+   "maxDeg": 0.000308,
+   "meanDeg": 0.000238,
+   "p95Deg": 0.000301
+  },
+  {
+   "region": "nobile-rim-2",
+   "body": "sun",
+   "lat": -83.954,
+   "lon": 58.8221,
+   "heightM": 1011.9,
+   "n": 12,
+   "maxDeg": 0.0002,
+   "meanDeg": 0.000182,
+   "p95Deg": 0.000195
+  },
+  {
    "region": "nobile-rim-2",
    "body": "earth",
    "lat": -83.954,
    "lon": 58.8221,
    "heightM": 1011.9,
    "n": 12,
-   "maxDeg": 0.000325,
-   "meanDeg": 0.000223,
+   "maxDeg": 0.000269,
+   "meanDeg": 0.000219,
+   "p95Deg": 0.000263
+  },
+  {
+   "region": "de-gerlache-rim-2",
+   "body": "sun",
+   "lat": -88.23,
+   "lon": -64.6284,
+   "heightM": -85.8,
+   "n": 12,
+   "maxDeg": 0.000192,
+   "meanDeg": 0.000177,
+   "p95Deg": 0.00019
+  },
+  {
+   "region": "de-gerlache-rim-2",
+   "body": "earth",
+   "lat": -88.23,
+   "lon": -64.6284,
+   "heightM": -85.8,
+   "n": 12,
+   "maxDeg": 0.000358,
+   "meanDeg": 0.000246,
+   "p95Deg": 0.00034
+  },
+  {
+   "region": "slater-plain",
+   "body": "sun",
+   "lat": -87.1656,
+   "lon": 125.5217,
+   "heightM": -32.3,
+   "n": 12,
+   "maxDeg": 0.000196,
+   "meanDeg": 0.000179,
+   "p95Deg": 0.000195
+  },
+  {
+   "region": "slater-plain",
+   "body": "earth",
+   "lat": -87.1656,
+   "lon": 125.5217,
+   "heightM": -32.3,
+   "n": 12,
+   "maxDeg": 0.000315,
+   "meanDeg": 0.000214,
    "p95Deg": 0.000251
   },
   {
-   "region": "de-gerlache-rim-2",
-   "body": "sun",
-   "lat": -88.23,
-   "lon": -64.6284,
-   "heightM": -85.8,
-   "n": 12,
-   "maxDeg": 0.000187,
-   "meanDeg": 0.000178,
-   "p95Deg": 0.000186
-  },
-  {
-   "region": "de-gerlache-rim-2",
-   "body": "earth",
-   "lat": -88.23,
-   "lon": -64.6284,
-   "heightM": -85.8,
-   "n": 12,
-   "maxDeg": 0.000324,
-   "meanDeg": 0.000233,
-   "p95Deg": 0.000296
-  },
-  {
-   "region": "slater-plain",
-   "body": "sun",
-   "lat": -87.1656,
-   "lon": 125.5217,
-   "heightM": 2,
-   "n": 12,
-   "maxDeg": 0.000196,
-   "meanDeg": 0.000178,
-   "p95Deg": 0.000182
-  },
-  {
-   "region": "slater-plain",
-   "body": "earth",
-   "lat": -87.1656,
-   "lon": 125.5217,
-   "heightM": 2,
-   "n": 12,
-   "maxDeg": 0.000304,
-   "meanDeg": 0.000224,
-   "p95Deg": 0.000297
-  },
-  {
    "region": "peak-near-shackleton",
    "body": "sun",
    "lat": -88.811,
    "lon": 123.6901,
    "heightM": 1647.6,
-   "n": 12,
-   "maxDeg": 0.000194,
-   "meanDeg": 0.000183,
-   "p95Deg": 0.000189
-  },
-  {
-   "region": "peak-near-shackleton",
-   "body": "earth",
-   "lat": -88.811,
-   "lon": 123.6901,
-   "heightM": 1647.6,
-   "n": 12,
-   "maxDeg": 0.000326,
-   "meanDeg": 0.000227,
-   "p95Deg": 0.000309
-  },
-  {
-   "region": "connecting-ridge",
-   "body": "sun",
-   "lat": -89.4632,
-   "lon": -137.4896,
-   "heightM": 1946.5,
-   "n": 12,
-   "maxDeg": 0.000192,
-   "meanDeg": 0.000181,
-   "p95Deg": 0.000191
-  },
-  {
-   "region": "connecting-ridge",
-   "body": "earth",
-   "lat": -89.4632,
-   "lon": -137.4896,
-   "heightM": 1946.5,
-   "n": 12,
-   "maxDeg": 0.000292,
-   "meanDeg": 0.000217,
-   "p95Deg": 0.000265
-  },
-  {
-   "region": "connecting-ridge-extension",
-   "body": "sun",
-   "lat": -89.0324,
-   "lon": -101.9993,
-   "heightM": 1180.4,
    "n": 12,
    "maxDeg": 0.000199,
-   "meanDeg": 0.000184,
-   "p95Deg": 0.000193
-  },
-  {
-   "region": "connecting-ridge-extension",
-   "body": "earth",
-   "lat": -89.0324,
-   "lon": -101.9993,
-   "heightM": 1180.4,
-   "n": 12,
-   "maxDeg": 0.000288,
-   "meanDeg": 0.00024,
-   "p95Deg": 0.000278
-  },
-  {
-   "region": "de-gerlache-rim-1",
-   "body": "sun",
-   "lat": -88.6834,
-   "lon": -67.9321,
-   "heightM": 1795.7,
-   "n": 12,
-   "maxDeg": 0.000191,
-   "meanDeg": 0.00018,
+   "meanDeg": 0.000182,
    "p95Deg": 0.000188
   },
   {
+   "region": "peak-near-shackleton",
+   "body": "earth",
+   "lat": -88.811,
+   "lon": 123.6901,
+   "heightM": 1647.6,
+   "n": 12,
+   "maxDeg": 0.000277,
+   "meanDeg": 0.000197,
+   "p95Deg": 0.000243
+  },
+  {
+   "region": "connecting-ridge",
+   "body": "sun",
+   "lat": -89.4632,
+   "lon": -137.4896,
+   "heightM": 1946.5,
+   "n": 12,
+   "maxDeg": 0.000193,
+   "meanDeg": 0.000177,
+   "p95Deg": 0.000182
+  },
+  {
+   "region": "connecting-ridge",
+   "body": "earth",
+   "lat": -89.4632,
+   "lon": -137.4896,
+   "heightM": 1946.5,
+   "n": 12,
+   "maxDeg": 0.000303,
+   "meanDeg": 0.000212,
+   "p95Deg": 0.000294
+  },
+  {
+   "region": "connecting-ridge-extension",
+   "body": "sun",
+   "lat": -89.0324,
+   "lon": -101.9993,
+   "heightM": 1180.4,
+   "n": 12,
+   "maxDeg": 0.00019,
+   "meanDeg": 0.000179,
+   "p95Deg": 0.00019
+  },
+  {
+   "region": "connecting-ridge-extension",
+   "body": "earth",
+   "lat": -89.0324,
+   "lon": -101.9993,
+   "heightM": 1180.4,
+   "n": 12,
+   "maxDeg": 0.00033,
+   "meanDeg": 0.000224,
+   "p95Deg": 0.000291
+  },
+  {
+   "region": "de-gerlache-rim-1",
+   "body": "sun",
+   "lat": -88.6834,
+   "lon": -67.9321,
+   "heightM": 1795.7,
+   "n": 12,
+   "maxDeg": 0.000194,
+   "meanDeg": 0.000182,
+   "p95Deg": 0.000189
+  },
+  {
    "region": "de-gerlache-rim-1",
    "body": "earth",
    "lat": -88.6834,
    "lon": -67.9321,
    "heightM": 1795.7,
    "n": 12,
-   "maxDeg": 0.000285,
-   "meanDeg": 0.000234,
-   "p95Deg": 0.00028
+   "maxDeg": 0.000336,
+   "meanDeg": 0.000237,
+   "p95Deg": 0.000291
   },
   {
    "region": "de-gerlache-kocher-massif",
@@ -588,9 +588,9 @@
    "lon": -116.322,
    "heightM": 2708,
    "n": 12,
-   "maxDeg": 0.000187,
-   "meanDeg": 0.000176,
-   "p95Deg": 0.000186
+   "maxDeg": 0.0002,
+   "meanDeg": 0.000179,
+   "p95Deg": 0.000194
   },
   {
    "region": "de-gerlache-kocher-massif",
@@ -599,9 +599,9 @@
    "lon": -116.322,
    "heightM": 2708,
    "n": 12,
-   "maxDeg": 0.000343,
-   "meanDeg": 0.000218,
-   "p95Deg": 0.000323
+   "maxDeg": 0.00028,
+   "meanDeg": 0.000188,
+   "p95Deg": 0.00026
   },
   {
    "region": "amundsen-rim",
@@ -610,31 +610,31 @@
    "lon": 69.444,
    "heightM": 401.3,
    "n": 12,
-   "maxDeg": 0.000198,
+   "maxDeg": 0.000188,
+   "meanDeg": 0.000174,
+   "p95Deg": 0.000181
+  },
+  {
+   "region": "amundsen-rim",
+   "body": "earth",
+   "lat": -84.2287,
+   "lon": 69.444,
+   "heightM": 401.3,
+   "n": 12,
+   "maxDeg": 0.000287,
+   "meanDeg": 0.000237,
+   "p95Deg": 0.000284
+  },
+  {
+   "region": "shoemaker-rim",
+   "body": "sun",
+   "lat": -88.9645,
+   "lon": 37.2348,
+   "heightM": -459.1,
+   "n": 12,
+   "maxDeg": 0.00019,
    "meanDeg": 0.00018,
-   "p95Deg": 0.00019
-  },
-  {
-   "region": "amundsen-rim",
-   "body": "earth",
-   "lat": -84.2287,
-   "lon": 69.444,
-   "heightM": 401.3,
-   "n": 12,
-   "maxDeg": 0.000286,
-   "meanDeg": 0.000226,
-   "p95Deg": 0.000286
-  },
-  {
-   "region": "shoemaker-rim",
-   "body": "sun",
-   "lat": -88.9645,
-   "lon": 37.2348,
-   "heightM": -459.1,
-   "n": 12,
-   "maxDeg": 0.000191,
-   "meanDeg": 0.000181,
-   "p95Deg": 0.000191
+   "p95Deg": 0.000185
   },
   {
    "region": "shoemaker-rim",
@@ -643,9 +643,9 @@
    "lon": 37.2348,
    "heightM": -459.1,
    "n": 12,
-   "maxDeg": 0.000309,
-   "meanDeg": 0.00023,
-   "p95Deg": 0.000302
+   "maxDeg": 0.000301,
+   "meanDeg": 0.000192,
+   "p95Deg": 0.000243
   }
  ],
  "fileNotes": [

@@ -1,37 +1,37 @@
 {
- "about": "Custom-point horizons from the light browser grids vs the full build, share of hours Nov 2026 - Jan 2029",
+ "about": "Custom-point horizons from the light browser grids vs the full build, share of hours Nov 2026 - Dec 2035",
  "sun": {
   "medianPts": 1.9,
-  "p90Pts": 7,
-  "maxPts": 19
+  "p90Pts": 7.2,
+  "maxPts": 19.2
  },
  "earth": {
   "medianPts": 0.1,
-  "p90Pts": 2.8,
-  "maxPts": 6.5
+  "p90Pts": 2.5,
+  "maxPts": 4.7
  },
  "both": {
-  "medianPts": 1.6,
-  "p90Pts": 5.5,
-  "maxPts": 8.1
+  "medianPts": 1.7,
+  "p90Pts": 4.8,
+  "maxPts": 8.6
  },
  "rows": [
   {
    "id": "peak-near-cabeus-b",
    "kind": "centre",
    "full": {
-    "sunPct": 46.6,
-    "earthPct": 44.8,
-    "bothPct": 22,
-    "longestDarkH": 529,
-    "longestNoEarthH": 389
+    "sunPct": 44.8,
+    "earthPct": 44.5,
+    "bothPct": 22.2,
+    "longestDarkH": 530,
+    "longestNoEarthH": 395
    },
    "light": {
-    "sunPct": 47.5,
-    "earthPct": 44.5,
-    "bothPct": 22.6,
-    "longestDarkH": 533,
-    "longestNoEarthH": 389
+    "sunPct": 45.4,
+    "earthPct": 44.4,
+    "bothPct": 22.7,
+    "longestDarkH": 535,
+    "longestNoEarthH": 394
    },
    "groundDiffM": 5.1
   },
@@ -39,17 +39,17 @@
    "id": "peak-near-cabeus-b",
    "kind": "best",
    "full": {
-    "sunPct": 66.1,
-    "earthPct": 82.8,
-    "bothPct": 54.9,
-    "longestDarkH": 299,
+    "sunPct": 65.7,
+    "earthPct": 87.3,
+    "bothPct": 57.6,
+    "longestDarkH": 300,
     "longestNoEarthH": 138
    },
    "light": {
-    "sunPct": 64.6,
-    "earthPct": 84.7,
-    "bothPct": 54.8,
-    "longestDarkH": 310,
+    "sunPct": 64.2,
+    "earthPct": 89.8,
+    "bothPct": 57.8,
+    "longestDarkH": 311,
     "longestNoEarthH": 124
    },
    "groundDiffM": -4.5
@@ -58,18 +58,18 @@
    "id": "haworth",
    "kind": "centre",
    "full": {
-    "sunPct": 16.2,
-    "earthPct": 39.8,
-    "bothPct": 7.6,
-    "longestDarkH": 2822,
-    "longestNoEarthH": 417
+    "sunPct": 14.7,
+    "earthPct": 39.9,
+    "bothPct": 7.2,
+    "longestDarkH": 2834,
+    "longestNoEarthH": 420
    },
    "light": {
-    "sunPct": 16.2,
-    "earthPct": 39.8,
-    "bothPct": 7.7,
-    "longestDarkH": 3523,
-    "longestNoEarthH": 416
+    "sunPct": 14.6,
+    "earthPct": 40,
+    "bothPct": 7.2,
+    "longestDarkH": 3530,
+    "longestNoEarthH": 420
    },
    "groundDiffM": -2
   },
@@ -77,18 +77,18 @@
    "id": "haworth",
    "kind": "best",
    "full": {
-    "sunPct": 73.1,
-    "earthPct": 64.9,
-    "bothPct": 45.2,
-    "longestDarkH": 334,
-    "longestNoEarthH": 252
+    "sunPct": 70.4,
+    "earthPct": 64.2,
+    "bothPct": 42.6,
+    "longestDarkH": 336,
+    "longestNoEarthH": 262
    },
    "light": {
-    "sunPct": 73.1,
-    "earthPct": 67.5,
-    "bothPct": 47.2,
-    "longestDarkH": 333,
-    "longestNoEarthH": 233
+    "sunPct": 70.4,
+    "earthPct": 66.7,
+    "bothPct": 44.4,
+    "longestDarkH": 335,
+    "longestNoEarthH": 247
    },
    "groundDiffM": -3.6
   },
@@ -96,18 +96,18 @@
    "id": "malapert-massif",
    "kind": "centre",
    "full": {
-    "sunPct": 25.9,
-    "earthPct": 48.3,
-    "bothPct": 12.6,
-    "longestDarkH": 2802,
-    "longestNoEarthH": 364
+    "sunPct": 23.3,
+    "earthPct": 48,
+    "bothPct": 11.3,
+    "longestDarkH": 3492,
+    "longestNoEarthH": 370
    },
    "light": {
-    "sunPct": 43.4,
-    "earthPct": 50,
-    "bothPct": 20.6,
-    "longestDarkH": 2100,
-    "longestNoEarthH": 352
+    "sunPct": 39.7,
+    "earthPct": 49.7,
+    "bothPct": 19.3,
+    "longestDarkH": 2106,
+    "longestNoEarthH": 359
    },
    "groundDiffM": 2
   },
@@ -115,17 +115,17 @@
    "id": "malapert-massif",
    "kind": "best",
    "full": {
-    "sunPct": 68,
+    "sunPct": 67.4,
     "earthPct": 100,
-    "bothPct": 68,
-    "longestDarkH": 285,
+    "bothPct": 67.4,
+    "longestDarkH": 286,
     "longestNoEarthH": 0
    },
    "light": {
-    "sunPct": 64.8,
+    "sunPct": 64.2,
     "earthPct": 100,
-    "bothPct": 64.8,
-    "longestDarkH": 303,
+    "bothPct": 64.2,
+    "longestDarkH": 304,
     "longestNoEarthH": 0
    },
    "groundDiffM": -3
@@ -134,18 +134,18 @@
    "id": "mons-mouton-plateau",
    "kind": "centre",
    "full": {
-    "sunPct": 27.9,
-    "earthPct": 66.8,
-    "bothPct": 21.2,
-    "longestDarkH": 574,
-    "longestNoEarthH": 238
+    "sunPct": 27.2,
+    "earthPct": 65.6,
+    "bothPct": 19.2,
+    "longestDarkH": 578,
+    "longestNoEarthH": 258
    },
    "light": {
-    "sunPct": 34.9,
-    "earthPct": 70.9,
-    "bothPct": 26.7,
-    "longestDarkH": 510,
-    "longestNoEarthH": 212
+    "sunPct": 34.5,
+    "earthPct": 69.2,
+    "bothPct": 24.6,
+    "longestDarkH": 513,
+    "longestNoEarthH": 235
    },
    "groundDiffM": 20
   },
@@ -153,17 +153,17 @@
    "id": "mons-mouton-plateau",
    "kind": "best",
    "full": {
-    "sunPct": 69.4,
+    "sunPct": 68.7,
     "earthPct": 100,
-    "bothPct": 69.4,
-    "longestDarkH": 282,
+    "bothPct": 68.7,
+    "longestDarkH": 283,
     "longestNoEarthH": 0
    },
    "light": {
-    "sunPct": 77.5,
+    "sunPct": 76.7,
     "earthPct": 100,
-    "bothPct": 77.5,
-    "longestDarkH": 233,
+    "bothPct": 76.7,
+    "longestDarkH": 234,
     "longestNoEarthH": 0
    },
    "groundDiffM": -12.2
@@ -172,18 +172,18 @@
    "id": "mons-mouton",
    "kind": "centre",
    "full": {
-    "sunPct": 27.2,
-    "earthPct": 38.2,
-    "bothPct": 6.9,
-    "longestDarkH": 2809,
-    "longestNoEarthH": 430
+    "sunPct": 24.6,
+    "earthPct": 37.7,
+    "bothPct": 6.6,
+    "longestDarkH": 3329,
+    "longestNoEarthH": 441
    },
    "light": {
-    "sunPct": 30,
-    "earthPct": 39.1,
-    "bothPct": 8.5,
-    "longestDarkH": 2791,
-    "longestNoEarthH": 423
+    "sunPct": 27.4,
+    "earthPct": 38.7,
+    "bothPct": 8.3,
+    "longestDarkH": 2795,
+    "longestNoEarthH": 432
    },
    "groundDiffM": 0.1
   },
@@ -191,18 +191,18 @@
    "id": "mons-mouton",
    "kind": "best",
    "full": {
-    "sunPct": 60.6,
-    "earthPct": 99.3,
-    "bothPct": 60,
+    "sunPct": 59.4,
+    "earthPct": 93.7,
+    "bothPct": 55,
     "longestDarkH": 397,
-    "longestNoEarthH": 59
+    "longestNoEarthH": 114
    },
    "light": {
-    "sunPct": 59,
-    "earthPct": 92.8,
-    "bothPct": 54,
-    "longestDarkH": 405,
-    "longestNoEarthH": 79
+    "sunPct": 57.8,
+    "earthPct": 90.7,
+    "bothPct": 51.4,
+    "longestDarkH": 406,
+    "longestNoEarthH": 110
    },
    "groundDiffM": -2.3
   },
@@ -210,18 +210,18 @@
    "id": "nobile-rim-1",
    "kind": "centre",
    "full": {
-    "sunPct": 32.2,
-    "earthPct": 35,
-    "bothPct": 12.2,
-    "longestDarkH": 512,
-    "longestNoEarthH": 451
+    "sunPct": 31.5,
+    "earthPct": 32.5,
+    "bothPct": 11.3,
+    "longestDarkH": 514,
+    "longestNoEarthH": 489
    },
    "light": {
-    "sunPct": 32.1,
-    "earthPct": 35,
-    "bothPct": 12.2,
-    "longestDarkH": 512,
-    "longestNoEarthH": 451
+    "sunPct": 31.5,
+    "earthPct": 32.4,
+    "bothPct": 11.2,
+    "longestDarkH": 514,
+    "longestNoEarthH": 491
    },
    "groundDiffM": -2.2
   },
@@ -229,18 +229,18 @@
    "id": "nobile-rim-1",
    "kind": "best",
    "full": {
-    "sunPct": 71.7,
-    "earthPct": 78.9,
-    "bothPct": 55.5,
-    "longestDarkH": 331,
-    "longestNoEarthH": 156
+    "sunPct": 70.4,
+    "earthPct": 77.7,
+    "bothPct": 52.9,
+    "longestDarkH": 333,
+    "longestNoEarthH": 175
    },
    "light": {
-    "sunPct": 69.3,
-    "earthPct": 75.3,
-    "bothPct": 50.5,
-    "longestDarkH": 371,
-    "longestNoEarthH": 182
+    "sunPct": 67.7,
+    "earthPct": 75.1,
+    "bothPct": 48.3,
+    "longestDarkH": 372,
+    "longestNoEarthH": 186
    },
    "groundDiffM": -2.4
   },
@@ -248,18 +248,18 @@
    "id": "nobile-rim-2",
    "kind": "centre",
    "full": {
-    "sunPct": 42.2,
-    "earthPct": 65.3,
-    "bothPct": 29.2,
-    "longestDarkH": 438,
-    "longestNoEarthH": 248
+    "sunPct": 41.6,
+    "earthPct": 64.3,
+    "bothPct": 27,
+    "longestDarkH": 440,
+    "longestNoEarthH": 264
    },
    "light": {
-    "sunPct": 42.1,
-    "earthPct": 66,
-    "bothPct": 29.3,
-    "longestDarkH": 442,
-    "longestNoEarthH": 244
+    "sunPct": 41.5,
+    "earthPct": 65.1,
+    "bothPct": 27.2,
+    "longestDarkH": 444,
+    "longestNoEarthH": 259
    },
    "groundDiffM": -0.7
   },
@@ -267,37 +267,37 @@
    "id": "nobile-rim-2",
    "kind": "best",
    "full": {
-    "sunPct": 50.6,
-    "earthPct": 82.9,
-    "bothPct": 42.6,
-    "longestDarkH": 391,
-    "longestNoEarthH": 137
+    "sunPct": 50.4,
+    "earthPct": 78.1,
+    "bothPct": 39.5,
+    "longestDarkH": 377,
+    "longestNoEarthH": 188
    },
    "light": {
-    "sunPct": 50.8,
-    "earthPct": 83,
-    "bothPct": 42.7,
-    "longestDarkH": 391,
-    "longestNoEarthH": 136
+    "sunPct": 49.6,
+    "earthPct": 78.2,
+    "bothPct": 38.9,
+    "longestDarkH": 380,
+    "longestNoEarthH": 187
    },
-   "groundDiffM": -1.3
+   "groundDiffM": -3.9
   },
   {
    "id": "de-gerlache-rim-2",
    "kind": "centre",
    "full": {
-    "sunPct": 37.6,
-    "earthPct": 51.3,
-    "bothPct": 21.6,
-    "longestDarkH": 502,
-    "longestNoEarthH": 348
+    "sunPct": 37.4,
+    "earthPct": 50.8,
+    "bothPct": 20.8,
+    "longestDarkH": 504,
+    "longestNoEarthH": 351
    },
    "light": {
-    "sunPct": 38,
-    "earthPct": 51.4,
-    "bothPct": 21.9,
-    "longestDarkH": 501,
-    "longestNoEarthH": 347
+    "sunPct": 37.7,
+    "earthPct": 51,
+    "bothPct": 21.1,
+    "longestDarkH": 504,
+    "longestNoEarthH": 350
    },
    "groundDiffM": -0.4
   },
@@ -305,17 +305,17 @@
    "id": "de-gerlache-rim-2",
    "kind": "best",
    "full": {
-    "sunPct": 80.4,
-    "earthPct": 56.9,
-    "bothPct": 45.9,
-    "longestDarkH": 255,
+    "sunPct": 79,
+    "earthPct": 57.5,
+    "bothPct": 45.4,
+    "longestDarkH": 256,
     "longestNoEarthH": 304
    },
    "light": {
-    "sunPct": 80.8,
-    "earthPct": 57,
-    "bothPct": 46.2,
-    "longestDarkH": 255,
+    "sunPct": 79.3,
+    "earthPct": 57.5,
+    "bothPct": 45.6,
+    "longestDarkH": 256,
     "longestNoEarthH": 303
    },
    "groundDiffM": -1.9
@@ -324,18 +324,18 @@
    "id": "slater-plain",
    "kind": "centre",
    "full": {
-    "sunPct": 4,
-    "earthPct": 37.1,
-    "bothPct": 3.4,
-    "longestDarkH": 5631,
-    "longestNoEarthH": 440
+    "sunPct": 3.4,
+    "earthPct": 37,
+    "bothPct": 2.8,
+    "longestDarkH": 5644,
+    "longestNoEarthH": 443
    },
    "light": {
-    "sunPct": 4.3,
+    "sunPct": 3.8,
     "earthPct": 37.3,
-    "bothPct": 3.6,
-    "longestDarkH": 5627,
-    "longestNoEarthH": 438
+    "bothPct": 3,
+    "longestDarkH": 5638,
+    "longestNoEarthH": 441
    },
    "groundDiffM": -2.3
   },
@@ -343,18 +343,18 @@
    "id": "slater-plain",
    "kind": "best",
    "full": {
-    "sunPct": 70.1,
-    "earthPct": 46.2,
-    "bothPct": 36.1,
-    "longestDarkH": 343,
-    "longestNoEarthH": 375
+    "sunPct": 68.4,
+    "earthPct": 46,
+    "bothPct": 35.4,
+    "longestDarkH": 348,
+    "longestNoEarthH": 380
    },
    "light": {
-    "sunPct": 70.6,
-    "earthPct": 46.3,
-    "bothPct": 36.4,
-    "longestDarkH": 335,
-    "longestNoEarthH": 375
+    "sunPct": 68.8,
+    "earthPct": 46.1,
+    "bothPct": 35.7,
+    "longestDarkH": 337,
+    "longestNoEarthH": 379
    },
    "groundDiffM": -4.1
   },
@@ -362,18 +362,18 @@
    "id": "peak-near-shackleton",
    "kind": "centre",
    "full": {
-    "sunPct": 77.2,
-    "earthPct": 56.1,
-    "bothPct": 43.9,
-    "longestDarkH": 392,
-    "longestNoEarthH": 313
+    "sunPct": 74.1,
+    "earthPct": 55.4,
+    "bothPct": 41.7,
+    "longestDarkH": 393,
+    "longestNoEarthH": 335
    },
    "light": {
-    "sunPct": 82.6,
-    "earthPct": 57.4,
-    "bothPct": 48.7,
-    "longestDarkH": 284,
-    "longestNoEarthH": 307
+    "sunPct": 79.8,
+    "earthPct": 56.6,
+    "bothPct": 46.5,
+    "longestDarkH": 342,
+    "longestNoEarthH": 330
    },
    "groundDiffM": -1
   },
@@ -381,18 +381,18 @@
    "id": "peak-near-shackleton",
    "kind": "best",
    "full": {
-    "sunPct": 80.8,
-    "earthPct": 57.4,
-    "bothPct": 47.7,
-    "longestDarkH": 329,
-    "longestNoEarthH": 307
+    "sunPct": 78.3,
+    "earthPct": 56.5,
+    "bothPct": 46,
+    "longestDarkH": 330,
+    "longestNoEarthH": 330
    },
    "light": {
-    "sunPct": 77.4,
-    "earthPct": 57.4,
-    "bothPct": 45.6,
-    "longestDarkH": 346,
-    "longestNoEarthH": 306
+    "sunPct": 74.4,
+    "earthPct": 56.6,
+    "bothPct": 43.5,
+    "longestDarkH": 348,
+    "longestNoEarthH": 329
    },
    "groundDiffM": -2.3
   },
@@ -400,18 +400,18 @@
    "id": "connecting-ridge",
    "kind": "centre",
    "full": {
-    "sunPct": 54,
-    "earthPct": 43.2,
-    "bothPct": 24.6,
-    "longestDarkH": 498,
-    "longestNoEarthH": 397
+    "sunPct": 51.3,
+    "earthPct": 43.1,
+    "bothPct": 23.7,
+    "longestDarkH": 499,
+    "longestNoEarthH": 400
    },
    "light": {
-    "sunPct": 52,
-    "earthPct": 40.6,
-    "bothPct": 21.1,
-    "longestDarkH": 498,
-    "longestNoEarthH": 414
+    "sunPct": 49.4,
+    "earthPct": 40.7,
+    "bothPct": 20.7,
+    "longestDarkH": 499,
+    "longestNoEarthH": 418
    },
    "groundDiffM": -1.5
   },
@@ -419,18 +419,18 @@
    "id": "connecting-ridge",
    "kind": "best",
    "full": {
-    "sunPct": 83.7,
-    "earthPct": 53.8,
-    "bothPct": 41.9,
-    "longestDarkH": 270,
-    "longestNoEarthH": 323
+    "sunPct": 81.4,
+    "earthPct": 54,
+    "bothPct": 40.4,
+    "longestDarkH": 271,
+    "longestNoEarthH": 326
    },
    "light": {
-    "sunPct": 64.7,
-    "earthPct": 53.9,
-    "bothPct": 33.9,
+    "sunPct": 62.2,
+    "earthPct": 54.1,
+    "bothPct": 31.8,
     "longestDarkH": 421,
-    "longestNoEarthH": 322
+    "longestNoEarthH": 326
    },
    "groundDiffM": -3.6
   },
@@ -438,18 +438,18 @@
    "id": "connecting-ridge-extension",
    "kind": "centre",
    "full": {
-    "sunPct": 37.2,
+    "sunPct": 36.1,
     "earthPct": 0,
     "bothPct": 0,
-    "longestDarkH": 509,
-    "longestNoEarthH": 19009
+    "longestDarkH": 512,
+    "longestNoEarthH": 80353
    },
    "light": {
-    "sunPct": 37,
+    "sunPct": 35.9,
     "earthPct": 0,
     "bothPct": 0,
-    "longestDarkH": 510,
-    "longestNoEarthH": 19009
+    "longestDarkH": 511,
+    "longestNoEarthH": 80353
    },
    "groundDiffM": -2.4
   },
@@ -457,18 +457,18 @@
    "id": "connecting-ridge-extension",
    "kind": "best",
    "full": {
-    "sunPct": 84.2,
-    "earthPct": 50.8,
-    "bothPct": 45.5,
-    "longestDarkH": 120,
-    "longestNoEarthH": 344
+    "sunPct": 82.4,
+    "earthPct": 50.7,
+    "bothPct": 44.7,
+    "longestDarkH": 121,
+    "longestNoEarthH": 348
    },
    "light": {
-    "sunPct": 84.9,
-    "earthPct": 51,
-    "bothPct": 46,
-    "longestDarkH": 120,
-    "longestNoEarthH": 343
+    "sunPct": 83.2,
+    "earthPct": 50.9,
+    "bothPct": 45.2,
+    "longestDarkH": 123,
+    "longestNoEarthH": 347
    },
    "groundDiffM": -2.8
   },
@@ -476,18 +476,18 @@
    "id": "de-gerlache-rim-1",
    "kind": "centre",
    "full": {
-    "sunPct": 61.8,
-    "earthPct": 57.3,
-    "bothPct": 34.4,
-    "longestDarkH": 431,
-    "longestNoEarthH": 305
+    "sunPct": 58.8,
+    "earthPct": 57.2,
+    "bothPct": 31.5,
+    "longestDarkH": 432,
+    "longestNoEarthH": 310
    },
    "light": {
-    "sunPct": 69.2,
-    "earthPct": 57.4,
-    "bothPct": 37,
-    "longestDarkH": 402,
-    "longestNoEarthH": 304
+    "sunPct": 66,
+    "earthPct": 57.3,
+    "bothPct": 34.3,
+    "longestDarkH": 403,
+    "longestNoEarthH": 309
    },
    "groundDiffM": -0.4
   },
@@ -495,18 +495,18 @@
    "id": "de-gerlache-rim-1",
    "kind": "best",
    "full": {
-    "sunPct": 86.1,
+    "sunPct": 84.2,
     "earthPct": 57.3,
-    "bothPct": 49.4,
-    "longestDarkH": 256,
-    "longestNoEarthH": 305
+    "bothPct": 47.8,
+    "longestDarkH": 258,
+    "longestNoEarthH": 308
    },
    "light": {
-    "sunPct": 83.8,
+    "sunPct": 81.7,
     "earthPct": 57.4,
-    "bothPct": 48.5,
-    "longestDarkH": 271,
-    "longestNoEarthH": 304
+    "bothPct": 46.8,
+    "longestDarkH": 272,
+    "longestNoEarthH": 307
    },
    "groundDiffM": -3.1
   },
@@ -514,17 +514,17 @@
    "id": "de-gerlache-kocher-massif",
    "kind": "centre",
    "full": {
-    "sunPct": 83.2,
-    "earthPct": 55.8,
+    "sunPct": 82.1,
+    "earthPct": 56.4,
     "bothPct": 47.7,
-    "longestDarkH": 211,
+    "longestDarkH": 214,
     "longestNoEarthH": 312
    },
    "light": {
-    "sunPct": 82.8,
-    "earthPct": 55.9,
-    "bothPct": 47.2,
-    "longestDarkH": 211,
+    "sunPct": 81.6,
+    "earthPct": 56.4,
+    "bothPct": 47.1,
+    "longestDarkH": 213,
     "longestNoEarthH": 311
    },
    "groundDiffM": -5.4
@@ -533,18 +533,18 @@
    "id": "de-gerlache-kocher-massif",
    "kind": "best",
    "full": {
-    "sunPct": 83.1,
-    "earthPct": 55.6,
-    "bothPct": 47.6,
-    "longestDarkH": 232,
-    "longestNoEarthH": 311
+    "sunPct": 81.9,
+    "earthPct": 56,
+    "bothPct": 47.5,
+    "longestDarkH": 234,
+    "longestNoEarthH": 312
    },
    "light": {
-    "sunPct": 80.3,
-    "earthPct": 55.7,
-    "bothPct": 45.1,
-    "longestDarkH": 232,
-    "longestNoEarthH": 310
+    "sunPct": 78.7,
+    "earthPct": 56.1,
+    "bothPct": 44.6,
+    "longestDarkH": 234,
+    "longestNoEarthH": 311
    },
    "groundDiffM": -3.1
   },
@@ -552,18 +552,18 @@
    "id": "amundsen-rim",
    "kind": "centre",
    "full": {
-    "sunPct": 35.7,
-    "earthPct": 49.5,
-    "bothPct": 19.9,
-    "longestDarkH": 493,
-    "longestNoEarthH": 358
+    "sunPct": 34.8,
+    "earthPct": 49.3,
+    "bothPct": 18,
+    "longestDarkH": 496,
+    "longestNoEarthH": 362
    },
    "light": {
-    "sunPct": 40.5,
-    "earthPct": 52.3,
-    "bothPct": 23.1,
-    "longestDarkH": 468,
-    "longestNoEarthH": 340
+    "sunPct": 39.5,
+    "earthPct": 51.8,
+    "bothPct": 21,
+    "longestDarkH": 470,
+    "longestNoEarthH": 346
    },
    "groundDiffM": 3
   },
@@ -571,18 +571,18 @@
    "id": "amundsen-rim",
    "kind": "best",
    "full": {
-    "sunPct": 57.6,
-    "earthPct": 61,
-    "bothPct": 35.7,
+    "sunPct": 56.4,
+    "earthPct": 59.9,
+    "bothPct": 33.6,
     "longestDarkH": 352,
-    "longestNoEarthH": 283
+    "longestNoEarthH": 298
    },
    "light": {
-    "sunPct": 57.8,
-    "earthPct": 61.1,
-    "bothPct": 35.8,
-    "longestDarkH": 350,
-    "longestNoEarthH": 282
+    "sunPct": 56.6,
+    "earthPct": 60,
+    "bothPct": 33.8,
+    "longestDarkH": 351,
+    "longestNoEarthH": 296
    },
    "groundDiffM": -3.3
   },
@@ -590,18 +590,18 @@
    "id": "shoemaker-rim",
    "kind": "centre",
    "full": {
-    "sunPct": 19.6,
-    "earthPct": 27.5,
-    "bothPct": 3.4,
-    "longestDarkH": 2781,
-    "longestNoEarthH": 493
+    "sunPct": 17.5,
+    "earthPct": 28,
+    "bothPct": 3.3,
+    "longestDarkH": 2814,
+    "longestNoEarthH": 495
    },
    "light": {
-    "sunPct": 23.8,
-    "earthPct": 32.4,
-    "bothPct": 6.9,
-    "longestDarkH": 2755,
-    "longestNoEarthH": 466
+    "sunPct": 21.5,
+    "earthPct": 32.7,
+    "bothPct": 6.3,
+    "longestDarkH": 2792,
+    "longestNoEarthH": 467
    },
    "groundDiffM": 1
   },
@@ -609,18 +609,18 @@
    "id": "shoemaker-rim",
    "kind": "best",
    "full": {
-    "sunPct": 46.3,
-    "earthPct": 51.4,
-    "bothPct": 27.7,
-    "longestDarkH": 537,
-    "longestNoEarthH": 352
+    "sunPct": 42.9,
+    "earthPct": 50.8,
+    "bothPct": 24.6,
+    "longestDarkH": 540,
+    "longestNoEarthH": 354
    },
    "light": {
-    "sunPct": 48.2,
-    "earthPct": 51.5,
-    "bothPct": 28.8,
-    "longestDarkH": 514,
-    "longestNoEarthH": 351
+    "sunPct": 44.8,
+    "earthPct": 50.9,
+    "bothPct": 25.7,
+    "longestDarkH": 535,
+    "longestNoEarthH": 354
    },
    "groundDiffM": -0.9
   }
