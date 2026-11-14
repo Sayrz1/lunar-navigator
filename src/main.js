@@ -5,7 +5,7 @@ import { stateAt, track, hourlyFlags, summary, landingWindows, shareBetween, dai
 import { fromStereo, toStereo } from './core/horizon.js';
 import { decodeRegion, polarSampler, customHorizon, slopeAt, iceNear, nasaVisibility, cellAt, cellCentre } from './core/terrain.js';
 import { DEFAULT_WEIGHTS, siteScore, battery } from './core/score.js';
-import { drawHorizonChart, drawCalendar, drawIceMap, drawScatter } from './ui/charts.js';
+import { drawHorizonChart, drawCalendar, drawIceMap, drawScatter, drawRadiation } from './ui/charts.js';
 import { drawTimeline } from './ui/timeline.js';
 import { Stage } from './ui/stage3d.js';
 import { SpaceView } from './ui/space3d.js';
@@ -22,7 +22,8 @@ const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const app = {
   eph: null, regions: [], best: {}, checks: {}, terrainIndex: null, polar: null, grids: {},
   region: null, grid: null, kind: 'best', custom: null, spot: null,
-  hz: {}, hzReady: {}, flags: new Map(), t: 0, layer: 'relief', stay: 6.5, slip: 0, watts: 300,
+  // stay: Artemis III plans 5.75-6.25 days on the surface (George et al., LPSC 2026, abstract 1901)
+  hz: {}, hzReady: {}, flags: new Map(), t: 0, layer: 'relief', stay: 6, slip: 0, watts: 300,
   view: 'space', camera: 'overview', speed: 6, scatterMetric: 'both', scatter: null, weights: { ...DEFAULT_WEIGHTS },
   stage: null, space: null, tlFrom: 0,
 };
@@ -36,10 +37,10 @@ const fmtPct = v => `${Math.round(v)}%`;
 function fmtSpan(ms) {
   const h = ms / HOUR;
   if (h < 48) {
-    const hh = Math.floor(h), mm = Math.round((h % 1) * 60);
+    const mins = Math.round(h * 60), hh = Math.floor(mins / 60), mm = mins % 60;
     return ar() ? `${hh} س ${mm} د` : `${hh} h ${mm} min`;
   }
-  const d = Math.floor(h / 24), r = Math.round(h % 24);
+  const total = Math.round(h), d = Math.floor(total / 24), r = total % 24;
   return ar() ? `${d} ي ${r} س` : `${d}d ${r}h`;
 }
 const fmtDays = h => (ar() ? `${(h / 24).toFixed(1)} يوم` : `${(h / 24).toFixed(1)} d`);
@@ -138,6 +139,7 @@ async function setSpot(kind, custom) {
   spot.ice = iceNear(app.grid, spot.lat, spot.lon);
   spot.nasa = nasaVisibility(app.grid, spot.lat, spot.lon);
   app.spot = spot;
+  app.spotKey = key;
   for (const b of $('spot-kind').children) {
     b.setAttribute('aria-checked', String(b.dataset.kind === kind));
     if (b.dataset.kind === 'custom') b.disabled = !app.custom;
@@ -196,6 +198,8 @@ function renderSpot() {
 
   renderScore();
   renderPower();
+  renderRadiation();
+  renderFeatures();
   renderScatter();
   renderPlanner();
   renderIce();
@@ -231,6 +235,84 @@ function renderPower() {
     html += row('power.centre', `${there.kWh.toFixed(1)} kWh · ${Math.round(there.kg)} kg`);
   }
   $('power').innerHTML = html;
+}
+
+// --- radiation (LRO CRaTER, see scripts/fetch-crater.mjs) --------------------------------
+
+const CYCLE_MS = 11 * 365.25 * DAY; // one solar cycle, near enough for an analogue
+const STORM_MGY = 5;                // a day whose worst hour tops this is a solar storm day
+
+function prepareRadiation(doc) {
+  const days = doc.days.map(([d, med, max]) => ({ t: Date.parse(d + 'T00:00:00Z'), med, max }));
+  const monthly = new Map();
+  for (const d of days) {
+    const k = new Date(d.t).toISOString().slice(0, 7);
+    if (!monthly.has(k)) monthly.set(k, []);
+    monthly.get(k).push(d.med);
+  }
+  const median = v => [...v].sort((a, b) => a - b)[Math.floor(v.length / 2)];
+  // the cosmic-ray background: the quieter quarter of the days, so storm months don't lift it
+  const quiet = v => [...v].sort((a, b) => a - b)[Math.floor(v.length / 4)];
+  const months = [...monthly].filter(([, v]) => v.length >= 10).map(([k, v]) => ({ t: Date.parse(k + '-15T00:00:00Z'), v: quiet(v) }));
+  const storms = days.filter(d => d.max > STORM_MGY);
+  const worst = storms.reduce((a, d) => (d.max > a.max ? d : a), { max: 0 });
+  const rad = { days, months, storms: storms.map(d => d.t), worst, last: days.at(-1).t, median, quiet };
+  // the dashed estimate on the chart: each month after the data, from one cycle earlier
+  rad.estimate = [];
+  for (let t = months.at(-1).t; t < Date.UTC(2036, 0, 1); t += 30 * DAY) rad.estimate.push({ t, v: radiationAt(rad, t).rate });
+  return rad;
+}
+
+// Background dose rate around a date, from the daily medians within two weeks.
+// After the last measured day, use the same point of the previous solar cycle.
+function radiationAt(rad, ms) {
+  let at = ms, estimated = false;
+  while (at > rad.last) { at -= CYCLE_MS; estimated = true; }
+  const near = rad.days.filter(d => Math.abs(d.t - at) <= 14 * DAY).map(d => d.med);
+  return { rate: near.length ? rad.quiet(near) : NaN, from: at, estimated };
+}
+
+// Share of the open sky (upper hemisphere, by solid angle) the horizon leaves visible.
+// Cosmic rays arrive from every direction, so dose scales with it. Over 1 on a peak.
+function skyShare(hz) {
+  let s = 0;
+  for (const el of hz.el) s += 1 - Math.sin(el * Math.PI / 180);
+  return s / hz.el.length;
+}
+
+function renderRadiation() {
+  const rad = app.rad;
+  if (!rad) { $('rad-rate').textContent = '–'; return; }
+  const r = radiationAt(rad, app.t);
+  const share = skyShare(app.spot.hz);
+  const blocked = Math.round((1 - share) * 100);
+  $('rad-rate').textContent = r.rate.toFixed(2);
+  $('rad-basis').textContent = r.estimated ? t('rad.basis.estimate', { date: fmtDate(r.from).split(',')[0] }) : t('rad.basis.measured');
+  const row = (k, v) => `<dt>${k}</dt><dd>${v}</dd>`;
+  $('rad-rows').innerHTML =
+    row(t('rad.r.stay', { days: app.stay }), `${(r.rate * app.stay).toFixed(1)} mGy`) +
+    row(blocked >= 0 ? t('rad.r.site', { pct: blocked }) : t('rad.r.siteOpen', { pct: -blocked }), `${(r.rate * app.stay * share).toFixed(1)} mGy`) +
+    row(t('rad.r.storms'), String(rad.storms.length)) +
+    row(t('rad.r.worst'), `${Math.round(rad.worst.max)} mGy/day · ${new Date(rad.worst.t).toISOString().slice(0, 7)}`);
+  drawRadiation($('rad-chart'), { months: rad.months, estimate: rad.estimate, storms: rad.storms, now: app.t, locale: locale() });
+  app.radNow = { rate: r.rate, total: r.rate * app.stay * share, estimated: r.estimated };
+}
+
+// --- named features (IAU Gazetteer, see scripts/fetch-features.mjs) ------------------------
+
+function renderFeatures() {
+  if (!app.features) return;
+  const [sx, sy] = toStereo(app.spot.lat, app.spot.lon);
+  const near = app.features.map(f => {
+    const [x, y] = toStereo(f.lat, f.lon);
+    return { ...f, km: Math.hypot(x - sx, y - sy) };
+  }).filter(f => f.km - f.diameterKm / 2 < 30).sort((a, b) => (a.km - a.diameterKm / 2) - (b.km - b.diameterKm / 2)).slice(0, 6);
+  const deg = v => `${v.toFixed(3)}°`;
+  const row = (k, v) => `<dt>${t(k)}</dt><dd>${v}</dd>`;
+  $('feat-list').innerHTML = near.map((f, i) => `<details${i === 0 ? ' open' : ''}>
+    <summary>${f.name}<span>${f.km < f.diameterKm / 2 ? t('feat.inside') : t('feat.away', { km: f.km.toFixed(1) })}</span></summary>
+    <dl>${row('feat.type', f.type)}${row('feat.centre', `${deg(f.lat)}, ${deg(f.lon)}`)}${row('feat.diam', `${f.diameterKm.toFixed(2)} km`)}${row('feat.lat', `${deg(f.latRange[0])} … ${deg(f.latRange[1])}`)}${row('feat.lon', `${deg(f.lonRange[0])} … ${deg(f.lonRange[1])}`)}${f.origin ? row('feat.origin', `<span class="feat-origin">${f.origin}</span>`) : ''}${f.link ? row('feat.link', `<a href="${f.link.replace('http:', 'https:')}" target="_blank" rel="noopener">${f.link.split('/').pop()}</a>`) : ''}</dl>
+  </details>`).join('');
 }
 
 // Landing scatter grid around the centre or best spot (precomputed, see scripts/landing-scatter.mjs).
@@ -281,8 +363,58 @@ function renderPlanner() {
   }).join('') + (upcoming.length > list.length ? `<li class="note">${t('plan.more', { n: upcoming.length - list.length })}</li>` : '');
 }
 
+// The mission period: from the landing time for the length of the stay. Either end can be
+// typed in; the numbers below cover every hour in between.
+function longestWithout(flags, a, b, bit) {
+  let run = 0, most = 0;
+  for (let k = a; k < b; k++) {
+    run = flags[k] & bit ? 0 : run + 1;
+    if (run > most) most = run;
+  }
+  return most;
+}
+
+function renderPeriod() {
+  const { eph, spot } = app;
+  const from = app.t, to = Math.min(app.t + app.stay * DAY, eph.end);
+  const iso = ms => new Date(ms).toISOString().slice(0, 16);
+  if (document.activeElement !== $('per-from')) $('per-from').value = iso(from);
+  if (document.activeElement !== $('per-to')) $('per-to').value = iso(to);
+  const hours = (to - from) / HOUR;
+  const a = Math.max(0, Math.round((from - eph.start) / eph.stepMs));
+  const b = Math.min(spot.flags.length, a + Math.round(hours * HOUR / eph.stepMs));
+  const step = eph.stepMs / HOUR;
+  const pct = bit => `${Math.round(shareBetween(eph, spot.flags, from, hours, bit) * 100)}%`;
+  const rad = app.radNow ? `${(app.radNow.rate * (hours / 24) * skyShare(spot.hz)).toFixed(1)} mGy` : '–';
+  const item = (k, v) => `<div><dt>${t(k)}</dt><dd>${v}</dd></div>`;
+  $('per-len').textContent = t('per.len', { len: fmtSpan(hours * HOUR) });
+  $('per-rows').innerHTML = item('per.sun', pct(SUN)) + item('per.earth', pct(EARTH)) + item('per.both', pct(SUN | EARTH)) +
+    item('per.dark', fmtSpan(longestWithout(spot.flags, a, b, SUN) * step * HOUR)) +
+    item('per.noearth', fmtSpan(longestWithout(spot.flags, a, b, EARTH) * step * HOUR)) + item('per.rad', rad);
+}
+
+// One year of the calendar at a time. It follows the chosen time into a new year,
+// and the year buttons let you look ahead without moving the time.
 function drawCal() {
-  app.calPick = drawCalendar($('calendar'), app.days, app.t, app.windows, locale());
+  const tYear = new Date(app.t).getUTCFullYear();
+  if (tYear !== app.calFollow) { app.calFollow = tYear; app.calYear = tYear; }
+  // skip a stub year (the table ends at midnight on 1 January)
+  const count = {};
+  for (const d of app.days) { const y = new Date(d.t).getUTCFullYear(); count[y] = (count[y] ?? 0) + 1; }
+  const years = Object.keys(count).map(Number).filter(y => count[y] >= 28 || y === tYear);
+  const bar = $('cal-year');
+  // each year's share of hours with Sun and Earth together at this spot
+  if (bar.dataset.for !== app.spotKey) {
+    const share = y => {
+      const days = app.days.filter(d => new Date(d.t).getUTCFullYear() === y);
+      return days.reduce((a, d) => a + d.both, 0) / days.length;
+    };
+    bar.innerHTML = years.map(y => `<button type="button" role="radio" data-year="${y}">${y}<small class="num">${Math.round(share(y) * 100)}%</small></button>`).join('');
+    bar.dataset.for = app.spotKey;
+  }
+  for (const b of bar.children) b.setAttribute('aria-checked', String(Number(b.dataset.year) === app.calYear));
+  const days = app.days.filter(d => new Date(d.t).getUTCFullYear() === app.calYear);
+  app.calPick = drawCalendar($('calendar'), days, app.t, app.windows, locale());
 }
 
 function renderIce() {
@@ -424,6 +556,8 @@ function renderSlow(s, sunNext, earthNext) {
   $('earth-numbers').innerHTML = row('row.el', fmtDeg(s.earth.el)) + row('row.horizon', fmtDeg(s.earth.horizon)) +
     row('row.clear', fmtDeg(s.earth.clear)) + row('row.az', `${s.earth.az.toFixed(1)}°`) + row(s.earthInView ? 'row.earthset' : 'row.earthrise', span(earthNext, now));
 
+  renderRadiation();
+  renderPeriod();
   drawHorizonChart($('horizon-chart'), spot.hz, track(eph, now, Math.round(SYNODIC_DAYS * 24), spot.frame, spot.hz), s);
   renderLate();
   renderCompareNow();
@@ -529,8 +663,20 @@ function renderTrust() {
     card(t('trust.terrain'), `≤ ${rms.toFixed(1)} m`, t('trust.terrain.body', { rms: rms.toFixed(1) })),
     card(t('trust.light'), `${illum.summary.random.sun.medianAbsPts} pts`, t('trust.light.body', { n: illum.summary.random.sun.n, sun: illum.summary.random.sun.medianAbsPts, earth: illum.summary.random.earth.medianAbsPts })),
     card(t('trust.custom'), `${custom.sun.medianPts} pts`, t('trust.custom.body', { sun: custom.sun.medianPts, max: custom.sun.maxPts })),
+    radiationCard(card),
   ].join('');
   $('limits').innerHTML = t('limits.items').split('|').map(x => `<li>${x}</li>`).join('');
+}
+
+// CRaTER in orbit against the Chang'e-4 lander on the far side, over the same months.
+// Chang'e-4 LND, Jan-Jun 2019 (Zhang et al. 2020, Sci. Adv. 6, eaaz1334): 13.2 uGy/h in
+// silicon, about 20% of it from the ground (albedo), which CRaTER's surface figure leaves out.
+const CHANGE4_MGY = 13.2e-3 * 24 * 1.3 * 0.8;
+function radiationCard(card) {
+  if (!app.rad) return '';
+  const from = Date.UTC(2019, 0, 3), to = Date.UTC(2019, 5, 30);
+  const ours = app.rad.median(app.rad.days.filter(d => d.t >= from && d.t <= to).map(d => d.med));
+  return card(t('trust.rad'), `${ours.toFixed(2)} / ${CHANGE4_MGY.toFixed(2)}`, t('trust.rad.body', { ours: ours.toFixed(2), them: CHANGE4_MGY.toFixed(2) }));
 }
 
 // --- Navi --------------------------------------------------------------------------------
@@ -561,6 +707,11 @@ function naviAnswer(intent) {
       const d = app.scatter?.regions[app.region.id]?.[app.kind]?.within100m;
       return d ? t('navi.scatter', { lo: Math.round(d.both[0]), hi: Math.round(d.both[1]), steep: d.tooSteep, all: d.points }) : t('scatter.none');
     }
+    case 'rad': {
+      if (!app.radNow) return t('navi.unknown');
+      const r = app.radNow;
+      return t('navi.rad', { rate: r.rate.toFixed(2), days: app.stay, total: r.total.toFixed(1), basis: r.estimated ? t('rad.basis.estimate', { date: fmtDate(radiationAt(app.rad, app.t).from).split(',')[0] }) : '' }).trim();
+    }
     case 'score': return t('navi.score', { score: app.score, grade: grade(app.score) });
     case 'power': {
       const b = battery(spot.summary.longestDarkH, app.watts);
@@ -580,7 +731,7 @@ function naviAnswer(intent) {
 // --- views -------------------------------------------------------------------------------
 
 function viewNote() {
-  $('view-note').textContent = t(app.view === 'space' ? 'note.space' : app.camera === 'ground' ? 'note.ground' : 'note.overview');
+  $('view-note').textContent = t(app.view === 'space' ? (app.frame === 'sun' ? 'note.spaceSun' : 'note.space') : app.camera === 'ground' ? 'note.ground' : 'note.overview');
 }
 
 function setView(view) {
@@ -669,6 +820,17 @@ function bind() {
     for (const x of $('layer').children) x.setAttribute('aria-checked', String(x === b));
     app.stage?.setLayer(app.layer);
   });
+  for (const b of document.querySelectorAll('[data-zoom]')) b.addEventListener('click', () => {
+    (app.view === 'space' ? app.space : app.stage)?.zoom(Number(b.dataset.zoom));
+  });
+  segPick('frame', b => {
+    app.frame = b.dataset.frame;
+    for (const x of $('frame').children) x.setAttribute('aria-checked', String(x === b));
+    app.space?.setFrame(app.frame);
+    viewNote();
+    renderNow({ full: true });
+  });
+  segPick('cal-year', b => { app.calYear = Number(b.dataset.year); drawCal(); });
   segPick('scatter-metric', b => { app.scatterMetric = b.dataset.metric; renderScatter(); });
   segPick('speed', b => {
     app.speed = Number(b.dataset.speed);
@@ -712,9 +874,23 @@ function bind() {
     }, { once: true });
   });
 
+  const setStay = days => {
+    app.stay = Math.round(Math.min(Math.max(days, 1 / 24), 365) * 24) / 24;
+    $('stay').value = +app.stay.toFixed(2);
+    renderPlanner(); renderLate(); renderRadiation(); renderPeriod();
+  };
   $('stay').addEventListener('change', e => {
     const v = Number(e.target.value);
-    if (v >= 1 && v <= 20) { app.stay = v; renderPlanner(); renderLate(); }
+    if (v > 0) setStay(v);
+  });
+  $('per-from').addEventListener('change', e => {
+    const ms = Date.parse(e.target.value + 'Z');
+    if (Number.isFinite(ms)) { setTime(ms); renderPlanner(); renderNow({ full: true }); }
+  });
+  $('per-to').addEventListener('change', e => {
+    const ms = Date.parse(e.target.value + 'Z');
+    if (Number.isFinite(ms) && ms > app.t) setStay((ms - app.t) / DAY);
+    else renderPeriod();
   });
   $('slip').addEventListener('input', e => { app.slip = Number(e.target.value); renderLate(); });
   $('delays').addEventListener('click', e => {
@@ -829,6 +1005,8 @@ async function start() {
     json('./data/terrain/index.json'),
   ]);
   app.scatter = await json('./data/scatter.json').catch(() => null);
+  app.features = await json('./data/features.json').then(d => d.features).catch(() => null);
+  app.rad = await json('./data/radiation.json').then(prepareRadiation).catch(() => null);
   Object.assign(app, { eph, terrainIndex, checks: { validation, tiles, illum, custom } });
   app.regions = regionDoc.regions.filter(r => r.lat !== null && terrainIndex.regions[r.id]);
   for (const b of best.regions) app.best[b.id] = b;

@@ -4,16 +4,18 @@ Team Tuwaiq Lunar, NASA Space Apps Challenge 2026, challenge "Lunar Landing Site
 
 **Live site:** https://sayrz1.github.io/lunar-navigator/
 
-Pick a landing region at the Moon's south pole and a time between November 2026 and January 2029. The app shows whether a lander there gets sunlight and a radio line to Earth, when that changes, which spot inside the region is best, when the landing windows are, what happens if the landing slips, and how far it is to permanently shadowed ground where ice can survive. English and Arabic.
+Pick a landing region at the Moon's south pole and a time between November 2026 and the end of 2035. The app shows whether a lander there gets sunlight and a radio line to Earth, when that changes, which spot inside the region is best, when the landing windows are, what happens if the landing slips, and how far it is to permanently shadowed ground where ice can survive, and how much radiation a crew would take. English and Arabic.
 
 ## What's on the page
 
-- **Space view:** the whole Moon in its own fixed frame, with the Sun and Earth placed from the JPL table. Press play and the Sun circles the Moon once a lunar day while Earth stays nearly still. The dashed lines show whether the chosen spot can see each one.
+- **Space view:** the whole Moon with the Sun and Earth placed from the JPL table, in two frames. Moon-fixed: press play and the Sun circles the Moon once a lunar day while Earth stays nearly still. Sun-fixed: the Sun holds still, the Moon turns and Earth goes round it once a month. The dashed lines show whether the chosen spot can see each one. Zoom with the wheel or the + and − buttons.
 - **Site view:** the region's LOLA terrain lit from the Sun's true direction. "Stand on site" puts you 2 m above the spot with the real horizon around you and the Sun and Earth tracks for the next lunar day; "Face the Sun" and "Face Earth" turn you towards them. Layers show real light, the share of time sunlit, and permanent shadow.
 - **Timeline:** Sun and Earth bands for the next few weeks. Drag to move the time, or play at 1 h, 6 h or 1 day per second.
 - **Site score:** sunlight, Earth contact, the longest night and distance to ice, weighted by sliders. The score feeds the compare table and Navi.
 - **Power:** battery needed to get through the longest night at a chosen power draw, compared with the region centre.
-- **Planner:** a day-by-day calendar for the whole period, landing windows for a chosen surface stay, and an on-time vs late table for delays from 1 hour to 1 month.
+- **Planner:** a day-by-day calendar with a year picker, a mission period (from and to dates) with Sun, Earth, longest night and radiation over exactly those hours, landing windows for a chosen surface stay (6 days by default, the middle of the 5.75–6.25 days NASA gives for Artemis III), and an on-time vs late table for delays from 1 hour to 1 month.
+- **Radiation:** the daily dose on the surface from LRO CRaTER, 2009 to 2026, with storm days marked. After the last measurement the rate comes from the same point of the previous 11-year solar cycle, shown as an estimate. The dose at the spot is scaled by how much of the sky its horizon leaves open.
+- **Named features:** the official IAU names near the spot (centre, diameter, latitude and longitude range), from the USGS Gazetteer, the same records LROC QuickMap shows.
 - **Landing scatter:** a map of how sunlight and Earth contact change within 100 m of the spot, with steep ground crossed out.
 - **Compare, water and trust:** all regions side by side, permanent shadow near the spot, and how each part was checked.
 - **Share and export:** a link that reopens the same spot and time, and an hourly CSV for the next 30 days.
@@ -32,23 +34,25 @@ Everything the page needs is in `public/data`, so it runs offline and can be hos
 - **Sun and Earth positions:** an hourly table of the sub-solar and sub-Earth points on the Moon from JPL Horizons (MOON_ME frame). The browser rebuilds the direction of the Sun and Earth for any point from it.
 - **Terrain horizons:** for each spot we walk 720 rays out to 250 km over LOLA terrain: the 5 m site tiles near the spot, then LDEM_80S_80M and LDEM_75S_240M. The eye is 2 m above the ground.
 - **Best spots:** every 100 m inside each region we apply NASA's landing limits (slope under 10° over 100 m; 90% of the ground within 1 km under 20°; Earth visible at least 25% and Sun at least 5% of the time on NASA's long-term maps). The best 40 points get a full horizon and are ranked by hours with Sun and Earth together.
-- **Landing scatter:** a lander aims at a spot but lands somewhere near it. Around each centre and best spot we rebuild the full horizon on a 9 × 9 grid, 25 m apart, and report the range within 100 m (NASA sets its slope limit over a 100 m landing area). Some best spots are robust (Mons Mouton Plateau: 47–72% with Sun and Earth together); others are fragile (the peak near Cabeus B: 4–56%).
+- **Landing scatter:** a lander aims at a spot but lands somewhere near it. Around each centre and best spot we rebuild the full horizon on a 9 × 9 grid, 25 m apart, and report the range within 100 m (NASA sets its slope limit over a 100 m landing area). Some best spots are robust (Mons Mouton Plateau: 45–70% with Sun and Earth together); others are fragile (the peak near Cabeus B: 2–59%).
 - **Custom points:** clicking the 3D terrain computes a horizon in the browser from lighter grids.
+- **Radiation:** hourly dose rates from CRaTER's D1&2 detectors (the official product: absorbed dose in water at the lunar surface, cGy/day). We keep the daily median and maximum. The background rate is the quieter quarter of the days within two weeks of the date, so storms don't inflate it; storms are counted separately.
 
 ## Checks
 
 | What | Against | Result |
 |---|---|---|
-| Ephemeris | 58 independent Horizons runs | worst difference 1.3 arcseconds |
+| Ephemeris | 58 independent Horizons runs | worst difference 1.4 arcseconds |
 | 5 m tiles | LDEM_80S_80M | 1–2 m RMS, no offset |
 | Sunlight model | NASA LOLA illumination maps, 18.6 years, 200 random points | median 0.29 points (Sun), 0.06 (Earth) |
 | Custom points | full 5 m build at 32 spots | median 1.9 points (Sun), worst 19 on steep ground |
+| Radiation | Chang'e-4 lander on the surface, Jan–Jun 2019 (Zhang et al. 2020) | CRaTER 0.31 mGy/day vs Chang'e-4 about 0.33 without ground albedo |
 
-Scripts: `npm run check:horizons`, `check:tiles`, `check:illumination`, `check:custom`. Data builds: `data:regions`, `data:ephemeris`, `data:horizons`, `data:best-spots`, `data:terrain`, `data:scatter`. The raw inputs (`data-raw/`, about 2 GB) are not in the repo; the sources are listed below.
+Scripts: `npm run check:horizons`, `check:tiles`, `check:illumination`, `check:custom`. Data builds: `data:regions`, `data:ephemeris`, `data:horizons`, `data:best-spots`, `data:terrain`, `data:scatter`, `data:radiation`, `data:features`. The raw inputs (`data-raw/`, about 2 GB) are not in the repo; the sources are listed below.
 
 ## Limits
 
-Horizons are for an eye 2 m above the ground, and times are UTC. Dates run from November 2026 to January 2029. Earth "in view" means a clear line of sight to its centre: no link budget or relay satellites. The Sun counts as up when any part of its disc clears the terrain; panel tilt, dust and temperature are not modelled. Terrain is 5 m only inside NASA's high-resolution tiles. The battery figure is energy only. Permanent shadow marks where ice can survive, not where it has been found.
+Horizons are for an eye 2 m above the ground, and times are UTC. Dates run from November 2026 to the end of 2035. Earth "in view" means a clear line of sight to its centre: no link budget or relay satellites. The Sun counts as up when any part of its disc clears the terrain; panel tilt, dust and temperature are not modelled. Terrain is 5 m only inside NASA's high-resolution tiles. The battery figure is energy only. Permanent shadow marks where ice can survive, not where it has been found. Radiation is absorbed dose (mGy), not dose equivalent (mSv, roughly 3× higher for cosmic rays); after September 2026 it is an estimate from the previous solar cycle, and it leaves out shielding by a lander or habitat.
 
 ## Data
 
@@ -59,6 +63,10 @@ Horizons are for an eye 2 m above the ground, and times are UTC. Dates run from 
 - Landing requirements: NASA Artemis Human Landing System update, 2024: https://ntrs.nasa.gov/citations/20240009596
 - 3D Moon texture: NASA SVS CGI Moon Kit (LROC colour map): https://svs.gsfc.nasa.gov/4720/
 - Earth texture: three.js example textures (MIT): https://github.com/mrdoob/three.js/tree/r170/examples/textures/planets
+- LRO CRaTER dose rates (University of New Hampshire / NASA): https://crater-web.sr.unh.edu/data/craterProducts/doserates/
+- Chang'e-4 LND surface dose (Zhang et al. 2020, Science Advances 6, eaaz1334): https://www.science.org/doi/10.1126/sciadv.aaz1334
+- IAU Gazetteer of Planetary Nomenclature (USGS Astrogeology): https://planetarynames.wr.usgs.gov/
+- Artemis III site selection update: T. George, M. A. Rubio, S. J. Lawrence and P. Curell (NASA), "Artemis III Site Selection Update: Down-selection from 13 to 9 Candidate Regions", 57th Lunar and Planetary Science Conference (2026), abstract 1901: https://www.hou.usra.edu/meetings/lpsc2026/pdf/1901.pdf
 - Landing regions: NASA, October 2024: https://www.nasa.gov/news-release/nasa-provides-update-on-artemis-iii-moon-landing-regions/
 
 ## Use of AI

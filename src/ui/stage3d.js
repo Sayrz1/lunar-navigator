@@ -447,6 +447,21 @@ export class Stage {
     gsap.to(this.controls.target, { x: target.x, y: target.y, z: target.z, duration: 1.2, ease: 'power2.inOut' });
   }
 
+  // Zoom buttons: move the camera towards or away from what it orbits. Standing on the
+  // ground the camera can't move, so narrow or widen the lens instead.
+  zoom(factor) {
+    const c = this.controls;
+    if (c.enableZoom === false) {
+      this.camera.fov = Math.min(Math.max(this.camera.fov * factor, 15), 75);
+      this.camera.updateProjectionMatrix();
+      return;
+    }
+    const off = this.camera.position.clone().sub(c.target);
+    const d = Math.min(Math.max(off.length() * factor, c.minDistance), c.maxDistance);
+    const end = c.target.clone().add(off.setLength(d));
+    gsap.to(this.camera.position, { x: end.x, y: end.y, z: end.z, duration: 0.35, ease: 'power2.out' });
+  }
+
   setActive(on) {
     this.container.hidden = !on;
     if (on) this.resize();

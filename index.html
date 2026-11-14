@@ -65,6 +65,10 @@
         </div>
       </div>
 
+      <div class="zoom" role="group" data-i18n-attr="aria-label:ctl.zoom" aria-label="Zoom">
+        <button type="button" data-zoom="0.75" data-i18n-attr="aria-label:ctl.zoomIn" aria-label="Zoom in">+</button>
+        <button type="button" data-zoom="1.33" data-i18n-attr="aria-label:ctl.zoomOut" aria-label="Zoom out">−</button>
+      </div>
       <aside class="hud panel" aria-live="polite">
         <dl id="panel"></dl>
       </aside>
@@ -78,6 +82,10 @@
         </div>
         <div class="controls">
           <div class="space-only">
+            <div class="seg" role="radiogroup" id="frame" aria-label="Frame">
+              <button type="button" role="radio" data-frame="moon" aria-checked="true" data-i18n="frame.moon">Moon-fixed</button>
+              <button type="button" role="radio" data-frame="sun" aria-checked="false" data-i18n="frame.sun">Sun-fixed</button>
+            </div>
             <button type="button" id="fly" class="cta" data-i18n="ctl.fly">Fly down to site</button>
           </div>
           <div class="site-only">
@@ -160,6 +168,26 @@
           <dl id="power" class="num rows"></dl>
           <p class="small muted" data-i18n="power.note"></p>
         </article>
+        <article class="card radiation">
+          <h3 data-i18n="rad.title">Radiation on the surface</h3>
+          <div class="rad-body">
+            <div>
+              <p class="rad-big"><span id="rad-rate" class="num">–</span> <small data-i18n="rad.unit">mGy per day</small></p>
+              <p id="rad-basis" class="small muted"></p>
+              <dl id="rad-rows" class="num rows"></dl>
+            </div>
+            <figure class="rad-chart">
+              <canvas id="rad-chart" aria-label="Cosmic-ray dose at the lunar surface, 2009 to 2035"></canvas>
+              <figcaption class="small muted" data-i18n="rad.caption"></figcaption>
+            </figure>
+          </div>
+          <p class="small muted" data-i18n="rad.note"></p>
+        </article>
+        <article class="card features">
+          <h3 data-i18n="feat.title">Named features nearby</h3>
+          <div id="feat-list" class="feat-list"></div>
+          <p class="small muted" data-i18n="feat.note"></p>
+        </article>
       </div>
       <figure class="chart">
         <canvas id="horizon-chart" height="300" aria-label="360 degree horizon with the Sun and Earth paths"></canvas>
@@ -191,11 +219,12 @@
 
     <section id="planner" class="band">
       <header class="band-head">
-        <p class="eyebrow" data-i18n="plan.eyebrow">Mission planner · Nov 2026 – Jan 2029</p>
+        <p class="eyebrow" data-i18n="plan.eyebrow">Mission planner · Nov 2026 – Dec 2035</p>
         <h2 data-i18n="plan.title">When should we land?</h2>
         <p class="band-lede" data-i18n="plan.lede"></p>
       </header>
       <figure class="chart">
+        <div class="seg cal-years" role="radiogroup" id="cal-year" aria-label="Year"></div>
         <canvas id="calendar" aria-label="Calendar of hours with Sun and Earth together"></canvas>
         <figcaption class="cal-key">
           <span class="ramp" aria-hidden="true"></span><span data-i18n="plan.cal.key">0 → 100% of the day with Sun and Earth together</span>
@@ -203,13 +232,24 @@
           <span data-i18n="plan.cal.click">Click a day to jump there.</span>
         </figcaption>
       </figure>
+      <article class="card period">
+        <div class="card-head">
+          <h3 data-i18n="per.title">Your mission period</h3>
+          <span id="per-len" class="small muted num"></span>
+        </div>
+        <div class="period-inputs">
+          <label class="field"><span data-i18n="per.from">From (UTC)</span><input id="per-from" type="datetime-local" step="3600"></label>
+          <label class="field"><span data-i18n="per.to">To (UTC)</span><input id="per-to" type="datetime-local" step="3600"></label>
+        </div>
+        <dl id="per-rows" class="period-rows num"></dl>
+      </article>
       <div class="grid-2">
         <article class="card">
           <div class="card-head">
             <h3 data-i18n="plan.windows">Landing windows for this spot</h3>
             <label class="field inline">
               <span data-i18n="plan.stay">Surface stay (days)</span>
-              <input id="stay" type="number" min="1" max="20" step="0.5" value="6.5">
+              <input id="stay" type="number" min="0.5" max="365" step="0.5" value="6">
             </label>
           </div>
           <ol id="windows" class="windows num"></ol>
@@ -290,7 +330,7 @@
         <h2 data-i18n="about.title">About</h2>
         <p class="band-lede" data-i18n="about.body"></p>
       </header>
-      <div class="grid-2">
+      <div>
         <article class="card">
           <h3 data-i18n="about.data">Data</h3>
           <ul class="sources">
@@ -300,13 +340,12 @@
             <li><a href="https://ssd.jpl.nasa.gov/horizons/" rel="noopener">JPL Horizons</a> (Sun and Earth positions, MOON_ME frame)</li>
             <li><a href="https://svs.gsfc.nasa.gov/4720/" rel="noopener">NASA SVS CGI Moon Kit</a> (LROC colour map for the 3D Moon)</li>
             <li><a href="https://ntrs.nasa.gov/citations/20240009596" rel="noopener">NASA Artemis lander update 2024</a> (landing requirements)</li>
+            <li><a href="https://www.hou.usra.edu/meetings/lpsc2026/pdf/1901.pdf" rel="noopener">Artemis III site selection update</a> (George, Rubio, Lawrence &amp; Curell, NASA, LPSC 2026, abstract 1901: the 9 regions and a 5.75–6.25 day surface stay)</li>
             <li><a href="https://www.nasa.gov/news-release/nasa-provides-update-on-artemis-iii-moon-landing-regions/" rel="noopener">NASA Artemis landing regions, Oct 2024</a></li>
+            <li><a href="https://crater-web.sr.unh.edu/data/craterProducts/doserates/" rel="noopener">LRO CRaTER dose rates</a> (University of New Hampshire / NASA), checked against <a href="https://www.science.org/doi/10.1126/sciadv.aaz1334" rel="noopener">Chang’e-4 LND</a> (Zhang et al. 2020)</li>
+            <li><a href="https://planetarynames.wr.usgs.gov/" rel="noopener">IAU Gazetteer of Planetary Nomenclature</a> (USGS Astrogeology: feature names, centres and sizes)</li>
             <li>Earth texture: <a href="https://github.com/mrdoob/three.js/tree/r170/examples/textures/planets" rel="noopener">three.js examples</a> (MIT)</li>
           </ul>
-        </article>
-        <article class="card">
-          <h3 data-i18n="about.ai">Use of AI</h3>
-          <p data-i18n="about.ai.body"></p>
           <p class="small muted" data-i18n="about.nologo"></p>
         </article>
       </div>

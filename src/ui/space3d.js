@@ -2,6 +2,9 @@
 // JPL table (sub-solar and sub-Earth points). In this frame the Sun circles the Moon once a
 // lunar day and Earth hangs almost still, rocking a few degrees: what a crew on the surface sees.
 //
+// The 'sun' frame turns everything about the Moon's pole so the Sun stays put: the Moon then
+// spins once a lunar day and Earth goes round it once a month, as seen from outside.
+//
 // Moon-fixed axes (MOON_ME): x to 0 deg E, y to 90 deg E, z to the north pole.
 // Three.js: x = x, y = z (north up), z = -y. Sizes and distances are not to scale.
 
@@ -61,7 +64,10 @@ export class SpaceView {
     moonTex.colorSpace = THREE.SRGBColorSpace;
     moonTex.anisotropy = 8;
     this.moon = new THREE.Mesh(new THREE.SphereGeometry(1, 160, 80), new THREE.MeshStandardMaterial({ map: moonTex, roughness: 1, metalness: 0 }));
-    this.scene.add(this.moon);
+    this.body = new THREE.Group(); // the Moon and everything fixed to its surface
+    this.body.add(this.moon);
+    this.scene.add(this.body);
+    this.frame = 'moon';
 
     const earthTex = loader.load('./data/earth.jpg');
     earthTex.colorSpace = THREE.SRGBColorSpace;
@@ -88,9 +94,9 @@ export class SpaceView {
     this.site = new THREE.Group();
     this.site.add(new THREE.Mesh(new THREE.SphereGeometry(0.014, 16, 12), new THREE.MeshBasicMaterial({ color: '#ffffff' })));
     this.site.add(glow('rgba(255,255,255,1)', 0.09, 0.8));
-    this.scene.add(this.site);
+    this.body.add(this.site);
     this.regionDots = new THREE.Group();
-    this.scene.add(this.regionDots);
+    this.body.add(this.regionDots);
 
     this.camera.position.set(1.9, -2.3, 2.6);
     this.controls.target.set(0, -0.35, 0);
@@ -129,6 +135,21 @@ export class SpaceView {
     this.camera.updateProjectionMatrix();
   }
 
+  // Zoom buttons: move the camera towards or away from what it orbits. Standing on the
+  // ground the camera can't move, so narrow or widen the lens instead.
+  zoom(factor) {
+    const c = this.controls;
+    if (c.enableZoom === false) {
+      this.camera.fov = Math.min(Math.max(this.camera.fov * factor, 15), 75);
+      this.camera.updateProjectionMatrix();
+      return;
+    }
+    const off = this.camera.position.clone().sub(c.target);
+    const d = Math.min(Math.max(off.length() * factor, c.minDistance), c.maxDistance);
+    const end = c.target.clone().add(off.setLength(d));
+    gsap.to(this.camera.position, { x: end.x, y: end.y, z: end.z, duration: 0.35, ease: 'power2.out' });
+  }
+
   setActive(on) {
     this.active = on;
     this.container.hidden = !on;
@@ -137,22 +158,37 @@ export class SpaceView {
 
   // row: { sunLon, sunLat, earthLon, earthLat } from the ephemeris; path: rows over the next lunar day
   setSky(row, path, earthRotDeg) {
-    const sunDir = moonVector(row.sunLat, row.sunLon);
-    const earthDir = moonVector(row.earthLat, row.earthLon);
+    this.lastSky = [row, path ?? this.lastSky?.[1], earthRotDeg];
+    // in the Sun frame, longitudes are counted from the sub-solar point
+    const shift = r => (this.frame === 'sun' ? r.sunLon : 0);
+    this.body.rotation.y = -shift(row) * DEG;
+    const sunDir = moonVector(row.sunLat, row.sunLon - shift(row));
+    const earthDir = moonVector(row.earthLat, row.earthLon - shift(row));
     this.sun.position.copy(sunDir).multiplyScalar(SUN_DIST);
     this.earth.position.copy(earthDir).multiplyScalar(EARTH_DIST);
     this.earth.rotation.y = earthRotDeg * DEG;
     this.sunLight.position.copy(sunDir).multiplyScalar(20);
-    if (path) {
-      this.sunPath.geometry.setFromPoints(path.map(p => moonVector(p.sunLat, p.sunLon, SUN_DIST)));
-      this.earthPath.geometry.setFromPoints(path.map(p => moonVector(p.earthLat, p.earthLon, EARTH_DIST)));
+    const p = this.lastSky[1];
+    if (p && (path || this.frameChanged)) {
+      this.sunPath.geometry.setFromPoints(p.map(r => moonVector(r.sunLat, r.sunLon - shift(r), SUN_DIST)));
+      this.earthPath.geometry.setFromPoints(p.map(r => moonVector(r.earthLat, r.earthLon - shift(r), EARTH_DIST)));
+      this.frameChanged = false;
     }
+    this.sunPath.visible = this.frame === 'moon';
     this.updateRays();
   }
 
+  setFrame(frame) {
+    if (frame === this.frame) return;
+    this.frame = frame;
+    this.frameChanged = true;
+    if (this.lastSky) this.setSky(this.lastSky[0], null, this.lastSky[2]);
+  }
+
   setSite(lat, lon, { sunlit, earthInView } = {}) {
-    this.sitePos = moonVector(lat, lon, 1.003);
-    this.site.position.copy(this.sitePos);
+    this.site.position.copy(moonVector(lat, lon, 1.003));
+    this.body.updateMatrixWorld();
+    this.sitePos = this.site.getWorldPosition(new THREE.Vector3());
     this.vis = { sunlit, earthInView };
     this.updateRays();
   }
