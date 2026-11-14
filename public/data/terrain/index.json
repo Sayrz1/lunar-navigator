@@ -1,0 +1,179 @@
+{
+ "cells": 160,
+ "order": [
+  "height int16 m",
+  "sun uint8 /250",
+  "earth uint8 /250",
+  "psr uint8 /250"
+ ],
+ "regions": {
+  "peak-near-cabeus-b": {
+   "x0": -190.533,
+   "x1": -169.333,
+   "y0": 59.45,
+   "y1": 80.65,
+   "cellKm": 0.1325,
+   "heightFrom": "LDEM_80S_80M",
+   "minM": -226,
+   "maxM": 4595
+  },
+  "haworth": {
+   "x0": -52.9,
+   "x1": -23.1,
+   "y0": 75.6,
+   "y1": 105.4,
+   "cellKm": 0.1862,
+   "heightFrom": "LOLA 5 m tile",
+   "minM": -1619,
+   "maxM": 2839
+  },
+  "malapert-massif": {
+   "x0": -11.0,
+   "x1": 10.0,
+   "y0": 111.0,
+   "y1": 132.0,
+   "cellKm": 0.1313,
+   "heightFrom": "LOLA 5 m tile",
+   "minM": 923,
+   "maxM": 5171
+  },
+  "mons-mouton-plateau": {
+   "x0": 48.668,
+   "x1": 126.268,
+   "y0": 109.099,
+   "y1": 186.699,
+   "cellKm": 0.485,
+   "heightFrom": "LDEM_80S_80M",
+   "minM": -1498,
+   "maxM": 7020
+  },
+  "mons-mouton": {
+   "x0": 65.0,
+   "x1": 81.0,
+   "y0": 110.0,
+   "y1": 126.0,
+   "cellKm": 0.1,
+   "heightFrom": "LOLA 5 m tile",
+   "minM": 2810,
+   "maxM": 6461
+  },
+  "nobile-rim-1": {
+   "x0": 74.0,
+   "x1": 94.0,
+   "y0": 100.0,
+   "y1": 120.0,
+   "cellKm": 0.125,
+   "heightFrom": "LOLA 5 m tile",
+   "minM": 872,
+   "maxM": 6798
+  },
+  "nobile-rim-2": {
+   "x0": 147.0,
+   "x1": 167.0,
+   "y0": 85.0,
+   "y1": 105.0,
+   "cellKm": 0.125,
+   "heightFrom": "LOLA 5 m tile",
+   "minM": -1414,
+   "maxM": 1812
+  },
+  "de-gerlache-rim-2": {
+   "x0": -58.5,
+   "x1": -38.5,
+   "y0": 13.0,
+   "y1": 33.0,
+   "cellKm": 0.125,
+   "heightFrom": "LOLA 5 m tile",
+   "minM": -1854,
+   "maxM": 1762
+  },
+  "slater-plain": {
+   "x0": 59.517,
+   "x1": 80.417,
+   "y0": -60.397,
+   "y1": -39.497,
+   "cellKm": 0.1306,
+   "heightFrom": "LDEM_80S_80M",
+   "minM": -1319,
+   "maxM": 531
+  },
+  "peak-near-shackleton": {
+   "x0": 22.0,
+   "x1": 38.0,
+   "y0": -28.0,
+   "y1": -12.0,
+   "cellKm": 0.1,
+   "heightFrom": "LOLA 5 m tile",
+   "minM": -402,
+   "maxM": 1647
+  },
+  "connecting-ridge": {
+   "x0": -19.0,
+   "x1": -3.0,
+   "y0": -20.0,
+   "y1": -4.0,
+   "cellKm": 0.1,
+   "heightFrom": "LOLA 5 m tile",
+   "minM": -513,
+   "maxM": 1957
+  },
+  "connecting-ridge-extension": {
+   "x0": -38.7,
+   "x1": -18.7,
+   "y0": -16.1,
+   "y1": 3.9,
+   "cellKm": 0.125,
+   "heightFrom": "LOLA 5 m tile",
+   "minM": -1152,
+   "maxM": 1687
+  },
+  "de-gerlache-rim-1": {
+   "x0": -45.0,
+   "x1": -29.0,
+   "y0": 7.0,
+   "y1": 23.0,
+   "cellKm": 0.1,
+   "heightFrom": "LOLA 5 m tile",
+   "minM": -801,
+   "maxM": 1812
+  },
+  "de-gerlache-kocher-massif": {
+   "x0": -123.4,
+   "x1": -103.4,
+   "y0": -66.1,
+   "y1": -46.1,
+   "cellKm": 0.125,
+   "heightFrom": "LOLA 5 m tile",
+   "minM": -1073,
+   "maxM": 2992
+  },
+  "amundsen-rim": {
+   "x0": 154.0,
+   "x1": 174.0,
+   "y0": 51.5,
+   "y1": 71.5,
+   "cellKm": 0.125,
+   "heightFrom": "LOLA 5 m tile",
+   "minM": -1828,
+   "maxM": 1013
+  },
+  "shoemaker-rim": {
+   "x0": 9.0,
+   "x1": 29.0,
+   "y0": 15.0,
+   "y1": 35.0,
+   "cellKm": 0.125,
+   "heightFrom": "LOLA 5 m tile",
+   "minM": -3782,
+   "maxM": -56
+  }
+ },
+ "polar": {
+  "cols": 953,
+  "rows": 953,
+  "cellKm": 0.96,
+  "xc0": -456.96,
+  "yc0": 456.96,
+  "from": "LDEM_75S_240M, 4 x 4 block mean"
+ }
+}

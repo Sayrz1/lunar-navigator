@@ -1,14 +1,32 @@
-// 360 degree horizon chart: terrain skyline with Sun and Earth tracks.
+// 2D charts: horizon skyline, landing calendar, ice map.
 // Colours come from CSS variables, so a theme change only needs a redraw.
 
-import { horizonAt } from '../core/horizon.js';
+import { horizonAt, toStereo } from '../core/horizon.js';
 
 const css = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
 
-export function drawHorizonChart(canvas, hz, path, now) {
+// Match the canvas to its CSS width at the screen's pixel ratio; draw in CSS pixels.
+function fit(canvas, cssHeight) {
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const w = canvas.clientWidth || canvas.parentElement.clientWidth;
+  const h = cssHeight ?? w;
+  if (canvas.width !== Math.round(w * dpr) || canvas.height !== Math.round(h * dpr)) {
+    canvas.width = Math.round(w * dpr);
+    canvas.height = Math.round(h * dpr);
+  }
+  canvas.style.height = `${h}px`;
   const ctx = canvas.getContext('2d');
-  const W = canvas.width, H = canvas.height;
-  const pad = { l: 48, r: 12, t: 14, b: 30 };
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  ctx.clearRect(0, 0, w, h);
+  return { ctx, W: w, H: h };
+}
+
+const font = size => `${size}px 'IBM Plex Mono', ui-monospace, monospace`;
+
+export function drawHorizonChart(canvas, hz, path, now) {
+  const narrow = (canvas.clientWidth || 600) < 560;
+  const { ctx, W, H } = fit(canvas, narrow ? 240 : 300);
+  const pad = { l: 44, r: 10, t: 12, b: 26 };
 
   const values = [...hz.el, ...path.map(p => p.sun.el), ...path.map(p => p.earth.el)];
   const lo = Math.floor(Math.min(...values) - 1);
@@ -17,28 +35,26 @@ export function drawHorizonChart(canvas, hz, path, now) {
   const y = el => pad.t + ((hi - el) / (hi - lo)) * (H - pad.t - pad.b);
 
   ctx.clearRect(0, 0, W, H);
-  ctx.font = '12px ui-monospace, monospace';
-
-  // grid
+  ctx.font = font(11);
   ctx.strokeStyle = css('--line');
   ctx.fillStyle = css('--muted');
   ctx.lineWidth = 1;
-  for (let el = Math.ceil(lo); el <= hi; el += hi - lo > 12 ? 2 : 1) {
+  const stepEl = hi - lo > 24 ? 4 : hi - lo > 12 ? 2 : 1;
+  for (let el = Math.ceil(lo / stepEl) * stepEl; el <= hi; el += stepEl) {
     ctx.beginPath(); ctx.moveTo(pad.l, y(el)); ctx.lineTo(W - pad.r, y(el)); ctx.stroke();
     ctx.textAlign = 'right'; ctx.fillText(`${el}°`, pad.l - 6, y(el) + 4);
   }
   ctx.textAlign = 'center';
-  for (const [az, label] of [[0, 'N'], [90, 'E'], [180, 'S'], [270, 'W'], [360, 'N']]) {
-    ctx.fillText(label, x(az), H - 10);
+  for (const [az, label] of [[0, 'N'], [45, 'NE'], [90, 'E'], [135, 'SE'], [180, 'S'], [225, 'SW'], [270, 'W'], [315, 'NW'], [360, 'N']]) {
+    if (narrow && label.length > 1) continue;
+    ctx.fillText(label, x(az), H - 8);
   }
 
-  // flat horizon
   ctx.strokeStyle = css('--muted');
   ctx.setLineDash([4, 4]);
   ctx.beginPath(); ctx.moveTo(pad.l, y(0)); ctx.lineTo(W - pad.r, y(0)); ctx.stroke();
   ctx.setLineDash([]);
 
-  // terrain
   ctx.fillStyle = css('--ground');
   ctx.beginPath();
   ctx.moveTo(x(0), H - pad.b);
@@ -47,11 +63,10 @@ export function drawHorizonChart(canvas, hz, path, now) {
   ctx.closePath();
   ctx.fill();
 
-  // tracks, broken where the azimuth wraps past north
   const drawTrack = (key, colour) => {
     ctx.strokeStyle = colour;
-    ctx.lineWidth = 1.5;
-    ctx.globalAlpha = 0.85;
+    ctx.lineWidth = 2;
+    ctx.globalAlpha = 0.9;
     ctx.beginPath();
     let prev = null;
     for (const p of path) {
@@ -65,7 +80,127 @@ export function drawHorizonChart(canvas, hz, path, now) {
     const b = now[key];
     ctx.fillStyle = colour;
     ctx.beginPath(); ctx.arc(x(b.az), y(b.el), 6, 0, 2 * Math.PI); ctx.fill();
+    ctx.strokeStyle = css('--card'); ctx.lineWidth = 2; ctx.stroke();
   };
   drawTrack('sun', css('--sun'));
   drawTrack('earth', css('--earth'));
+}
+
+// Landing calendar: one row per month, one cell per day, coloured by the share of that day's
+// hours with Sun and Earth together. Days where a landing window opens get a dot.
+// Returns a function mapping a click (CSS px) to that day's start time, or null.
+export function drawCalendar(canvas, days, chosenMs, windows, locale) {
+  const months = [];
+  for (const d of days) {
+    const dt = new Date(d.t);
+    const key = dt.getUTCFullYear() * 12 + dt.getUTCMonth();
+    if (months.at(-1)?.key !== key) months.push({ key, t: Date.UTC(dt.getUTCFullYear(), dt.getUTCMonth(), 1), cells: [] });
+    months.at(-1).cells[dt.getUTCDate() - 1] = d;
+  }
+  const narrow = (canvas.clientWidth || 600) < 560;
+  const pad = { l: narrow ? 58 : 76, t: 22, r: 4, b: 4 };
+  const W = canvas.clientWidth || canvas.parentElement.clientWidth;
+  const cw = (W - pad.l - pad.r) / 31;
+  const ch = Math.max(10, Math.min(18, cw * 0.8));
+  const { ctx } = fit(canvas, pad.t + months.length * ch + pad.b);
+
+  const opens = new Set(windows.map(w => Math.floor(w.open / 86400e3)));
+  const muted = css('--muted');
+  const ramp = v => {
+    // night blue -> amber -> green
+    const stops = [[24, 27, 36], [120, 82, 30], [255, 181, 71], [125, 220, 154]];
+    const f = Math.min(0.999, v) * (stops.length - 1), i = Math.floor(f), t = f - i;
+    return `rgb(${stops[i].map((c, k) => Math.round(c + (stops[i + 1][k] - c) * t)).join(',')})`;
+  };
+
+  ctx.font = font(10);
+  ctx.fillStyle = muted;
+  ctx.textAlign = 'center';
+  for (const d of [1, 5, 10, 15, 20, 25, 30]) ctx.fillText(String(d), pad.l + (d - 0.5) * cw, 14);
+  const fmt = new Intl.DateTimeFormat(locale, { month: 'short', year: '2-digit', timeZone: 'UTC' });
+  const chosenDay = Math.floor(chosenMs / 86400e3);
+
+  months.forEach((m, r) => {
+    const y = pad.t + r * ch;
+    ctx.fillStyle = muted;
+    ctx.textAlign = 'right';
+    ctx.fillText(fmt.format(m.t), pad.l - 8, y + ch * 0.72);
+    for (let c = 0; c < 31; c++) {
+      const d = m.cells[c];
+      if (!d) continue;
+      const x = pad.l + c * cw;
+      ctx.fillStyle = ramp(d.both);
+      ctx.fillRect(x + 0.5, y + 0.5, cw - 1.5, ch - 1.5);
+      const day = Math.floor(d.t / 86400e3);
+      if (opens.has(day)) {
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath(); ctx.arc(x + cw / 2, y + ch / 2, Math.min(cw, ch) * 0.16, 0, 2 * Math.PI); ctx.fill();
+      }
+      if (day === chosenDay) {
+        ctx.strokeStyle = css('--text'); ctx.lineWidth = 2;
+        ctx.strokeRect(x + 0.5, y + 0.5, cw - 1.5, ch - 1.5);
+      }
+    }
+  });
+
+  return (px, py) => {
+    const c = Math.floor((px - pad.l) / cw), r = Math.floor((py - pad.t) / ch);
+    const d = months[r]?.cells[c];
+    return d ? d.t : null;
+  };
+}
+
+// Shaded relief with permanent shadow in ice blue, plus spot markers.
+export function drawIceMap(canvas, g, markers) {
+  const { ctx, W } = fit(canvas);
+  const n = g.cells;
+  const img = new ImageData(n, n);
+  const ice = [143, 227, 255];
+  const d = g.cellKm * 1000;
+  for (let i = 0; i < n; i++) for (let j = 0; j < n; j++) {
+    const k = i * n + j;
+    const hx = g.height[i * n + Math.min(j + 1, n - 1)] - g.height[i * n + Math.max(j - 1, 0)];
+    const hy = g.height[Math.max(i - 1, 0) * n + j] - g.height[Math.min(i + 1, n - 1) * n + j];
+    // light from the upper left, 45 deg up
+    const nx = -hx / (2 * d), ny = -hy / (2 * d);
+    const shade = Math.max(0, (nx * -0.5 + ny * 0.5 + 0.7071) / Math.sqrt(nx * nx + ny * ny + 1));
+    const grey = 30 + shade * 170;
+    const p = g.psr[k] / 250;
+    img.data.set([grey * (1 - p) + ice[0] * p, grey * (1 - p) + ice[1] * p, grey * (1 - p) + ice[2] * p, 255], k * 4);
+  }
+  const off = document.createElement('canvas');
+  off.width = off.height = n;
+  off.getContext('2d').putImageData(img, 0, 0);
+  ctx.imageSmoothingEnabled = true;
+  ctx.drawImage(off, 0, 0, W, W);
+
+  // 2 km walking circle around the active spot and markers
+  const px = (lat, lon) => {
+    const [x, y] = toStereo(lat, lon);
+    return [((x - g.x0) / (g.x1 - g.x0)) * W, ((g.y1 - y) / (g.y1 - g.y0)) * W];
+  };
+  for (const m of markers) {
+    const [mx, my] = px(m.lat, m.lon);
+    if (m.active) {
+      ctx.strokeStyle = 'rgba(255,255,255,0.8)';
+      ctx.setLineDash([5, 5]); ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.arc(mx, my, (2 / (g.x1 - g.x0)) * W, 0, 2 * Math.PI); ctx.stroke();
+      ctx.setLineDash([]);
+    }
+    if (m.line) {
+      const [lx, ly] = px(...m.line);
+      ctx.strokeStyle = css('--ice'); ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(mx, my); ctx.lineTo(lx, ly); ctx.stroke();
+    }
+    ctx.fillStyle = m.colour;
+    ctx.strokeStyle = '#000'; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.arc(mx, my, m.active ? 7 : 5, 0, 2 * Math.PI); ctx.fill(); ctx.stroke();
+  }
+  // scale bar
+  const km = (g.x1 - g.x0) > 40 ? 10 : 5;
+  const len = (km / (g.x1 - g.x0)) * W;
+  ctx.fillStyle = '#fff';
+  ctx.fillRect(16, W - 22, len, 3);
+  ctx.font = font(11);
+  ctx.fillText(`${km} km`, 16, W - 28);
 }

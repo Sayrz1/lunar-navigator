@@ -4,64 +4,316 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Lunar Navigator</title>
-  <meta name="description" content="Compare Moon landing sites and dates: sunlight on the real terrain, Earth in view for radio, and how both change if the landing slips.">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='13' fill='%23c9c6bd'/%3E%3Ccircle cx='21' cy='12' r='13' fill='%230b0e16'/%3E%3C/svg%3E">
+  <meta name="description" content="Where and when to land at the Moon's south pole: sunlight on the real terrain, Earth in view for radio, and what changes if the landing slips.">
+  <meta name="theme-color" content="#050506">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='13' fill='%23c9c6bd'/%3E%3Ccircle cx='21' cy='12' r='13' fill='%23050506'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Arabic:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Unbounded:wght@500;700&display=swap">
   <link rel="stylesheet" href="/src/styles.css">
 </head>
 <body>
+  <a class="skip" href="#assessment">Skip to the assessment</a>
   <header class="top">
-    <a class="logo" href="#stage">Lunar Navigator</a>
-    <nav>
-      <a href="#stage">Stage</a>
-      <a href="#assessment">Assessment</a>
-      <a href="#planner">Planner</a>
-      <a href="#compare">Compare</a>
-      <a href="#trust">Trust</a>
-      <a href="#about">About</a>
+    <a class="logo" href="#stage"><span class="logo-mark" aria-hidden="true"></span>Lunar Navigator<small data-i18n="logo.sub">South pole landings</small></a>
+    <nav aria-label="Sections">
+      <a href="#stage" data-i18n="nav.stage">3D</a>
+      <a href="#assessment" data-i18n="nav.assess">Assessment</a>
+      <a href="#planner" data-i18n="nav.plan">Planner</a>
+      <a href="#compare" data-i18n="nav.compare">Compare</a>
+      <a href="#ice" data-i18n="nav.ice">Water &amp; ice</a>
+      <a href="#trust" data-i18n="nav.trust">Trust</a>
+      <a href="#about" data-i18n="nav.about">About</a>
     </nav>
     <label class="when">
-      <span>Landing time (UTC)</span>
+      <span data-i18n="when.label">Landing (UTC)</span>
       <input id="when" type="datetime-local" step="3600">
     </label>
-    <button id="lang" type="button" lang="ar">عربي</button>
-    <button id="theme" type="button" aria-label="Switch theme">Light</button>
+    <div class="top-actions">
+      <button id="lang" type="button" class="chip" data-i18n="lang.switch">عربي</button>
+      <button id="theme" type="button" class="chip icon" data-i18n-attr="aria-label:theme.label" aria-label="Switch colour theme"></button>
+    </div>
   </header>
 
   <main>
-    <section id="stage">
-      <label class="site">
-        <span>Landing region</span>
-        <select id="site"></select>
-      </label>
-      <h1 id="site-name">…</h1>
-      <p id="site-meta" class="num"></p>
+    <section id="stage" class="hero" aria-label="3D view">
+      <div id="space" class="view"></div>
+      <div id="scene" class="view" hidden></div>
+      <p class="scene-msg" id="scene-msg" data-i18n="stage.loading">Loading the Moon…</p>
+      <div class="sky-labels" aria-hidden="true">
+        <span id="lbl-sun" class="sky-label sun"></span>
+        <span id="lbl-earth" class="sky-label earth"></span>
+        <span id="lbl-site" class="sky-label site"></span>
+      </div>
+
+      <div class="hud hud-top">
+        <div class="seg big" role="radiogroup" id="view" aria-label="View">
+          <button type="button" role="radio" data-view="space" data-i18n="view.space">Space · Sun &amp; Earth around the Moon</button>
+          <button type="button" role="radio" data-view="site" data-i18n="view.site">Site · stand on the terrain</button>
+        </div>
+        <div class="hud-right">
+          <label class="pick">
+            <span data-i18n="stage.region">Region</span>
+            <select id="site"></select>
+          </label>
+          <div class="seg" role="radiogroup" id="spot-kind" aria-label="Spot">
+            <button type="button" role="radio" data-kind="centre" data-i18n="spot.centre">Centre</button>
+            <button type="button" role="radio" data-kind="best" data-i18n="spot.best">Best spot</button>
+            <button type="button" role="radio" data-kind="custom" data-i18n="spot.custom" disabled>Your point</button>
+          </div>
+          <button type="button" class="chip navi-chip" data-open-navi><span class="navi-face" aria-hidden="true"></span><span data-i18n="navi.open">Ask Navi</span></button>
+        </div>
+      </div>
+
+      <aside class="hud panel" aria-live="polite">
+        <dl id="panel"></dl>
+      </aside>
+
+      <div class="hud hud-bottom">
+        <div class="hero-copy">
+          <p id="site-meta" class="coords num"></p>
+          <h1 id="site-name" class="site-title">…</h1>
+          <p id="summary" class="summary"></p>
+          <p id="view-note" class="note"></p>
+        </div>
+        <div class="controls">
+          <div class="space-only">
+            <button type="button" id="fly" class="cta" data-i18n="ctl.fly">Fly down to site</button>
+          </div>
+          <div class="site-only">
+            <div class="seg" role="radiogroup" id="camera" aria-label="Camera">
+              <button type="button" role="radio" data-cam="overview" data-i18n="ctl.overview">Overview</button>
+              <button type="button" role="radio" data-cam="ground" data-i18n="ctl.ground">Stand on site</button>
+            </div>
+            <button type="button" class="chip solid-dark" data-face="sun" data-i18n="ctl.faceSun">Face the Sun</button>
+            <button type="button" class="chip solid-dark" data-face="earth" data-i18n="ctl.faceEarth">Face Earth</button>
+            <div class="seg" role="radiogroup" id="layer" aria-label="Layer">
+              <button type="button" role="radio" data-layer="relief" data-i18n="layer.relief">Real light</button>
+              <button type="button" role="radio" data-layer="sun" data-i18n="layer.sun">Sunlight %</button>
+              <button type="button" role="radio" data-layer="ice" data-i18n="layer.ice">Permanent shadow</button>
+            </div>
+          </div>
+        </div>
+        <div class="timebar">
+          <button type="button" id="play" class="play" data-i18n-attr="aria-label:time.play" aria-label="Play"><span aria-hidden="true"></span></button>
+          <div class="seg" role="radiogroup" id="speed" aria-label="Speed">
+            <button type="button" role="radio" data-speed="1">1 h/s</button>
+            <button type="button" role="radio" data-speed="6">6 h/s</button>
+            <button type="button" role="radio" data-speed="24" data-i18n="speed.day">1 day/s</button>
+          </div>
+          <output id="clock" class="clock num"></output>
+          <div class="bands">
+            <span class="band-label sun" data-i18n="band.sun">SUN</span>
+            <span class="band-label earth" data-i18n="band.earth">EARTH</span>
+            <canvas id="timeline" aria-label="Sun and Earth over the next weeks; click to move the time"></canvas>
+          </div>
+        </div>
+      </div>
+      <a class="scroll-cue" href="#assessment" data-i18n="stage.scroll">Scroll for the full assessment ↓</a>
     </section>
 
-    <section id="assessment">
-      <h2>Right now at this site</h2>
-      <div class="tiles">
-        <article class="tile sun">
-          <h3>Sun</h3>
-          <p id="sun-state" class="state">…</p>
-          <dl id="sun-numbers" class="num"></dl>
+    <section id="assessment" class="band">
+      <header class="band-head">
+        <p class="eyebrow" data-i18n="assess.eyebrow">Site assessment · this lunar day</p>
+        <div class="head-row">
+          <h2 id="assess-name">…</h2>
+          <div class="head-actions">
+            <button type="button" class="chip" id="share" data-i18n="share.link">Share this scenario</button>
+            <button type="button" class="chip" id="csv" data-i18n="share.csv">Download hourly CSV</button>
+            <span id="share-status" class="small muted" role="status"></span>
+          </div>
+        </div>
+      </header>
+      <div class="assess-grid">
+        <article class="card score-card">
+          <h3 data-i18n="score.title">Site score</h3>
+          <p class="score num" id="score">–</p>
+          <p class="grade" id="grade"></p>
+          <ul class="score-parts" id="score-parts"></ul>
         </article>
-        <article class="tile earth">
-          <h3>Earth</h3>
+        <article class="card">
+          <h3 data-i18n="weights.title">What matters for this mission?</h3>
+          <p class="small muted" data-i18n="weights.body">Move the sliders to weigh what your mission needs. The score updates everywhere, including the compare table.</p>
+          <div class="weights" id="weights"></div>
+        </article>
+        <article class="card">
+          <h3 data-i18n="req.title">NASA landing requirements</h3>
+          <ul id="reqs" class="reqs"></ul>
+          <p class="small muted" data-i18n="req.source"></p>
+        </article>
+        <article class="card sun">
+          <h3 data-i18n="sun.title">Sun</h3>
+          <p id="sun-state" class="state">…</p>
+          <dl id="sun-numbers" class="num rows"></dl>
+        </article>
+        <article class="card earth">
+          <h3 data-i18n="earth.title">Earth</h3>
           <p id="earth-state" class="state">…</p>
-          <dl id="earth-numbers" class="num"></dl>
+          <dl id="earth-numbers" class="num rows"></dl>
+        </article>
+        <article class="card power">
+          <h3 data-i18n="power.title">Power and battery</h3>
+          <label class="field inline">
+            <span data-i18n="power.draw">Power needed through the night (W)</span>
+            <input id="watts" type="number" min="20" max="5000" step="10" value="300">
+          </label>
+          <dl id="power" class="num rows"></dl>
+          <p class="small muted" data-i18n="power.note"></p>
         </article>
       </div>
-      <figure>
-        <canvas id="horizon-chart" width="1200" height="360" aria-label="360 degree horizon with the Sun and Earth paths"></canvas>
-        <figcaption>Terrain skyline (grey) from LOLA, with the Sun (orange) and Earth (blue) over the next lunar day. Dots mark the chosen time.</figcaption>
+      <figure class="chart">
+        <canvas id="horizon-chart" height="300" aria-label="360 degree horizon with the Sun and Earth paths"></canvas>
+        <figcaption data-i18n="chart.caption"></figcaption>
       </figure>
+      <div class="long">
+        <h3 data-i18n="long.title">Over the whole period</h3>
+        <dl id="long" class="stats"></dl>
+      </div>
     </section>
 
-    <section id="planner"><h2>Planner</h2><p class="todo">Coming next.</p></section>
-    <section id="compare"><h2>Compare</h2><p class="todo">Coming next.</p></section>
-    <section id="trust"><h2>Trust</h2><p id="trust-line"></p></section>
-    <section id="about"><h2>About</h2><p class="todo">Coming next.</p></section>
+    <section id="planner" class="band">
+      <header class="band-head">
+        <p class="eyebrow" data-i18n="plan.eyebrow">Mission planner · Nov 2026 – Jan 2029</p>
+        <h2 data-i18n="plan.title">When should we land?</h2>
+        <p class="band-lede" data-i18n="plan.lede"></p>
+      </header>
+      <figure class="chart">
+        <canvas id="calendar" aria-label="Calendar of hours with Sun and Earth together"></canvas>
+        <figcaption class="cal-key">
+          <span class="ramp" aria-hidden="true"></span><span data-i18n="plan.cal.key">0 → 100% of the day with Sun and Earth together</span>
+          <span class="dot" aria-hidden="true"></span><span data-i18n="plan.cal.dot">a landing window opens</span>
+          <span data-i18n="plan.cal.click">Click a day to jump there.</span>
+        </figcaption>
+      </figure>
+      <div class="grid-2">
+        <article class="card">
+          <div class="card-head">
+            <h3 data-i18n="plan.windows">Landing windows for this spot</h3>
+            <label class="field inline">
+              <span data-i18n="plan.stay">Surface stay (days)</span>
+              <input id="stay" type="number" min="1" max="20" step="0.5" value="6.5">
+            </label>
+          </div>
+          <ol id="windows" class="windows num"></ol>
+        </article>
+        <article class="card late" id="late-card">
+          <h3 data-i18n="late.title">What if the landing is late?</h3>
+          <div class="delays" id="delays">
+            <button type="button" class="chip" data-delay="0" data-i18n="late.ontime">On time</button>
+            <button type="button" class="chip" data-delay="1">+1 h</button>
+            <button type="button" class="chip" data-delay="6">+6 h</button>
+            <button type="button" class="chip" data-delay="24" data-i18n="late.d1">+1 day</button>
+            <button type="button" class="chip" data-delay="72" data-i18n="late.d3">+3 days</button>
+            <button type="button" class="chip" data-delay="168" data-i18n="late.w1">+1 week</button>
+            <button type="button" class="chip" data-delay="720" data-i18n="late.m1">+1 month</button>
+          </div>
+          <label class="field">
+            <span><span data-i18n="late.slip">Delay</span>: <output id="slip-out" class="num"></output></span>
+            <input id="slip" type="range" min="0" max="720" step="1" value="0">
+          </label>
+          <p id="late-verdict" class="verdict"></p>
+          <table class="late-table num" id="late-table"></table>
+        </article>
+      </div>
+    </section>
+
+    <section id="compare" class="band">
+      <header class="band-head">
+        <p class="eyebrow" data-i18n="cmp.eyebrow">All candidate regions</p>
+        <h2 data-i18n="cmp.title">Compare regions</h2>
+        <p class="band-lede" data-i18n="cmp.lede"></p>
+      </header>
+      <div class="table-wrap">
+        <table class="cmp num">
+          <thead><tr>
+            <th data-i18n="cmp.region">Region</th><th data-i18n="cmp.spot">Spot</th><th data-i18n="cmp.score">Score</th>
+            <th data-i18n="cmp.sun">Sun</th><th data-i18n="cmp.earth">Earth</th><th data-i18n="cmp.both">Both</th>
+            <th data-i18n="cmp.night">Longest night</th><th data-i18n="cmp.now">At the chosen time</th>
+          </tr></thead>
+          <tbody id="cmp-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="ice" class="band">
+      <header class="band-head">
+        <p class="eyebrow" data-i18n="ice.eyebrow">Cold traps</p>
+        <h2 data-i18n="ice.title">Where the water hides</h2>
+        <p class="band-lede" data-i18n="ice.lede"></p>
+      </header>
+      <div class="grid-2 ice-grid">
+        <figure class="chart square">
+          <canvas id="ice-map" width="640" height="640" aria-label="Map of permanent shadow in the region"></canvas>
+          <figcaption data-i18n="ice.map.caption"></figcaption>
+        </figure>
+        <div>
+          <dl id="ice-stats" class="stats big"></dl>
+          <p class="muted" data-i18n="ice.walk"></p>
+        </div>
+      </div>
+    </section>
+
+    <section id="trust" class="band">
+      <header class="band-head">
+        <p class="eyebrow" data-i18n="trust.eyebrow">Validation</p>
+        <h2 data-i18n="trust.title">Can you trust it?</h2>
+        <p class="band-lede" data-i18n="trust.lede"></p>
+      </header>
+      <div id="trust-cards" class="grid-3"></div>
+    </section>
+
+    <section id="about" class="band">
+      <header class="band-head">
+        <p class="eyebrow" data-i18n="about.eyebrow">Tuwaiq Lunar · NASA Space Apps 2026</p>
+        <h2 data-i18n="about.title">About</h2>
+        <p class="band-lede" data-i18n="about.body"></p>
+      </header>
+      <div class="grid-2">
+        <article class="card">
+          <h3 data-i18n="about.data">Data</h3>
+          <ul class="sources">
+            <li><a href="https://pgda.gsfc.nasa.gov/products/78" rel="noopener">High-resolution LOLA topography for south pole sites, 5 m</a> (Barker et al. 2021, NASA GSFC)</li>
+            <li><a href="https://pds-geosciences.wustl.edu/missions/lro/lola.htm" rel="noopener">LOLA LDEM_80S_80M, LDEM_75S_240M, LDEM_75S_120M</a> (NASA PDS)</li>
+            <li><a href="https://pgda.gsfc.nasa.gov/products/69" rel="noopener">LOLA illumination and Earth visibility maps</a> (Mazarico et al. 2011)</li>
+            <li><a href="https://ssd.jpl.nasa.gov/horizons/" rel="noopener">JPL Horizons</a> (Sun and Earth positions, MOON_ME frame)</li>
+            <li><a href="https://svs.gsfc.nasa.gov/4720/" rel="noopener">NASA SVS CGI Moon Kit</a> (LROC colour map for the 3D Moon)</li>
+            <li><a href="https://ntrs.nasa.gov/citations/20240009596" rel="noopener">NASA Artemis lander update 2024</a> (landing requirements)</li>
+            <li><a href="https://www.nasa.gov/news-release/nasa-provides-update-on-artemis-iii-moon-landing-regions/" rel="noopener">NASA Artemis landing regions, Oct 2024</a></li>
+            <li>Earth texture: <a href="https://github.com/mrdoob/three.js/tree/r170/examples/textures/planets" rel="noopener">three.js examples</a> (MIT)</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3 data-i18n="about.ai">Use of AI</h3>
+          <p data-i18n="about.ai.body"></p>
+          <p class="small muted" data-i18n="about.nologo"></p>
+        </article>
+      </div>
+    </section>
   </main>
+
+  <footer class="foot">
+    <p>Tuwaiq Lunar · NASA Space Apps Challenge 2026</p>
+  </footer>
+
+  <button id="navi-open" class="navi-fab" type="button" aria-expanded="false" aria-controls="navi" data-open-navi>
+    <span class="navi-face" aria-hidden="true"></span><span data-i18n="navi.open">Ask Navi</span>
+  </button>
+  <aside id="navi" class="navi" hidden aria-labelledby="navi-title">
+    <header>
+      <span class="navi-face big" aria-hidden="true"></span>
+      <div>
+        <h2 id="navi-title" data-i18n="navi.title">Navi · mission assistant</h2>
+        <p class="small muted" data-i18n="navi.sub"></p>
+      </div>
+      <button id="navi-close" type="button" class="chip" data-i18n="navi.close">Close</button>
+    </header>
+    <ol id="navi-log" class="navi-log" aria-live="polite"></ol>
+    <div id="navi-chips" class="navi-chips"></div>
+    <form id="navi-form" class="navi-form">
+      <input id="navi-input" type="text" autocomplete="off" data-i18n-attr="placeholder:navi.placeholder;aria-label:navi.placeholder">
+      <button type="submit" class="chip solid" data-i18n="navi.send">Send</button>
+    </form>
+  </aside>
 
   <script type="module" src="/src/main.js"></script>
 </body>

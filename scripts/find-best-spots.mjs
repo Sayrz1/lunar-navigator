@@ -19,7 +19,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { Ephemeris, siteFrame } from '../src/core/ephemeris.js';
 import { computeHorizon, fromStereo, layered, toStereo } from '../src/core/horizon.js';
-import { stateAt } from '../src/core/analysis.js';
+import { hourlyFlags, summary } from '../src/core/analysis.js';
 import { RAW, ROOT, ldem80, ldem240, readJson, readTyped, tileIndex, tileSampler } from './rasters.mjs';
 
 const GRID_KM = 0.1;          // screening step
@@ -56,21 +56,7 @@ function slope100(sample, x, y) {
   return Math.atan(Math.hypot(gx, gy) / SUM_SQ) * 180 / Math.PI;
 }
 
-// Hour-by-hour record of a spot over the whole ephemeris.
-function score(hz, frame) {
-  let sun = 0, earth = 0, both = 0, dark = 0, noEarth = 0, longestDark = 0, longestNoEarth = 0;
-  for (let k = 0; k < eph.rows; k++) {
-    const s = stateAt(eph, eph.start + k * eph.stepMs, frame, hz);
-    if (s.sunlit) { sun++; dark = 0; } else longestDark = Math.max(longestDark, ++dark);
-    if (s.earthInView) { earth++; noEarth = 0; } else longestNoEarth = Math.max(longestNoEarth, ++noEarth);
-    if (s.sunlit && s.earthInView) both++;
-  }
-  const pct = v => +(100 * v / eph.rows).toFixed(1);
-  return {
-    sunPct: pct(sun), earthPct: pct(earth), bothPct: pct(both),
-    longestDarkH: longestDark * meta.stepHours, longestNoEarthH: longestNoEarth * meta.stepHours,
-  };
-}
+const score = (hz, frame) => summary(hourlyFlags(eph, frame, hz), meta.stepHours);
 
 function horizonDoc(id, lat, lon, hz, dem) {
   return {
