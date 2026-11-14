@@ -19,6 +19,8 @@
     "data:best-spots": "node scripts/find-best-spots.mjs",
     "data:terrain": "python scripts/export_terrain.py",
     "data:scatter": "node scripts/landing-scatter.mjs",
+    "data:radiation": "node scripts/fetch-crater.mjs",
+    "data:features": "node scripts/fetch-features.mjs",
     "check:horizons": "node scripts/validate-horizons.mjs",
     "check:tiles": "python scripts/check_tiles.py",
     "check:illumination": "node scripts/validate-illumination.mjs",
