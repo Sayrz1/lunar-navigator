@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lunar Navigator</title>
+  <meta name="description" content="Compare Moon landing sites and dates: sunlight on the real terrain, Earth in view for radio, and how both change if the landing slips.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='13' fill='%23c9c6bd'/%3E%3Ccircle cx='21' cy='12' r='13' fill='%230b0e16'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/src/styles.css">
+</head>
+<body>
+  <header class="top">
+    <a class="logo" href="#stage">Lunar Navigator</a>
+    <nav>
+      <a href="#stage">Stage</a>
+      <a href="#assessment">Assessment</a>
+      <a href="#planner">Planner</a>
+      <a href="#compare">Compare</a>
+      <a href="#trust">Trust</a>
+      <a href="#about">About</a>
+    </nav>
+    <label class="when">
+      <span>Landing time (UTC)</span>
+      <input id="when" type="datetime-local" step="3600">
+    </label>
+    <button id="lang" type="button" lang="ar">عربي</button>
+    <button id="theme" type="button" aria-label="Switch theme">Light</button>
+  </header>
+
+  <main>
+    <section id="stage">
+      <label class="site">
+        <span>Landing region</span>
+        <select id="site"></select>
+      </label>
+      <h1 id="site-name">…</h1>
+      <p id="site-meta" class="num"></p>
+    </section>
+
+    <section id="assessment">
+      <h2>Right now at this site</h2>
+      <div class="tiles">
+        <article class="tile sun">
+          <h3>Sun</h3>
+          <p id="sun-state" class="state">…</p>
+          <dl id="sun-numbers" class="num"></dl>
+        </article>
+        <article class="tile earth">
+          <h3>Earth</h3>
+          <p id="earth-state" class="state">…</p>
+          <dl id="earth-numbers" class="num"></dl>
+        </article>
+      </div>
+      <figure>
+        <canvas id="horizon-chart" width="1200" height="360" aria-label="360 degree horizon with the Sun and Earth paths"></canvas>
+        <figcaption>Terrain skyline (grey) from LOLA, with the Sun (orange) and Earth (blue) over the next lunar day. Dots mark the chosen time.</figcaption>
+      </figure>
+    </section>
+
+    <section id="planner"><h2>Planner</h2><p class="todo">Coming next.</p></section>
+    <section id="compare"><h2>Compare</h2><p class="todo">Coming next.</p></section>
+    <section id="trust"><h2>Trust</h2><p id="trust-line"></p></section>
+    <section id="about"><h2>About</h2><p class="todo">Coming next.</p></section>
+  </main>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

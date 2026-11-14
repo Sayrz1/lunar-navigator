@@ -1,0 +1,98 @@
+[
+ {
+  "id": "peak-near-cabeus-b",
+  "groundM": 4492.7,
+  "maxEl": 6.966,
+  "minEl": -4.909
+ },
+ {
+  "id": "haworth",
+  "groundM": 1628.5,
+  "maxEl": 5.927,
+  "minEl": -0.048
+ },
+ {
+  "id": "malapert-massif",
+  "groundM": 4783.8,
+  "maxEl": 5.244,
+  "minEl": -4.338
+ },
+ {
+  "id": "mons-mouton-plateau",
+  "groundM": 5250.2,
+  "maxEl": 9.656,
+  "minEl": 1.329
+ },
+ {
+  "id": "mons-mouton",
+  "groundM": 6398.6,
+  "maxEl": 7.94,
+  "minEl": -4.764
+ },
+ {
+  "id": "nobile-rim-1",
+  "groundM": 5946.9,
+  "maxEl": 12.885,
+  "minEl": -5.264
+ },
+ {
+  "id": "nobile-rim-2",
+  "groundM": 1009.7,
+  "maxEl": 7.939,
+  "minEl": -0.569
+ },
+ {
+  "id": "de-gerlache-rim-2",
+  "groundM": -88.2,
+  "maxEl": 15.335,
+  "minEl": -2.731
+ },
+ {
+  "id": "slater-plain",
+  "groundM": -34.3,
+  "maxEl": 10.389,
+  "minEl": -0.181
+ },
+ {
+  "id": "peak-near-shackleton",
+  "groundM": 1645.3,
+  "maxEl": 1.254,
+  "minEl": -3.148
+ },
+ {
+  "id": "connecting-ridge",
+  "groundM": 1944.8,
+  "maxEl": 2.284,
+  "minEl": -3.218
+ },
+ {
+  "id": "connecting-ridge-extension",
+  "groundM": 1179.4,
+  "maxEl": 10.641,
+  "minEl": -3.58
+ },
+ {
+  "id": "de-gerlache-rim-1",
+  "groundM": 1793.7,
+  "maxEl": 3.171,
+  "minEl": -2.879
+ },
+ {
+  "id": "de-gerlache-kocher-massif",
+  "groundM": 2705.8,
+  "maxEl": 3.028,
+  "minEl": -4.492
+ },
+ {
+  "id": "amundsen-rim",
+  "groundM": 399.5,
+  "maxEl": 6.223,
+  "minEl": 0.515
+ },
+ {
+  "id": "shoemaker-rim",
+  "groundM": -460.7,
+  "maxEl": 5.183,
+  "minEl": -0.717
+ }
+]

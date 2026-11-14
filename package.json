@@ -1,5 +1,22 @@
 {
   "name": "lunar-navigator",
   "private": true,
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "gsap": "3.12.5",
+    "three": "0.170.0"
+  },
+  "devDependencies": {
+    "vite": "6.0.11"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "data:regions": "python scripts/prepare_regions.py",
+    "data:ephemeris": "node scripts/fetch-ephemeris.mjs",
+    "data:horizons": "node scripts/build-horizons.mjs",
+    "check:horizons": "node scripts/validate-horizons.mjs",
+    "check:tiles": "python scripts/check_tiles.py"
+  }
 }
