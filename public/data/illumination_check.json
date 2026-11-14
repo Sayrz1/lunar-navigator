@@ -13,36 +13,44 @@
    "sun": {
     "n": 16,
     "meanPts": -1.67,
+    "meanAbsPts": 2.11,
     "medianAbsPts": 1.41,
     "p90AbsPts": 3.81,
     "maxAbsPts": 6.71,
-    "withinNeighbourhood": 0.938
+    "withinNeighbourhood": 0.938,
+    "r": 0.9953
    },
    "earth": {
     "n": 16,
     "meanPts": 0.06,
+    "meanAbsPts": 0.82,
     "medianAbsPts": 0.19,
     "p90AbsPts": 1.95,
     "maxAbsPts": 4.61,
-    "withinNeighbourhood": 1
+    "withinNeighbourhood": 1,
+    "r": 0.9959
    }
   },
   "random": {
    "sun": {
     "n": 200,
     "meanPts": -0.23,
+    "meanAbsPts": 0.68,
     "medianAbsPts": 0.29,
     "p90AbsPts": 1.46,
     "maxAbsPts": 14.21,
-    "withinNeighbourhood": 0.985
+    "withinNeighbourhood": 0.985,
+    "r": 0.9925
    },
    "earth": {
     "n": 200,
     "meanPts": -0.32,
+    "meanAbsPts": 0.48,
     "medianAbsPts": 0.06,
     "p90AbsPts": 0.62,
     "maxAbsPts": 20.05,
-    "withinNeighbourhood": 0.99
+    "withinNeighbourhood": 0.99,
+    "r": 0.9966
    }
   }
  },

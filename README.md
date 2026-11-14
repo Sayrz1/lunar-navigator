@@ -19,7 +19,7 @@ Pick a landing region at the Moon's south pole and a time between November 2026 
 - **Named features:** the official IAU names near the spot (centre, diameter, latitude and longitude range), from the USGS Gazetteer, the same records LROC QuickMap shows.
 - **Landing scatter:** a map of how sunlight and Earth contact change within 100 m of the spot, with steep ground crossed out.
 - **Compare, water and trust:** all regions side by side, permanent shadow near the spot, and how each part was checked.
-- **Share and export:** a link that reopens the same spot and time, and an hourly CSV for the next 30 days.
+- **Share and export:** a link that reopens the same spot and time, and an hourly CSV for the next 30 days (Sun and Earth direction, terrain height in that direction, clearance, visible share of the Sun's disc, and the visibility rule in use).
 
 ## Run it
 
@@ -45,7 +45,7 @@ Everything the page needs is in `public/data`, so it runs offline and can be hos
 |---|---|---|
 | Ephemeris | 58 independent Horizons runs | worst difference 1.4 arcseconds |
 | 5 m tiles | LDEM_80S_80M | 1–2 m RMS, no offset |
-| Sunlight model | NASA LOLA illumination maps, 18.6 years, 200 random points | median 0.29 points (Sun), 0.06 (Earth) |
+| Sunlight model | NASA LOLA illumination maps, 18.6 years, 200 random points | median 0.29 points (Sun), 0.06 (Earth); mean 0.68 and 0.48; correlation 0.993 (Sun), 0.997 (Earth) |
 | Custom points | full 5 m build at 32 spots | median 1.9 points (Sun), worst 19 on steep ground |
 | Lunar eclipses | NASA Five Millennium Catalog of Lunar Eclipses, 2026–2035 | 19 of 21 found, peak times within 0.9 min; the 2 missed only graze the Moon's edge |
 | Radiation | Chang'e-4 lander on the surface, Jan–Jun 2019 (Zhang et al. 2020) | absorbed: CRaTER 0.31 mGy/day vs Chang'e-4 about 0.33 without ground albedo; dose equivalent: CRaTER 1.78 vs Chang'e-4 1.37 mSv/day (the instruments weight particles differently) |

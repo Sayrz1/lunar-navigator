@@ -109,6 +109,14 @@ const random = randomPoints.map(([lat, lon], k) => {
 });
 console.log();
 
+// Pearson correlation between our shares and NASA's
+function correlation(xs, ys) {
+  const mx = xs.reduce((p, q) => p + q, 0) / xs.length, my = ys.reduce((p, q) => p + q, 0) / ys.length;
+  let sxy = 0, sxx = 0, syy = 0;
+  xs.forEach((x, i) => { sxy += (x - mx) * (ys[i] - my); sxx += (x - mx) ** 2; syy += (ys[i] - my) ** 2; });
+  return sxy / Math.sqrt(sxx * syy);
+}
+
 const stats = (set, k, m) => {
   const d = set.map(x => (x.ours[k] - x[m].value) * 100);
   const a = d.map(Math.abs).sort((p, q) => p - q);
@@ -117,10 +125,12 @@ const stats = (set, k, m) => {
   return {
     n: d.length,
     meanPts: +(d.reduce((p, q) => p + q, 0) / d.length).toFixed(2),
+    meanAbsPts: +(a.reduce((p, q) => p + q, 0) / a.length).toFixed(2),
     medianAbsPts: +a[Math.floor(a.length / 2)].toFixed(2),
     p90AbsPts: +a[Math.floor(0.9 * (a.length - 1))].toFixed(2),
     maxAbsPts: +a.at(-1).toFixed(2),
     withinNeighbourhood: +(inside / set.length).toFixed(3),
+    r: +correlation(set.map(x => x.ours[k]), set.map(x => x[m].value)).toFixed(4),
   };
 };
 const summary = {
@@ -130,7 +140,7 @@ const summary = {
 for (const [set, s] of Object.entries(summary)) {
   for (const k of ['sun', 'earth']) {
     const x = s[k];
-    console.log(`${set.padEnd(8)} ${k.padEnd(6)} n=${x.n}  ours-NASA mean ${x.meanPts} pts, median |d| ${x.medianAbsPts}, ` +
+    console.log(`${set.padEnd(8)} ${k.padEnd(6)} n=${x.n}  ours-NASA mean ${x.meanPts} pts, mean |d| ${x.meanAbsPts}, median |d| ${x.medianAbsPts}, r ${x.r}, ` +
       `90% within ${x.p90AbsPts}, max ${x.maxAbsPts}; inside NASA's 3x3 range: ${(x.withinNeighbourhood * 100).toFixed(0)}%`);
   }
 }

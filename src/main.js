@@ -743,7 +743,7 @@ function renderTrust() {
   $('trust-cards').innerHTML = [
     card(t('trust.eph'), `${(validation.worstDeg * 3600).toFixed(1)}″`, t('trust.eph.body', { n: validation.team.length + validation.live.length, arcsec: (validation.worstDeg * 3600).toFixed(1) })),
     card(t('trust.terrain'), `≤ ${rms.toFixed(1)} m`, t('trust.terrain.body', { rms: rms.toFixed(1) })),
-    card(t('trust.light'), `${illum.summary.random.sun.medianAbsPts} pts`, t('trust.light.body', { n: illum.summary.random.sun.n, sun: illum.summary.random.sun.medianAbsPts, earth: illum.summary.random.earth.medianAbsPts })),
+    card(t('trust.light'), `${illum.summary.random.sun.medianAbsPts} pts`, t('trust.light.body', { n: illum.summary.random.sun.n, sun: illum.summary.random.sun.medianAbsPts, earth: illum.summary.random.earth.medianAbsPts, sunMean: illum.summary.random.sun.meanAbsPts, earthMean: illum.summary.random.earth.meanAbsPts, r: Math.min(illum.summary.random.sun.r, illum.summary.random.earth.r).toFixed(3) })),
     card(t('trust.custom'), `${custom.sun.medianPts} pts`, t('trust.custom.body', { sun: custom.sun.medianPts, max: custom.sun.maxPts })),
     radiationCard(card),
     app.checks.eclipse ? card(t('trust.eclipse'), `${app.checks.eclipse.summary.worstDiffMin} min`, t('trust.eclipse.body', app.checks.eclipse.summary)) : '',
@@ -875,16 +875,21 @@ function play(on) {
 
 function csv() {
   const { eph, spot } = app;
-  const lines = ['time_utc,sun_az_deg,sun_el_deg,terrain_at_sun_deg,sunlit,sun_disc_pct,earth_az_deg,earth_el_deg,terrain_at_earth_deg,earth_in_view'];
+  const f = (v, d) => v.toFixed(d);
+  const lines = [
+    `# Lunar Navigator, ${spotLabel()}, ${f(spot.lat, 5)} ${f(spot.lon, 5)}, ground ${f(spot.hz.groundM, 1)} m, eye ${spot.hz.observerM} m. Sun/Earth from JPL Horizons, terrain from NASA LOLA.`,
+    `# Sun counts as up when ${rules.sunDisc === 'any' ? 'any part' : rules.sunDisc === 'half' ? 'the centre' : 'all'} of its disc clears the terrain; Earth when its centre clears it by ${rules.earthMarginDeg} deg. Angles in degrees, azimuth clockwise from north.`,
+    'time_utc,sun_az_deg,sun_el_deg,terrain_at_sun_deg,sun_clear_deg,sun_disc_pct,sunlit,earth_az_deg,earth_el_deg,terrain_at_earth_deg,earth_clear_deg,earth_in_view',
+  ];
   for (let k = 0; k < 30 * 24; k++) {
     const ms = app.t + k * HOUR;
     if (!eph.covers(ms)) break;
     const s = stateAt(eph, ms, spot.frame, spot.hz);
-    lines.push([new Date(ms).toISOString().slice(0, 16) + 'Z', s.sun.az.toFixed(2), s.sun.el.toFixed(3), s.sun.horizon.toFixed(3), s.sunlit ? 1 : 0,
-      Math.round(s.sun.disc * 100), s.earth.az.toFixed(2), s.earth.el.toFixed(3), s.earth.horizon.toFixed(3), s.earthInView ? 1 : 0].join(','));
+    lines.push([new Date(ms).toISOString().slice(0, 16) + 'Z',
+      f(s.sun.az, 2), f(s.sun.el, 3), f(s.sun.horizon, 3), f(s.sun.clear, 3), Math.round(s.sun.disc * 100), s.sunlit ? 1 : 0,
+      f(s.earth.az, 2), f(s.earth.el, 3), f(s.earth.horizon, 3), f(s.earth.clear, 3), s.earthInView ? 1 : 0].join(','));
   }
-  const header = `# Lunar Navigator, ${spotLabel()}, ${spot.lat.toFixed(5)} ${spot.lon.toFixed(5)}, ground ${spot.hz.groundM} m, eye 2 m. Sun/Earth from JPL Horizons, terrain from NASA LOLA.\n`;
-  const url = URL.createObjectURL(new Blob([header + lines.join('\n') + '\n'], { type: 'text/csv' }));
+  const url = URL.createObjectURL(new Blob([lines.join('\n') + '\n'], { type: 'text/csv' }));
   const a = document.createElement('a');
   a.href = url;
   a.download = `lunar-navigator-${app.region.id}-${app.kind}-${new Date(app.t).toISOString().slice(0, 10)}.csv`;

@@ -100,7 +100,7 @@ const en = {
   'trust.lede': 'Every number on this page comes from NASA or JPL data, and we checked each step against an independent NASA product.',
   'trust.eph': 'Sun and Earth positions', 'trust.eph.body': 'JPL Horizons table, checked against {n} independent Horizons runs. Worst difference: {arcsec} arcseconds.',
   'trust.terrain': 'Terrain', 'trust.terrain.body': 'LOLA 5 m tiles cross-checked against LDEM_80S_80M: {rms} m RMS, no offset.',
-  'trust.light': 'Sunlight model', 'trust.light.body': 'Rebuilt NASA’s 18.6-year illumination maps at {n} random points: median difference {sun} points for the Sun and {earth} for Earth.',
+  'trust.light': 'Sunlight model', 'trust.light.body': 'Rebuilt NASA’s 18.6-year illumination maps at {n} random points: median difference {sun} points for the Sun and {earth} for Earth (mean {sunMean} and {earthMean}; correlation {r}).',
   'trust.rad': 'Radiation', 'trust.rad.body': 'Absorbed dose: LRO CRaTER gives {ours} mGy/day for Jan–Jun 2019, and China’s Chang’e-4 lander measured about {them} on the surface over the same months once ground albedo is removed. Dose equivalent: CRaTER {oursSv} mSv/day, Chang’e-4 {themSv}; the two instruments weight particles differently.',
   'trust.custom': 'Your own points', 'trust.custom.body': 'Computed in your browser from lighter grids. Against the full 5 m build: median {sun} points for the Sun, worst {max} on steep ground.',
 
@@ -304,7 +304,7 @@ const ar = {
   'trust.lede': 'كل رقم في هذه الصفحة مصدره بيانات ناسا أو مختبر الدفع النفاث، وقد قارنّا كل خطوة بمنتج مستقل من ناسا.',
   'trust.eph': 'مواقع الشمس والأرض', 'trust.eph.body': 'جدول JPL Horizons، قورن بـ {n} تشغيلًا مستقلًا. أكبر فرق: {arcsec} ثانية قوسية.',
   'trust.terrain': 'التضاريس', 'trust.terrain.body': 'قِطع LOLA بدقة 5 م قورنت بـ LDEM_80S_80M: خطأ تربيعي {rms} م بلا إزاحة.',
-  'trust.light': 'نموذج الإضاءة', 'trust.light.body': 'أعدنا بناء خرائط الإضاءة من ناسا لـ 18.6 سنة عند {n} نقطة عشوائية: الفرق الوسيط {sun} نقطة للشمس و{earth} للأرض.',
+  'trust.light': 'نموذج الإضاءة', 'trust.light.body': 'أعدنا بناء خرائط الإضاءة من ناسا لـ 18.6 سنة عند {n} نقطة عشوائية: الفرق الوسيط {sun} نقطة للشمس و{earth} للأرض (المتوسط {sunMean} و{earthMean}، والارتباط {r}).',
   'trust.rad': 'الإشعاع', 'trust.rad.body': 'الجرعة الممتصة: يعطي CRaTER على LRO قيمة {ours} ملي غراي/يوم لشهور يناير–يونيو 2019، وقاس المسبار الصيني Chang’e-4 على السطح نحو {them} في الشهور نفسها بعد طرح الإشعاع المرتد من التربة. الجرعة المكافئة: CRaTER ‏{oursSv} ملي سيفرت/يوم، وChang’e-4 ‏{themSv}، فالجهازان يزنان الجسيمات بطريقتين مختلفتين.',
   'trust.custom': 'نقاطك الخاصة', 'trust.custom.body': 'تُحسب في متصفحك من شبكات أخف. مقارنةً بالبناء الكامل بدقة 5 م: فرق وسيط {sun} نقطة للشمس، وأسوأ فرق {max} على الأرض شديدة الانحدار.',
 
