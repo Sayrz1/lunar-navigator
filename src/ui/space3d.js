@@ -51,7 +51,7 @@ export class SpaceView {
     container.append(this.renderer.domElement);
 
     this.scene = new THREE.Scene();
-    this.scene.background = new THREE.Color('#020203');
+    this.scene.background = new THREE.Color('#020818');
     this.camera = new THREE.PerspectiveCamera(38, 1, 0.01, 200);
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
     this.controls.enableDamping = true;

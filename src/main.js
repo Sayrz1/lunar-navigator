@@ -16,7 +16,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 const $ = id => document.getElementById(id);
 const HOUR = 3600e3, DAY = 24 * HOUR;
-const COLOURS = { centre: '#ece8df', best: '#ffb547', custom: '#8fe3ff' };
+const COLOURS = { centre: '#f4f6fb', best: '#ffb547', custom: '#8fe3ff' };
 const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 const app = {
