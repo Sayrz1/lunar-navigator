@@ -57,6 +57,6 @@ Scripts: `npm run check:horizons`, `check:tiles`, `check:illumination`, `check:c
 
 ## Use of AI
 
-We used an AI coding assistant (Claude, by Anthropic) to help write code and text. We ran and checked all the data processing ourselves, and every result traces back to the NASA and JPL sources above. The in-app helper "Navi" is not an AI model: it answers from the page's own numbers with fixed rules. No AI-generated images are used. The Navi mascot is a small drawing made in CSS for this project.
+We used an AI coding assistant (Claude, by Anthropic) to help optimize code and clean text. We ran and checked all the data processing ourselves, and every result traces back to the NASA and JPL sources above. The in-app helper "Navi" is not an AI model: it answers from the page's own numbers with fixed rules. No AI-generated images are used. The Navi mascot is a small drawing made in CSS for this project.
 
 Not an official NASA product.
