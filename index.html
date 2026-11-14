@@ -169,6 +169,24 @@
         <h3 data-i18n="long.title">Over the whole period</h3>
         <dl id="long" class="stats"></dl>
       </div>
+      <article class="card scatter" id="scatter-card">
+        <div class="card-head">
+          <h3 data-i18n="scatter.title">If the lander comes down off target</h3>
+          <div class="seg" role="radiogroup" id="scatter-metric" aria-label="Value">
+            <button type="button" role="radio" data-metric="both" data-i18n="scatter.both">Sun + Earth</button>
+            <button type="button" role="radio" data-metric="sun" data-i18n="scatter.sun">Sun</button>
+            <button type="button" role="radio" data-metric="earth" data-i18n="scatter.earth">Earth</button>
+          </div>
+        </div>
+        <div class="scatter-body">
+          <canvas id="scatter-map" aria-label="Grid of the landing area, 25 m cells, coloured by the share of time in view"></canvas>
+          <div>
+            <p id="scatter-text" class="scatter-big"></p>
+            <dl id="scatter-stats" class="num rows"></dl>
+            <p class="small muted" data-i18n="scatter.note"></p>
+          </div>
+        </div>
+      </article>
     </section>
 
     <section id="planner" class="band">
@@ -227,7 +245,7 @@
         <table class="cmp num">
           <thead><tr>
             <th data-i18n="cmp.region">Region</th><th data-i18n="cmp.spot">Spot</th><th data-i18n="cmp.score">Score</th>
-            <th data-i18n="cmp.sun">Sun</th><th data-i18n="cmp.earth">Earth</th><th data-i18n="cmp.both">Both</th>
+            <th data-i18n="cmp.sun">Sun</th><th data-i18n="cmp.earth">Earth</th><th data-i18n="cmp.both">Both</th><th data-i18n="cmp.within">Both within 100 m</th>
             <th data-i18n="cmp.night">Longest night</th><th data-i18n="cmp.now">At the chosen time</th>
           </tr></thead>
           <tbody id="cmp-body"></tbody>
@@ -259,7 +277,11 @@
         <h2 data-i18n="trust.title">Can you trust it?</h2>
         <p class="band-lede" data-i18n="trust.lede"></p>
       </header>
-      <div id="trust-cards" class="grid-3"></div>
+      <div id="trust-cards" class="grid-2"></div>
+      <article class="card limits">
+        <h3 data-i18n="limits.title">What this does not model</h3>
+        <ul id="limits" class="limits-list"></ul>
+      </article>
     </section>
 
     <section id="about" class="band">

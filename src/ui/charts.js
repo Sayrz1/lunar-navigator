@@ -204,3 +204,65 @@ export function drawIceMap(canvas, g, markers) {
   ctx.font = font(11);
   ctx.fillText(`${km} km`, 16, W - 28);
 }
+
+// Landing scatter: the grid around the aim point (rows north to south, columns west to east),
+// coloured by one value in percent. Cells too steep to land on are crossed out, and the ring
+// marks 100 m from the aim point.
+export function drawScatter(canvas, doc, metric) {
+  const n = doc.size, half = (n - 1) / 2;
+  const W = canvas.clientWidth || canvas.parentElement.clientWidth;
+  const { ctx } = fit(canvas, W);
+  const pad = 26, cell = (W - 2 * pad) / n;
+  const values = doc.grid.cells[metric];
+  ctx.clearRect(0, 0, W, W);
+  const tint = { both: [125, 220, 154], sun: [255, 181, 71], earth: [90, 169, 255] }[metric];
+  const base = [24, 27, 36];
+  // stretch the colours over this grid's own range so small differences show; the key says so
+  const lo = Math.min(...values), hi = Math.max(...values);
+  const f = v => (hi > lo ? 0.15 + 0.85 * (v - lo) / (hi - lo) : 1);
+  const colour = v => `rgb(${base.map((c, k) => Math.round(c + (tint[k] - c) * f(v))).join(',')})`;
+
+  ctx.font = font(10);
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  for (let k = 0; k < values.length; k++) {
+    const i = Math.floor(k / n), j = k % n;
+    const x = pad + j * cell, y = pad + i * cell, v = values[k];
+    ctx.fillStyle = colour(v);
+    ctx.fillRect(x + 0.5, y + 0.5, cell - 1, cell - 1);
+    if (!(doc.grid.cells.slope[k] < 10)) {
+      ctx.strokeStyle = 'rgba(255,107,94,0.9)'; ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.moveTo(x + 4, y + 4); ctx.lineTo(x + cell - 4, y + cell - 4);
+      ctx.moveTo(x + cell - 4, y + 4); ctx.lineTo(x + 4, y + cell - 4); ctx.stroke();
+    }
+    if (cell > 26) {
+      ctx.fillStyle = v > 55 ? 'rgba(10,12,16,0.85)' : 'rgba(236,232,223,0.85)';
+      ctx.fillText(String(Math.round(v)), x + cell / 2, y + cell / 2 + 0.5);
+    }
+  }
+
+  // 100 m ring and aim point
+  const cx = pad + (half + 0.5) * cell, cy = cx;
+  const r = (100 / doc.stepM) * cell;
+  ctx.strokeStyle = css('--text'); ctx.lineWidth = 1.5; ctx.setLineDash([5, 4]);
+  ctx.beginPath(); ctx.arc(cx, cy, r, 0, 2 * Math.PI); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.lineWidth = 2;
+  ctx.strokeRect(pad + half * cell + 1, pad + half * cell + 1, cell - 2, cell - 2);
+
+  // map up is towards 0 deg longitude (the Earth-facing side); scale bar
+  ctx.fillStyle = css('--muted');
+  ctx.fillText('↑ 0°E', cx, pad / 2);
+  ctx.textAlign = 'start';
+  ctx.fillText(`${doc.stepM} m`, pad + cell + 6, W - pad / 2);
+  ctx.fillRect(pad, W - pad / 2, cell, 1.5);
+
+  // colour key, right-aligned under the grid
+  const kw = Math.min(120, W * 0.3), kx = W - pad - kw, ky = W - pad / 2 - 3;
+  const g = ctx.createLinearGradient(kx, 0, kx + kw, 0);
+  g.addColorStop(0, colour(lo)); g.addColorStop(1, colour(hi));
+  ctx.fillStyle = g; ctx.fillRect(kx, ky, kw, 6);
+  ctx.fillStyle = css('--muted');
+  ctx.textAlign = 'end'; ctx.fillText(`${Math.round(lo)}%`, kx - 6, ky + 3);
+  ctx.textAlign = 'start'; ctx.fillText(`${Math.round(hi)}%`, kx + kw + 4, ky + 3);
+}

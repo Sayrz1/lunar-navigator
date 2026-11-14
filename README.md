@@ -14,6 +14,7 @@ Pick a landing region at the Moon's south pole and a time between November 2026 
 - **Site score:** sunlight, Earth contact, the longest night and distance to ice, weighted by sliders. The score feeds the compare table and Navi.
 - **Power:** battery needed to get through the longest night at a chosen power draw, compared with the region centre.
 - **Planner:** a day-by-day calendar for the whole period, landing windows for a chosen surface stay, and an on-time vs late table for delays from 1 hour to 1 month.
+- **Landing scatter:** a map of how sunlight and Earth contact change within 100 m of the spot, with steep ground crossed out.
 - **Compare, water and trust:** all regions side by side, permanent shadow near the spot, and how each part was checked.
 - **Share and export:** a link that reopens the same spot and time, and an hourly CSV for the next 30 days.
 
@@ -31,6 +32,7 @@ Everything the page needs is in `public/data`, so it runs offline and can be hos
 - **Sun and Earth positions:** an hourly table of the sub-solar and sub-Earth points on the Moon from JPL Horizons (MOON_ME frame). The browser rebuilds the direction of the Sun and Earth for any point from it.
 - **Terrain horizons:** for each spot we walk 720 rays out to 250 km over LOLA terrain: the 5 m site tiles near the spot, then LDEM_80S_80M and LDEM_75S_240M. The eye is 2 m above the ground.
 - **Best spots:** every 100 m inside each region we apply NASA's landing limits (slope under 10° over 100 m; 90% of the ground within 1 km under 20°; Earth visible at least 25% and Sun at least 5% of the time on NASA's long-term maps). The best 40 points get a full horizon and are ranked by hours with Sun and Earth together.
+- **Landing scatter:** a lander aims at a spot but lands somewhere near it. Around each centre and best spot we rebuild the full horizon on a 9 × 9 grid, 25 m apart, and report the range within 100 m (NASA sets its slope limit over a 100 m landing area). Some best spots are robust (Mons Mouton Plateau: 47–72% with Sun and Earth together); others are fragile (the peak near Cabeus B: 4–56%).
 - **Custom points:** clicking the 3D terrain computes a horizon in the browser from lighter grids.
 
 ## Checks
@@ -42,7 +44,11 @@ Everything the page needs is in `public/data`, so it runs offline and can be hos
 | Sunlight model | NASA LOLA illumination maps, 18.6 years, 200 random points | median 0.29 points (Sun), 0.06 (Earth) |
 | Custom points | full 5 m build at 32 spots | median 1.9 points (Sun), worst 19 on steep ground |
 
-Scripts: `npm run check:horizons`, `check:tiles`, `check:illumination`, `check:custom`. Data builds: `data:regions`, `data:ephemeris`, `data:horizons`, `data:best-spots`, `data:terrain`. The raw inputs (`data-raw/`, about 2 GB) are not in the repo; the sources are listed below.
+Scripts: `npm run check:horizons`, `check:tiles`, `check:illumination`, `check:custom`. Data builds: `data:regions`, `data:ephemeris`, `data:horizons`, `data:best-spots`, `data:terrain`, `data:scatter`. The raw inputs (`data-raw/`, about 2 GB) are not in the repo; the sources are listed below.
+
+## Limits
+
+Horizons are for an eye 2 m above the ground, and times are UTC. Dates run from November 2026 to January 2029. Earth "in view" means a clear line of sight to its centre: no link budget or relay satellites. The Sun counts as up when any part of its disc clears the terrain; panel tilt, dust and temperature are not modelled. Terrain is 5 m only inside NASA's high-resolution tiles. The battery figure is energy only. Permanent shadow marks where ice can survive, not where it has been found.
 
 ## Data
 

@@ -18,6 +18,7 @@
     "data:horizons": "node scripts/build-horizons.mjs",
     "data:best-spots": "node scripts/find-best-spots.mjs",
     "data:terrain": "python scripts/export_terrain.py",
+    "data:scatter": "node scripts/landing-scatter.mjs",
     "check:horizons": "node scripts/validate-horizons.mjs",
     "check:tiles": "python scripts/check_tiles.py",
     "check:illumination": "node scripts/validate-illumination.mjs",

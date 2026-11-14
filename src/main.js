@@ -5,7 +5,7 @@ import { stateAt, track, hourlyFlags, summary, landingWindows, shareBetween, dai
 import { fromStereo, toStereo } from './core/horizon.js';
 import { decodeRegion, polarSampler, customHorizon, slopeAt, iceNear, nasaVisibility, cellAt, cellCentre } from './core/terrain.js';
 import { DEFAULT_WEIGHTS, siteScore, battery } from './core/score.js';
-import { drawHorizonChart, drawCalendar, drawIceMap } from './ui/charts.js';
+import { drawHorizonChart, drawCalendar, drawIceMap, drawScatter } from './ui/charts.js';
 import { drawTimeline } from './ui/timeline.js';
 import { Stage } from './ui/stage3d.js';
 import { SpaceView } from './ui/space3d.js';
@@ -23,7 +23,7 @@ const app = {
   eph: null, regions: [], best: {}, checks: {}, terrainIndex: null, polar: null, grids: {},
   region: null, grid: null, kind: 'best', custom: null, spot: null,
   hz: {}, hzReady: {}, flags: new Map(), t: 0, layer: 'relief', stay: 6.5, slip: 0, watts: 300,
-  view: 'space', camera: 'overview', speed: 6, weights: { ...DEFAULT_WEIGHTS },
+  view: 'space', camera: 'overview', speed: 6, scatterMetric: 'both', scatter: null, weights: { ...DEFAULT_WEIGHTS },
   stage: null, space: null, tlFrom: 0,
 };
 
@@ -196,6 +196,7 @@ function renderSpot() {
 
   renderScore();
   renderPower();
+  renderScatter();
   renderPlanner();
   renderIce();
   renderCompare();
@@ -230,6 +231,28 @@ function renderPower() {
     html += row('power.centre', `${there.kWh.toFixed(1)} kWh · ${Math.round(there.kg)} kg`);
   }
   $('power').innerHTML = html;
+}
+
+// Landing scatter grid around the centre or best spot (precomputed, see scripts/landing-scatter.mjs).
+function renderScatter() {
+  const doc = app.scatter?.regions[app.region.id]?.[app.kind];
+  const card = $('scatter-card');
+  card.classList.toggle('empty', !doc);
+  for (const b of $('scatter-metric').children) b.setAttribute('aria-checked', String(b.dataset.metric === app.scatterMetric));
+  if (!doc) {
+    $('scatter-text').textContent = t('scatter.none');
+    $('scatter-stats').innerHTML = '';
+    return;
+  }
+  const w = doc.within100m, m = app.scatterMetric;
+  $('scatter-text').textContent = t('scatter.text', { what: t(`scatter.what.${m}`), lo: Math.round(w[m][0]), hi: Math.round(w[m][1]) });
+  const range = ([a, b]) => `${Math.round(a)}–${Math.round(b)}%`;
+  const row = (k, v) => `<dt>${t(k)}</dt><dd>${v}</dd>`;
+  $('scatter-stats').innerHTML =
+    row('scatter.r.sun', range(w.sun)) + row('scatter.r.earth', range(w.earth)) + row('scatter.r.both', range(w.both)) +
+    row('scatter.r.dark', `${fmtDays(w.dark[0])} – ${fmtDays(w.dark[1])}`) +
+    row('scatter.r.steep', t('scatter.of', { n: w.tooSteep, all: w.points }));
+  drawScatter($('scatter-map'), { size: app.scatter.size, stepM: app.scatter.stepM, grid: doc }, m);
 }
 
 function markers() {
@@ -276,12 +299,14 @@ function renderIce() {
 function renderCompare() {
   const groups = [['2024', t('cmp.g2024')], ['2022', t('cmp.g2022')], ['none', t('cmp.gother')]];
   const group = r => (r.nasa_lists.includes('2024') ? '2024' : r.nasa_lists.includes('2022') ? '2022' : 'none');
+  // range of Sun + Earth within 100 m, drawn as a span on a 0-100 track
+  const spread = v => (v ? `<span class="spread" title="${Math.round(v[0])}–${Math.round(v[1])}%"><i style="inset-inline-start:${v[0]}%;width:${Math.max(1, v[1] - v[0])}%"></i></span>${Math.round(v[0])}–${Math.round(v[1])}%` : '–');
   const bar = (v, cls) => `<span class="bar ${cls}" style="width:${Math.max(2, v * 0.6)}px"></span>${fmtPct(v)}`;
   let html = '';
   for (const [key, label] of groups) {
     const rs = app.regions.filter(r => group(r) === key && app.best[r.id]);
     if (!rs.length) continue;
-    html += `<tr class="group"><td colspan="8">${label}</td></tr>`;
+    html += `<tr class="group"><td colspan="9">${label}</td></tr>`;
     for (const r of rs) {
       const b = app.best[r.id];
       const g = app.grids[r.id + ':ready'];
@@ -293,6 +318,7 @@ function renderCompare() {
           `<td class="name">${kind === 'centre' ? r.name : ''}</td><td>${t(kind === 'centre' ? 'spot.centre' : 'spot.best')}</td>` +
           `<td class="score-cell">${sc}</td>` +
           `<td>${bar(s.sunPct, '')}</td><td>${bar(s.earthPct, 'earth')}</td><td>${bar(s.bothPct, 'both')}</td>` +
+          `<td>${spread(app.scatter?.regions[r.id]?.[kind]?.within100m.both)}</td>` +
           `<td>${fmtDays(s.longestDarkH)}</td><td class="now" data-now="${r.id}:${kind}"></td></tr>`;
       }
     }
@@ -503,8 +529,8 @@ function renderTrust() {
     card(t('trust.terrain'), `≤ ${rms.toFixed(1)} m`, t('trust.terrain.body', { rms: rms.toFixed(1) })),
     card(t('trust.light'), `${illum.summary.random.sun.medianAbsPts} pts`, t('trust.light.body', { n: illum.summary.random.sun.n, sun: illum.summary.random.sun.medianAbsPts, earth: illum.summary.random.earth.medianAbsPts })),
     card(t('trust.custom'), `${custom.sun.medianPts} pts`, t('trust.custom.body', { sun: custom.sun.medianPts, max: custom.sun.maxPts })),
-    card(t('trust.limits'), '2 m', t('trust.limits.body')),
   ].join('');
+  $('limits').innerHTML = t('limits.items').split('|').map(x => `<li>${x}</li>`).join('');
 }
 
 // --- Navi --------------------------------------------------------------------------------
@@ -530,6 +556,10 @@ function naviAnswer(intent) {
       const top = Object.values(app.best).filter(b => b.best[0]).sort((a, b) => b.best[0].bothPct - a.best[0].bothPct)[0];
       const list = topSpots().map(x => `${x.name} (${x.score})`).join(', ');
       return t('navi.best', { region: top.name, both: top.best[0].bothPct, night: (top.best[0].longestDarkH / 24).toFixed(0), mine: spot.summary.bothPct }) + (list ? ' ' + t('navi.top', { list }) : '');
+    }
+    case 'scatter': {
+      const d = app.scatter?.regions[app.region.id]?.[app.kind]?.within100m;
+      return d ? t('navi.scatter', { lo: Math.round(d.both[0]), hi: Math.round(d.both[1]), steep: d.tooSteep, all: d.points }) : t('scatter.none');
     }
     case 'score': return t('navi.score', { score: app.score, grade: grade(app.score) });
     case 'power': {
@@ -639,6 +669,7 @@ function bind() {
     for (const x of $('layer').children) x.setAttribute('aria-checked', String(x === b));
     app.stage?.setLayer(app.layer);
   });
+  segPick('scatter-metric', b => { app.scatterMetric = b.dataset.metric; renderScatter(); });
   segPick('speed', b => {
     app.speed = Number(b.dataset.speed);
     for (const x of $('speed').children) x.setAttribute('aria-checked', String(x === b));
@@ -753,7 +784,7 @@ function bind() {
   let resizeTimer;
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => { app.tlFrom = 0; renderNow({ full: true }); renderIce(); }, 150);
+    resizeTimer = setTimeout(() => { app.tlFrom = 0; renderNow({ full: true }); renderIce(); renderScatter(); }, 150);
   });
   addEventListener('keydown', e => {
     if (e.key === ' ' && e.target === document.body) { e.preventDefault(); play(!playing); }
@@ -797,6 +828,7 @@ async function start() {
     json('./data/tile_check.json'), json('./data/illumination_check.json'), json('./data/custom_check.json'),
     json('./data/terrain/index.json'),
   ]);
+  app.scatter = await json('./data/scatter.json').catch(() => null);
   Object.assign(app, { eph, terrainIndex, checks: { validation, tiles, illum, custom } });
   app.regions = regionDoc.regions.filter(r => r.lat !== null && terrainIndex.regions[r.id]);
   for (const b of best.regions) app.best[b.id] = b;
