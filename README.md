@@ -75,10 +75,8 @@ Not an official NASA product.
 - 3D Moon texture: NASA SVS CGI Moon Kit (LROC colour map): https://svs.gsfc.nasa.gov/4720/
 - LRO CRaTER dose rates (NASA LRO instrument, data hosted by the University of New Hampshire team): https://crater-web.sr.unh.edu/doserates.html
 - IAU Gazetteer of Planetary Nomenclature (USGS Astrogeology): https://planetarynames.wr.usgs.gov/
-- Artemis III site selection update: T. George, M. A. Rubio, S. J. Lawrence and P. Curell (NASA), "Artemis III Site Selection Update: Down-selection from 13 to 9 Candidate Regions", 57th Lunar and Planetary Science Conference (2026), abstract 1901: https://www.hou.usra.edu/meetings/lpsc2026/pdf/1901.pdf
-- NASA Artemis III site selection report (NTRS 20250011660): https://ntrs.nasa.gov/citations/20250011660
 - NASA Five Millennium Catalog of Lunar Eclipses (Espenak & Meeus): https://eclipse.gsfc.nasa.gov/LEcat5/LE2001-2100.html
-- NASA Lunar Surface Data Book, ACD-50044 Rev A (2023): region centres (Table A2-2), polar night survival (Appendix E): https://ntrs.nasa.gov/citations/20230007818
+- NASA Lunar Surface Data Book, ACD-50044 Rev A (2023): region centres (Table A2-2): https://ntrs.nasa.gov/citations/20230007818
 - Landing regions: NASA, October 2024: https://www.nasa.gov/news-release/nasa-provides-update-on-artemis-iii-moon-landing-regions/
 - NASA's October 2024 region map, used to place the three regions that are not in the Data Book: https://www.nasa.gov/wp-content/uploads/2024/10/artemis-iii-landing-region-candidates.jpg
 
