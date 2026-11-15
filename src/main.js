@@ -564,8 +564,8 @@ function iceRadText() {
 
 // Compare table. Scores need each region's grid (for distance to ice), loaded in the background.
 function renderCompare() {
-  const groups = [['2024', t('cmp.g2024')], ['2022', t('cmp.g2022')], ['none', t('cmp.gother')]];
-  const group = r => (r.nasa_lists.includes('2024') ? '2024' : r.nasa_lists.includes('2022') ? '2022' : 'none');
+  const groups = [['2024', t('cmp.g2024')]];
+  const group = () => '2024';
   // range of Sun + Earth within 100 m, drawn as a span on a 0-100 track
   const spread = v => (v ? `<span class="spread" title="${Math.round(v[0])}–${Math.round(v[1])}%"><i style="inset-inline-start:${v[0]}%;width:${Math.max(1, v[1] - v[0])}%"></i></span>${Math.round(v[0])}–${Math.round(v[1])}%` : '–');
   const bar = (v, cls) => `<span class="bar ${cls}" style="width:${Math.max(2, v * 0.6)}px"></span>${fmtPct(v)}`;
@@ -819,9 +819,10 @@ function regionsCard(card) {
 
 // CRaTER in orbit against the Chang'e-4 lander on the far side, over the same months.
 // Chang'e-4 LND, Jan-Jun 2019 (Zhang et al. 2020, Sci. Adv. 6, eaaz1334): 13.2 uGy/h in
-// silicon, about 20% of it from the ground (albedo), which CRaTER's surface figure leaves
-// out; and a dose equivalent of 1369 uSv/day.
-const CHANGE4_MGY = 13.2e-3 * 24 * 1.3 * 0.8, CHANGE4_MSV = 1.369;
+// silicon in all, of which 10.2 uGy/h from charged particles; the rest are neutral particles
+// from the ground, which CRaTER's surface figure leaves out. The paper compares the two
+// using CRaTER's own silicon-to-water factor, 1.33. Dose equivalent: 1369 uSv/day.
+const CHANGE4_MGY = 10.2e-3 * 24 * 1.33, CHANGE4_MSV = 1.369;
 function radiationCard(card) {
   if (!app.rad) return '';
   const from = Date.UTC(2019, 0, 3), to = Date.UTC(2019, 5, 30);
@@ -915,8 +916,8 @@ function setTime(ms) {
 }
 
 function fillRegionSelect() {
-  const groups = [['2024', t('cmp.g2024')], ['2022', t('cmp.g2022')], ['none', t('cmp.gother')]];
-  const group = r => (r.nasa_lists.includes('2024') ? '2024' : r.nasa_lists.includes('2022') ? '2022' : 'none');
+  const groups = [['2024', t('cmp.g2024')]];
+  const group = () => '2024';
   $('site').innerHTML = groups.map(([key, label]) => `<optgroup label="${label}">` +
     app.regions.filter(r => group(r) === key).map(r => `<option value="${r.id}">${r.name}</option>`).join('') + '</optgroup>').join('');
   if (app.region) $('site').value = app.region.id;
@@ -1219,7 +1220,8 @@ async function start() {
   Object.assign(app, { eph, terrainIndex, checks: { validation, tiles, illum, custom } });
   app.eclipses = eclipses(eph);
   app.checks.eclipse = await json('./data/eclipse_check.json').catch(() => null);
-  app.regions = regionDoc.regions.filter(r => r.lat !== null && terrainIndex.regions[r.id]);
+  // only NASA's current candidate regions (October 2024 list)
+  app.regions = regionDoc.regions.filter(r => r.lat !== null && terrainIndex.regions[r.id] && r.nasa_lists.includes('2024'));
   for (const b of best.regions) app.best[b.id] = b;
   fillRegionSelect();
   renderWeights();

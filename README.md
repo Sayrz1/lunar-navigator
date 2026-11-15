@@ -1,6 +1,6 @@
 # Lunar Navigator
 
-**Live site:** https://sayrz1.github.io/lunar-navigator/
+**Local prototype:** Run with `npm install` and `npm run dev`.
 
 Pick a landing region at the Moon's south pole and a time between November 2026 and the end of 2035. The app shows whether a lander there gets sunlight and a radio line to Earth, when that changes, which spot inside the region is best, when the landing windows are, what happens if the landing slips, and how far it is to permanently shadowed ground where ice can survive, and how much radiation a crew would take. English and Arabic.
 
@@ -47,7 +47,7 @@ Everything the page needs is in `public/data`, so it runs offline and can be hos
 | 5 m tiles | LDEM_80S_80M | 1–2 m RMS, no offset |
 | Sunlight model | NASA LOLA illumination maps, 18.6 years, 200 random points | median 0.29 points (Sun), 0.06 (Earth); mean 0.68 and 0.48; correlation 0.993 (Sun), 0.997 (Earth) |
 | Custom points | full 5 m build at 32 spots | median 1.9 points (Sun), worst 19 on steep ground |
-| Region positions | NASA Lunar Surface Data Book (ACD-50044 Rev A, 2023), Table A2-2 | all 13 of our sites that it lists match to the metre; the three 2024 regions come from NASA's 2024 map |
+| Region positions | NASA Lunar Surface Data Book (ACD-50044 Rev A, 2023), Table A2-2 | all 6 of our regions that it lists match to the metre (the other 7 it lists, from NASA's 2022 list, match too but are no longer shown); the three 2024 regions come from NASA's 2024 map |
 | Longest night | Data Book: about 150 h without sunlight in winter at the best-lit spots of Connecting Ridge and de Gerlache | 137–139 h every year, 2027–2035, at the sunniest point of NASA's map in Connecting Ridge and de Gerlache Rim 1 |
 | Highest Sun | Data Book: the Sun gets no higher than about 7° at the south pole | 7.6° at Nobile Rim 2, the region furthest from the pole; 2.1° at Connecting Ridge |
 | Lunar eclipses | NASA Five Millennium Catalog of Lunar Eclipses, 2026–2035 | 19 of 21 found, peak times within 0.9 min; the 2 missed only graze the Moon's edge |
@@ -57,7 +57,7 @@ Scripts: `npm run check:horizons`, `check:tiles`, `check:illumination`, `check:c
 
 ## Limits
 
-Horizons are for an eye 2 m above the ground, and times are UTC. Dates run from November 2026 to the end of 2035. Earth "in view" means a clear line of sight to its centre: no link budget or relay satellites. The Sun counts as up when any part of its disc clears the terrain; panel tilt, dust and temperature are not modelled. Terrain is 5 m only inside NASA's high-resolution tiles. The battery figure is energy only. Permanent shadow marks where ice can survive, not where it has been found. Sun percentages do not take out lunar eclipses (listed separately in the planner). The 9 regions were chosen for Artemis III; since February 2026 the first crewed landing is Artemis IV (targeted for 2028), and the 9 regions are still NASA's published candidates. Radiation is dose equivalent from CRaTER's own particle weighting; after September 2026 it is an estimate from the previous solar cycle, and it leaves out shielding by a lander or habitat.
+Horizons are for an eye 2 m above the ground, and times are UTC. Dates run from November 2026 to the end of 2035. Earth "in view" means a clear line of sight to its centre: no link budget or relay satellites. The Sun counts as up when any part of its disc clears the terrain; panel tilt, dust and temperature are not modelled. Terrain is 5 m only inside NASA's high-resolution tiles. The battery figure is energy only. Permanent shadow marks where ice can survive, not where it has been found. Sun percentages do not take out lunar eclipses (listed separately in the planner). The 9 regions were chosen for Artemis III; since February 2026 the first crewed landing is Artemis IV (targeted for 2028), and the 9 regions are still NASA's published candidates. Radiation is dose equivalent from CRaTER's own particle weighting; after 7 October 2026 (the last file the CRaTER team has published) it is an estimate from the previous solar cycle, and it leaves out shielding by a lander or habitat.
 
 ## About
 
