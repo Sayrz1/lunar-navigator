@@ -38,7 +38,7 @@ export function drawTimeline(canvas, { eph, flags, from, days, now, locale }) {
 
   // day ticks
   ctx.fillStyle = 'rgba(236,232,223,0.6)';
-  ctx.font = "11px 'IBM Plex Mono', 'IBM Plex Sans Arabic', monospace";
+  ctx.font = "11px 'IBM Plex Sans', 'Readex Pro', sans-serif";
   const fmt = new Intl.DateTimeFormat(locale, { day: 'numeric', month: 'short', timeZone: 'UTC' });
   const step = W < 600 ? 10 : 5;
   const first = Math.ceil(from / DAY) * DAY;

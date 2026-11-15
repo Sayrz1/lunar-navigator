@@ -21,7 +21,7 @@ function fit(canvas, cssHeight) {
   return { ctx, W: w, H: h };
 }
 
-const font = size => `${size}px 'IBM Plex Mono', ui-monospace, monospace`;
+const font = size => `${size}px ${css('--font')}`;
 
 // A canvas inside a hidden tab has no size; it is drawn when its tab opens.
 const hidden = canvas => !canvas.getClientRects().length;
@@ -110,9 +110,9 @@ export function drawCalendar(canvas, days, chosenMs, windows, locale) {
 
   const opens = new Set(windows.map(w => Math.floor(w.open / 86400e3)));
   const muted = css('--muted');
+  // night -> amber -> green; the night shade follows the theme (--night)
+  const stops = [css('--night').match(/\d+/g).map(Number), [120, 82, 30], [255, 181, 71], [125, 220, 154]];
   const ramp = v => {
-    // night blue -> amber -> green
-    const stops = [[24, 27, 36], [120, 82, 30], [255, 181, 71], [125, 220, 154]];
     const f = Math.min(0.999, v) * (stops.length - 1), i = Math.floor(f), t = f - i;
     return `rgb(${stops[i].map((c, k) => Math.round(c + (stops[i + 1][k] - c) * t)).join(',')})`;
   };

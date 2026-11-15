@@ -337,7 +337,7 @@ function renderFeatures() {
   const row = (k, v) => `<dt>${t(k)}</dt><dd>${v}</dd>`;
   $('feat-list').innerHTML = near.map((f, i) => `<details${i === 0 ? ' open' : ''}>
     <summary>${f.name}<span>${f.km < f.diameterKm / 2 ? t('feat.inside') : t('feat.away', { km: f.km.toFixed(1) })}</span></summary>
-    <dl>${row('feat.type', f.type)}${row('feat.centre', `${deg(f.lat)}, ${deg(f.lon)}`)}${row('feat.diam', `${f.diameterKm.toFixed(2)} km`)}${row('feat.lat', `${deg(f.latRange[0])} … ${deg(f.latRange[1])}`)}${row('feat.lon', `${deg(f.lonRange[0])} … ${deg(f.lonRange[1])}`)}${f.origin ? row('feat.origin', `<span class="feat-origin">${f.origin}</span>`) : ''}${f.link ? row('feat.link', `<a href="${f.link.replace('http:', 'https:')}" target="_blank" rel="noopener">${f.link.split('/').pop()}</a>`) : ''}</dl>
+    <dl>${row('feat.type', f.type)}${row('feat.centre', `${deg(f.lat)}, ${deg(f.lon)}`)}${row('feat.diam', `${f.diameterKm.toFixed(2)} ${ar() ? 'كم' : 'km'}`)}${row('feat.lat', `${deg(f.latRange[0])} … ${deg(f.latRange[1])}`)}${row('feat.lon', `${deg(f.lonRange[0])} … ${deg(f.lonRange[1])}`)}${f.origin ? row('feat.origin', `<span class="feat-origin">${f.origin}</span>`) : ''}${f.link ? row('feat.link', `<a href="${f.link.replace('http:', 'https:')}" target="_blank" rel="noopener">${f.link.split('/').pop()}</a>`) : ''}</dl>
   </details>`).join('');
 }
 
@@ -441,7 +441,7 @@ function renderVerdict() {
     key(t('verdict.k.window'), now ? t('verdict.k.open') : next ? fmtDate(next.open).split(/[,،]/)[0] : '–',
       next ? t('verdict.k.count', { n: app.windows.filter(w => w.close >= app.t).length }) : ''),
     key(t('verdict.k.night'), fmtDays(s.longestDarkH), t('verdict.k.nightNote')),
-    key(t('verdict.k.ice'), ice == null ? '–' : `${ice.toFixed(1)} km`, ice == null ? t('ice.none') : ice <= 2 ? t('ice.inreach') : t('ice.outreach')),
+    key(t('verdict.k.ice'), ice == null ? '–' : `${ice.toFixed(1)} ${ar() ? 'كم' : 'km'}`, ice == null ? t('ice.none') : ice <= 2 ? t('ice.inreach') : t('ice.outreach')),
   ].join('');
 }
 
