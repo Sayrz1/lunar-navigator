@@ -87,8 +87,11 @@ function horizon(file) {
   return app.hz[file];
 }
 
+// The first region's grid is fetched at start, before the terrain index it needs has arrived.
+const early = {};
 function grid(id) {
-  app.grids[id] ??= bin(`./data/terrain/${id}.bin`)
+  const url = `./data/terrain/${id}.bin`;
+  app.grids[id] ??= Promise.resolve(early[id]).then(b => b ?? bin(url))
     .then(b => decodeRegion(b, app.terrainIndex.regions[id], app.terrainIndex.cells))
     .then(g => (app.grids[id + ':ready'] = g));
   return app.grids[id];
@@ -1192,18 +1195,25 @@ async function start() {
   if (saved.theme) document.documentElement.dataset.theme = saved.theme;
   setLang(saved.lang === 'ar' ? 'ar' : 'en');
 
-  const [eph, regionDoc, best, validation, tiles, illum, custom, terrainIndex] = await Promise.all([
+  // start on the opening region's files too, so nothing waits in a queue
+  const h = readHash();
+  const first = /^[a-z0-9-]+$/.test(h.site ?? '') ? h.site : 'malapert-massif';
+  early[first] = bin(`./data/terrain/${first}.bin`).catch(() => null);
+  for (const f of [first, `${first}--best`]) horizon(f).catch(() => {});
+
+  const optional = p => p.catch(() => null);
+  const [eph, regionDoc, best, validation, tiles, illum, custom, terrainIndex, scatter, features, rad, eclipseCheck] = await Promise.all([
     Ephemeris.load('./data/ephemeris'),
     json('./data/regions.json'), json('./data/best_spots.json'), json('./data/validation.json'),
     json('./data/tile_check.json'), json('./data/illumination_check.json'), json('./data/custom_check.json'),
     json('./data/terrain/index.json'),
+    optional(json('./data/scatter.json')),
+    optional(json('./data/features.json').then(d => d.features)),
+    optional(json('./data/radiation.json').then(prepareRadiation)),
+    optional(json('./data/eclipse_check.json')),
   ]);
-  app.scatter = await json('./data/scatter.json').catch(() => null);
-  app.features = await json('./data/features.json').then(d => d.features).catch(() => null);
-  app.rad = await json('./data/radiation.json').then(prepareRadiation).catch(() => null);
-  Object.assign(app, { eph, terrainIndex, checks: { validation, tiles, illum, custom } });
+  Object.assign(app, { eph, terrainIndex, scatter, features, rad, checks: { validation, tiles, illum, custom, eclipse: eclipseCheck } });
   app.eclipses = eclipses(eph);
-  app.checks.eclipse = await json('./data/eclipse_check.json').catch(() => null);
   // only NASA's current candidate regions (October 2024 list)
   app.regions = regionDoc.regions.filter(r => r.lat !== null && terrainIndex.regions[r.id] && r.nasa_lists.includes('2024'));
   for (const b of best.regions) app.best[b.id] = b;
@@ -1226,7 +1236,6 @@ async function start() {
   for (const x of $('speed').children) x.setAttribute('aria-checked', String(Number(x.dataset.speed) === app.speed));
   for (const x of $('camera').children) x.setAttribute('aria-checked', String(x.dataset.cam === app.camera));
 
-  const h = readHash();
   setTime(Number.isFinite(h.t) ? h.t : Date.now());
   await loadRegion(h.site);
   if (h.spot === 'custom' && Number.isFinite(h.lat)) await setSpot('custom', { lat: h.lat, lon: h.lon });
