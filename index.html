@@ -7,7 +7,23 @@
   <meta name="description" content="Where and when to land at the Moon's south pole: sunlight on the real terrain, Earth in view for radio, and what changes if the landing slips.">
   <meta name="theme-color" content="#040b1f">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='13' fill='%23c9c6bd'/%3E%3Ccircle cx='21' cy='12' r='13' fill='%23050506'/%3E%3C/svg%3E">
+  <!-- start-up data, fetched alongside the script instead of after it (Malapert Massif opens first) -->
   <link rel="preload" href="./data/ephemeris.packed.bin" as="fetch" crossorigin>
+  <link rel="preload" href="./data/ephemeris.json" as="fetch" crossorigin>
+  <link rel="preload" href="./data/regions.json" as="fetch" crossorigin>
+  <link rel="preload" href="./data/best_spots.json" as="fetch" crossorigin>
+  <link rel="preload" href="./data/terrain/index.json" as="fetch" crossorigin>
+  <link rel="preload" href="./data/radiation.json" as="fetch" crossorigin>
+  <link rel="preload" href="./data/scatter.json" as="fetch" crossorigin>
+  <link rel="preload" href="./data/features.json" as="fetch" crossorigin>
+  <link rel="preload" href="./data/validation.json" as="fetch" crossorigin>
+  <link rel="preload" href="./data/illumination_check.json" as="fetch" crossorigin>
+  <link rel="preload" href="./data/tile_check.json" as="fetch" crossorigin>
+  <link rel="preload" href="./data/custom_check.json" as="fetch" crossorigin>
+  <link rel="preload" href="./data/eclipse_check.json" as="fetch" crossorigin>
+  <link rel="preload" href="./data/terrain/malapert-massif.bin" as="fetch" crossorigin>
+  <link rel="preload" href="./data/horizons/malapert-massif.json" as="fetch" crossorigin>
+  <link rel="preload" href="./data/horizons/malapert-massif--best.json" as="fetch" crossorigin>
   <link rel="preload" href="./data/moon.jpg" as="image" crossorigin>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
