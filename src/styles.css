@@ -199,6 +199,7 @@ body[data-view='site'] .sky-label.site { display: none; }
 }
 :lang(ar) .site-title { font-family: var(--font); letter-spacing: 0; line-height: 1.1; }
 .summary { margin: 14px 0 0; max-width: 60ch; font-size: clamp(0.98rem, 1.25vw, 1.12rem); color: #dcd8ce; }
+.hero-copy .intro { margin: 0 0 10px; max-width: 60ch; font-size: 0.9rem; color: #e8e4da; }
 .hero-copy .note { margin: 8px 0 0; font-size: 0.84rem; }
 
 .controls { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
