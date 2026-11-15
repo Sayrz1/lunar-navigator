@@ -170,11 +170,14 @@ export class SpaceView {
     this.sunLight.position.copy(sunDir).multiplyScalar(20);
     const p = this.lastSky[1];
     if (p && (path || this.frameChanged)) {
-      this.sunPath.geometry.setFromPoints(p.map(r => moonVector(r.sunLat, r.sunLon - shift(r), SUN_DIST)));
-      this.earthPath.geometry.setFromPoints(p.map(r => moonVector(r.earthLat, r.earthLon - shift(r), EARTH_DIST)));
+      // a fresh geometry each time: near the end of the table the path has fewer points
+      const line = (obj, pts) => { obj.geometry.dispose(); obj.geometry = new THREE.BufferGeometry().setFromPoints(pts); };
+      line(this.sunPath, p.map(r => moonVector(r.sunLat, r.sunLon - shift(r), SUN_DIST)));
+      line(this.earthPath, p.map(r => moonVector(r.earthLat, r.earthLon - shift(r), EARTH_DIST)));
       this.frameChanged = false;
     }
-    this.sunPath.visible = this.frame === 'moon';
+    this.sunPath.visible = this.frame === 'moon' && (p?.length ?? 0) > 1;
+    this.earthPath.visible = (p?.length ?? 0) > 1;
     this.updateRays();
   }
 

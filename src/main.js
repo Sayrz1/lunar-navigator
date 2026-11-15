@@ -114,17 +114,18 @@ function loadPolar() {
   return app.polar;
 }
 
-// Share of the 1 km circle that is walkable (slope under 20 deg), from the light grid.
+// Share of NASA's 2 km EVA circle that is walkable (slope under 20 deg), from the light grid.
+// The best-spot search screened 1 km; the requirements card checks the full 2 km for every spot.
 function walkable(g, x, y) {
   const c = cellAt(g, x, y);
   if (!c) return null;
-  const reach = Math.ceil(1 / g.cellKm);
+  const reach = Math.ceil(2 / g.cellKm);
   let ok = 0, all = 0;
   for (let di = -reach; di <= reach; di++) for (let dj = -reach; dj <= reach; dj++) {
     const i = c.i + di, j = c.j + dj;
     if (i < 1 || j < 1 || i >= g.cells - 1 || j >= g.cells - 1) continue;
     const [cx, cy] = cellCentre(g, i, j);
-    if (Math.hypot(cx - x, cy - y) > 1) continue;
+    if (Math.hypot(cx - x, cy - y) > 2) continue;
     all++;
     if (slopeAt(g, cx, cy) < 20) ok++;
   }
@@ -147,7 +148,7 @@ async function setSpot(kind, custom) {
     const hz = await horizon(kind === 'best' ? `${r.id}--best` : r.id);
     const s = kind === 'best' ? best.best[0] : best?.centre;
     const [x, y] = toStereo(hz.lat, hz.lon);
-    spot = { lat: hz.lat, lon: hz.lon, hz, slope: s?.slope100Deg ?? slopeAt(app.grid, x, y), walkable: kind === 'best' ? s.walkable2km : walkable(app.grid, x, y) };
+    spot = { lat: hz.lat, lon: hz.lon, hz, slope: s?.slope100Deg ?? slopeAt(app.grid, x, y), walkable: walkable(app.grid, x, y) };
   }
   spot.frame = siteFrame(spot.lat, spot.lon, spot.hz.groundM + spot.hz.observerM);
   const key = (kind === 'custom' ? `custom:${spot.lat},${spot.lon}` : `${r.id}:${kind}`) + `|${rulesKey()}`;
@@ -754,13 +755,14 @@ function renderLate() {
     };
   };
   const a = describe(onTime), b = describe(late);
-  const verdict = b.both >= 0.95 ? 'good' : b.both >= 0.6 ? 'ok' : 'bad';
+  const beyond = late + stayH * HOUR > eph.end;
+  const verdict = beyond ? 'nodata' : b.both >= 0.95 ? 'good' : b.both >= 0.6 ? 'ok' : 'bad';
   const slipText = app.slip < 48 ? t('late.hours', { n: app.slip }) : t('late.days', { n: (app.slip / 24).toFixed(1) });
   $('slip-out').textContent = slipText;
   $('slip').value = app.slip;
   $('late-verdict').className = `verdict ${verdict}`;
   let text = t(`late.verdict.${verdict}`);
-  if (verdict !== 'good') {
+  if (verdict === 'ok' || verdict === 'bad') {
     const next = app.windows.find(w => w.open > late);
     if (next) text += ` · ${t('late.next', { time: fmtDate(next.open) })}`;
   }
