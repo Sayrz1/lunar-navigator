@@ -114,7 +114,7 @@ function loadPolar() {
   return app.polar;
 }
 
-// Share of the 2 km circle that is walkable (slope under 20 deg), from the light grid.
+// Share of the 1 km circle that is walkable (slope under 20 deg), from the light grid.
 function walkable(g, x, y) {
   const c = cellAt(g, x, y);
   if (!c) return null;
@@ -260,7 +260,6 @@ function renderPower() {
 
 const CYCLE_MS = 11 * 365.25 * DAY; // one solar cycle, near enough for an analogue
 const STORM_MGY = 5;                // a day whose worst hour tops this is a solar storm day
-const CAREER_MSV = 600;             // NASA career limit, NASA-STD-3001 Vol. 1 Rev. B (2022)
 
 // Each day keeps absorbed dose (med, max in mGy/day) and dose equivalent (eq, eqMax in
 // mSv/day). The page shows dose equivalent, the quantity crew limits are set in.
@@ -316,7 +315,6 @@ function renderRadiation() {
   $('rad-rows').innerHTML =
     row(t('rad.r.stay', { days: app.stay }), `${(r.rate * app.stay).toFixed(1)} mSv`) +
     row(blocked >= 0 ? t('rad.r.site', { pct: blocked }) : t('rad.r.siteOpen', { pct: -blocked }), `${site.toFixed(1)} mSv`) +
-    row(t('rad.r.limit', { limit: CAREER_MSV }), `${((site / CAREER_MSV) * 100).toFixed(1)}%`) +
     row(t('rad.r.storms'), String(rad.storms.length)) +
     row(t('rad.r.worst'), `${Math.round(rad.worst.eqMax)} mSv/day · ${new Date(rad.worst.t).toISOString().slice(0, 7)}`);
   drawRadiation($('rad-chart'), { months: rad.months, estimate: rad.estimate, storms: rad.storms, now: app.t, top: 2.5 });
@@ -433,7 +431,7 @@ function renderVerdict() {
   else if (next) { line = t('verdict.next', { spot: spotLabel(), days, open: fmtDate(next.open), close: fmtDate(next.close) }); cls = 'ok'; }
   else { line = t('verdict.past', { spot: spotLabel(), days }); cls = 'bad'; }
   $('verdict').className = `verdict-strip ${cls}`;
-  $('verdict-line').textContent = line;
+  $('verdict-line').textContent = next && eclipsesBetween(next.open, next.close + days * DAY).length ? `${line} ${t('verdict.eclipse')}` : line;
 
   const ice = spot.ice.nearestKm;
   const key = (label, value, note = '') => `<div><dt>${label}</dt><dd>${value}</dd>${note ? `<dd class="note">${note}</dd>` : ''}</div>`;
@@ -694,6 +692,7 @@ function renderSlow(s, sunNext, earthNext) {
   renderLate();
   renderCompareNow();
   if (app.days) drawCal();
+  if (app.windows) renderVerdict();
   for (const li of $('windows').querySelectorAll('li')) {
     const b = li.querySelector('button');
     if (!b) continue;
@@ -797,7 +796,7 @@ function renderTrust() {
   $('trust-cards').innerHTML = [
     card(t('trust.eph'), `${(validation.worstDeg * 3600).toFixed(1)}″`, t('trust.eph.body', { n: validation.team.length + validation.live.length, arcsec: (validation.worstDeg * 3600).toFixed(1) })),
     card(t('trust.terrain'), `≤ ${rms.toFixed(1)} m`, t('trust.terrain.body', { rms: rms.toFixed(1) })),
-    card(t('trust.light'), `${illum.summary.random.sun.medianAbsPts} pts`, t('trust.light.body', { n: illum.summary.random.sun.n, sun: illum.summary.random.sun.medianAbsPts, earth: illum.summary.random.earth.medianAbsPts, sunMean: illum.summary.random.sun.meanAbsPts, earthMean: illum.summary.random.earth.meanAbsPts, r: Math.min(illum.summary.random.sun.r, illum.summary.random.earth.r).toFixed(3) })),
+    card(t('trust.light'), `${illum.summary.random.sun.medianAbsPts} pts`, t('trust.light.body', { n: illum.summary.random.sun.n, sun: illum.summary.random.sun.medianAbsPts, earth: illum.summary.random.earth.medianAbsPts, sunMean: illum.summary.random.sun.meanAbsPts, earthMean: illum.summary.random.earth.meanAbsPts, r: Math.min(illum.summary.random.sun.r, illum.summary.random.earth.r).toFixed(3), sunMax: illum.summary.random.sun.maxAbsPts, earthMax: illum.summary.random.earth.maxAbsPts })),
     card(t('trust.custom'), `${custom.sun.medianPts} pts`, t('trust.custom.body', { sun: custom.sun.medianPts, max: custom.sun.maxPts })),
     radiationCard(card),
     regionsCard(card),

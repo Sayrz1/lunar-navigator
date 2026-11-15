@@ -28,7 +28,7 @@ const MIN_APART_KM = 0.5;
 const LANDING_SLOPE = 10;     // deg, over 100 m
 const EVA_SLOPE = 20;         // deg, within 2 km
 const EVA_RADIUS_KM = 1;
-const EVA_SHARE = 0.9;        // share of the 2 km circle that must be walkable
+const EVA_SHARE = 0.9;        // share of the 1 km circle that must be walkable
 const DEFAULT_BOX_KM = 15;    // for regions without a NASA box size
 
 const ldem = ldem80();
