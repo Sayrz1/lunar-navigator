@@ -439,7 +439,6 @@ function renderVerdict() {
       next ? t('verdict.k.count', { n: app.windows.filter(w => w.close >= app.t).length }) : ''),
     key(t('verdict.k.night'), fmtDays(s.longestDarkH), t('verdict.k.nightNote')),
     key(t('verdict.k.ice'), ice == null ? '–' : `${ice.toFixed(1)} km`, ice == null ? t('ice.none') : ice <= 2 ? t('ice.inreach') : t('ice.outreach')),
-    key(t('verdict.k.score'), `${app.score ?? '–'}<small>/100</small>`, grade(app.score ?? 0)),
   ].join('');
 }
 
@@ -478,17 +477,16 @@ function renderPeriod() {
     ['per.sun', `${Math.round(m.sun)}%`, m.sun, true], ['per.earth', `${Math.round(m.earth)}%`, m.earth, true],
     ['per.both', `${Math.round(m.both)}%`, m.both, true], ['per.dark', fmtSpan(m.dark * HOUR), m.dark, false],
     ['per.noearth', fmtSpan(m.noEarth * HOUR), m.noEarth, false], ['per.rad', Number.isFinite(m.rad) ? `${m.rad.toFixed(1)} mSv` : '–', m.rad, false],
-    ['per.ice', Number.isFinite(m.ice) ? `${m.ice.toFixed(1)} km` : '–', m.ice, false],
   ];
   const base = app.baseline?.m;
-  const keyOf = { 'per.sun': 'sun', 'per.earth': 'earth', 'per.both': 'both', 'per.dark': 'dark', 'per.noearth': 'noEarth', 'per.rad': 'rad', 'per.ice': 'ice' };
+  const keyOf = { 'per.sun': 'sun', 'per.earth': 'earth', 'per.both': 'both', 'per.dark': 'dark', 'per.noearth': 'noEarth', 'per.rad': 'rad' };
   const delta = (k, v, up) => {
     const was = base?.[keyOf[k]];
     if (!Number.isFinite(was) || !Number.isFinite(v)) return '';
-    const d = v - was, small = k === 'per.rad' || k === 'per.ice' ? 0.05 : 0.5;
+    const d = v - was, small = k === 'per.rad' ? 0.05 : 0.5;
     if (Math.abs(d) < small) return `<small class="delta same">${t('per.same')}</small>`;
     const shown = k === 'per.dark' || k === 'per.noearth' ? fmtSpan(Math.abs(d) * HOUR)
-      : k === 'per.rad' ? `${Math.abs(d).toFixed(1)} mSv` : k === 'per.ice' ? `${Math.abs(d).toFixed(1)} km` : `${Math.round(Math.abs(d))} pts`;
+      : k === 'per.rad' ? `${Math.abs(d).toFixed(1)} mSv` : `${Math.round(Math.abs(d))} pts`;
     return `<small class="delta ${(d > 0) === up ? 'better' : 'worse'}">${d > 0 ? '+' : '−'}${shown}</small>`;
   };
   const item = (k, v, d = '') => `<div><dt>${t(k)}</dt><dd>${v}${d}</dd></div>`;
@@ -564,30 +562,23 @@ function iceRadText() {
 
 // Compare table. Scores need each region's grid (for distance to ice), loaded in the background.
 function renderCompare() {
-  const groups = [['2024', t('cmp.g2024')]];
-  const group = () => '2024';
   // range of Sun + Earth within 100 m, drawn as a span on a 0-100 track
   const spread = v => (v ? `<span class="spread" title="${Math.round(v[0])}–${Math.round(v[1])}%"><i style="inset-inline-start:${v[0]}%;width:${Math.max(1, v[1] - v[0])}%"></i></span>${Math.round(v[0])}–${Math.round(v[1])}%` : '–');
   const bar = (v, cls) => `<span class="bar ${cls}" style="width:${Math.max(2, v * 0.6)}px"></span>${fmtPct(v)}`;
   let html = '';
-  for (const [key, label] of groups) {
-    const rs = app.regions.filter(r => group(r) === key && app.best[r.id]);
-    if (!rs.length) continue;
-    html += `<tr class="group"><td colspan="9">${label}</td></tr>`;
-    for (const r of rs) {
-      const b = app.best[r.id];
-      const g = app.grids[r.id + ':ready'];
-      for (const [kind, s] of [['centre', b.centre], ['best', b.best[0]]]) {
-        if (!s) continue;
-        const sc = g ? scoreOf(s, iceNear(g, s.lat, s.lon).nearestKm).score : '…';
-        const sel = r.id === app.region.id && kind === app.kind ? ' selected' : '';
-        html += `<tr data-id="${r.id}" data-kind="${kind}" class="${sel}">` +
-          `<td class="name">${kind === 'centre' ? r.name : ''}</td><td>${t(kind === 'centre' ? 'spot.centre' : 'spot.best')}</td>` +
-          `<td class="score-cell">${sc}</td>` +
-          `<td>${bar(s.sunPct, '')}</td><td>${bar(s.earthPct, 'earth')}</td><td>${bar(s.bothPct, 'both')}</td>` +
-          `<td>${spread(app.scatter?.regions[r.id]?.[kind]?.within100m.both)}</td>` +
-          `<td>${fmtDays(s.longestDarkH)}</td><td class="now" data-now="${r.id}:${kind}"></td></tr>`;
-      }
+  for (const r of app.regions.filter(r => app.best[r.id])) {
+    const b = app.best[r.id];
+    const g = app.grids[r.id + ':ready'];
+    for (const [kind, s] of [['centre', b.centre], ['best', b.best[0]]]) {
+      if (!s) continue;
+      const sc = g ? scoreOf(s, iceNear(g, s.lat, s.lon).nearestKm).score : '…';
+      const sel = r.id === app.region.id && kind === app.kind ? ' selected' : '';
+      html += `<tr data-id="${r.id}" data-kind="${kind}" class="${sel}">` +
+        `<td class="name">${kind === 'centre' ? r.name : ''}</td><td>${t(kind === 'centre' ? 'spot.centre' : 'spot.best')}</td>` +
+        `<td class="score-cell">${sc}</td>` +
+        `<td>${bar(s.sunPct, '')}</td><td>${bar(s.earthPct, 'earth')}</td><td>${bar(s.bothPct, 'both')}</td>` +
+        `<td>${spread(app.scatter?.regions[r.id]?.[kind]?.within100m.both)}</td>` +
+        `<td>${fmtDays(s.longestDarkH)}</td><td class="now" data-now="${r.id}:${kind}"></td></tr>`;
     }
   }
   $('cmp-body').innerHTML = html;
@@ -820,19 +811,12 @@ function regionsCard(card) {
   return card(t('trust.regions'), `${worst} m`, t('trust.regions.body', { n: checked.length, worst }));
 }
 
-// CRaTER in orbit against the Chang'e-4 lander on the far side, over the same months.
-// Chang'e-4 LND, Jan-Jun 2019 (Zhang et al. 2020, Sci. Adv. 6, eaaz1334): 13.2 uGy/h in
-// silicon in all, of which 10.2 uGy/h from charged particles; the rest are neutral particles
-// from the ground, which CRaTER's surface figure leaves out. The paper compares the two
-// using CRaTER's own silicon-to-water factor, 1.33. Dose equivalent: 1369 uSv/day.
-const CHANGE4_MGY = 10.2e-3 * 24 * 1.33, CHANGE4_MSV = 1.369;
+// How much of the radiation record is measured, and from when to when.
 function radiationCard(card) {
   if (!app.rad) return '';
-  const from = Date.UTC(2019, 0, 3), to = Date.UTC(2019, 5, 30);
-  const span = app.rad.days.filter(d => d.t >= from && d.t <= to);
-  const gy = app.rad.median(span.map(d => d.med)), sv = app.rad.median(span.filter(d => d.eq != null).map(d => d.eq));
-  return card(t('trust.rad'), `${gy.toFixed(2)} / ${CHANGE4_MGY.toFixed(2)}`,
-    t('trust.rad.body', { ours: gy.toFixed(2), them: CHANGE4_MGY.toFixed(2), oursSv: sv.toFixed(2), themSv: CHANGE4_MSV.toFixed(2) }));
+  const n = app.rad.days.length.toLocaleString('en-GB'), day = ms => fmtDate(ms).split(/[,،]/)[0];
+  return card(t('trust.rad'), t('trust.rad.days', { n }),
+    t('trust.rad.body', { n, from: day(app.rad.days[0].t), to: day(app.rad.last) }));
 }
 
 // --- Navi --------------------------------------------------------------------------------
@@ -919,10 +903,7 @@ function setTime(ms) {
 }
 
 function fillRegionSelect() {
-  const groups = [['2024', t('cmp.g2024')]];
-  const group = () => '2024';
-  $('site').innerHTML = groups.map(([key, label]) => `<optgroup label="${label}">` +
-    app.regions.filter(r => group(r) === key).map(r => `<option value="${r.id}">${r.name}</option>`).join('') + '</optgroup>').join('');
+  $('site').innerHTML = app.regions.map(r => `<option value="${r.id}">${r.name}</option>`).join('');
   if (app.region) $('site').value = app.region.id;
 }
 

@@ -51,7 +51,6 @@ Everything the page needs is in `public/data`, so it runs offline and can be hos
 | Longest night | Data Book: about 150 h without sunlight in winter at the best-lit spots of Connecting Ridge and de Gerlache | 137–139 h every year, 2027–2035, at the sunniest point of NASA's map in Connecting Ridge and de Gerlache Rim 1 |
 | Highest Sun | Data Book: the Sun gets no higher than about 7° at the south pole | 7.6° at Nobile Rim 2, the region furthest from the pole; 2.1° at Connecting Ridge |
 | Lunar eclipses | NASA Five Millennium Catalog of Lunar Eclipses, 2026–2035 | 19 of 21 found, peak times within 0.9 min; the 2 missed only graze the Moon's edge |
-| Radiation | Chang'e-4 lander on the surface, Jan–Jun 2019 (Zhang et al. 2020) | absorbed: CRaTER 0.31 mGy/day vs Chang'e-4 about 0.33 without ground albedo; dose equivalent: CRaTER 1.78 vs Chang'e-4 1.37 mSv/day (the instruments weight particles differently) |
 
 Scripts: `npm run check:horizons`, `check:tiles`, `check:illumination`, `check:custom`, `check:eclipses`. Data builds: `data:regions`, `data:ephemeris`, `data:horizons`, `data:best-spots`, `data:terrain`, `data:scatter`, `data:radiation`, `data:features`. The raw inputs (`data-raw/`, about 2 GB) are not in the repo; the sources are listed below.
 
@@ -75,7 +74,6 @@ Not an official NASA product.
 - 3D Moon texture: NASA SVS CGI Moon Kit (LROC colour map): https://svs.gsfc.nasa.gov/4720/
 - Earth texture: three.js example textures (MIT): https://github.com/mrdoob/three.js/tree/r170/examples/textures/planets
 - LRO CRaTER dose rates (University of New Hampshire / NASA): https://crater-web.sr.unh.edu/data/craterProducts/doserates/
-- Chang'e-4 LND surface dose (Zhang et al. 2020, Science Advances 6, eaaz1334): https://www.science.org/doi/10.1126/sciadv.aaz1334
 - IAU Gazetteer of Planetary Nomenclature (USGS Astrogeology): https://planetarynames.wr.usgs.gov/
 - Artemis III site selection update: T. George, M. A. Rubio, S. J. Lawrence and P. Curell (NASA), "Artemis III Site Selection Update: Down-selection from 13 to 9 Candidate Regions", 57th Lunar and Planetary Science Conference (2026), abstract 1901: https://www.hou.usra.edu/meetings/lpsc2026/pdf/1901.pdf
 - NASA Artemis III site selection report (NTRS 20250011660): https://ntrs.nasa.gov/citations/20250011660
