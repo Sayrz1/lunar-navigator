@@ -84,4 +84,6 @@ Not an official NASA product.
 
 ## Use of AI
 
-We used an AI coding assistant (Claude, by Anthropic) throughout the project to help write and review code, check our numbers against the NASA sources and edit text. The team chose the data, the design and the checks, and reviewed the results; every Sun, Earth, terrain and radiation number traces back to the NASA and JPL sources above. The in-app helper "Navi" is not an AI model: it answers from the page's own numbers with fixed rules. No AI-generated images are used. The Navi mascot is a small drawing made in CSS for this project.
+We used an AI coding assistant (Claude, by Anthropic) to help write and review some of the code, check our numbers against the NASA sources and edit the text. The team chose the data, the design and the checks, and reviewed every result.
+
+The Sun, Earth, terrain and radiation numbers all come from the NASA and JPL data listed above. Navi, the in-app helper, is not an AI: it answers from the page's own numbers using fixed rules. No image in this project is AI-generated; the Navi mascot is a small drawing made in code for this project.
