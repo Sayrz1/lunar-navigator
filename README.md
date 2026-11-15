@@ -73,7 +73,6 @@ Not an official NASA product.
 - JPL Horizons: https://ssd.jpl.nasa.gov/horizons/
 - Landing requirements: NASA Artemis Human Landing System update, 2024: https://ntrs.nasa.gov/citations/20240009596
 - 3D Moon texture: NASA SVS CGI Moon Kit (LROC colour map): https://svs.gsfc.nasa.gov/4720/
-- Earth texture: three.js example textures (MIT): https://github.com/mrdoob/three.js/tree/r170/examples/textures/planets
 - LRO CRaTER dose rates (NASA LRO instrument, data hosted by the University of New Hampshire team): https://crater-web.sr.unh.edu/doserates.html
 - IAU Gazetteer of Planetary Nomenclature (USGS Astrogeology): https://planetarynames.wr.usgs.gov/
 - Artemis III site selection update: T. George, M. A. Rubio, S. J. Lawrence and P. Curell (NASA), "Artemis III Site Selection Update: Down-selection from 13 to 9 Candidate Regions", 57th Lunar and Planetary Science Conference (2026), abstract 1901: https://www.hou.usra.edu/meetings/lpsc2026/pdf/1901.pdf
