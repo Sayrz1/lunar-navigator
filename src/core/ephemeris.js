@@ -16,6 +16,20 @@ const DEG = Math.PI / 180;
 // Columns of one row in the binary table.
 export const COLUMNS = ['sunLon', 'sunLat', 'sunAu', 'earthLon', 'earthLat', 'earthAu'];
 
+function unpack(bytes, rows, cols) {
+  const bits = new Int32Array(rows * cols);
+  for (let c = 0; c < cols; c++) {
+    const p = c * 4 * rows;
+    let v = 0;
+    for (let r = 0; r < rows; r++) {
+      const d = bytes[p + r] | (bytes[p + rows + r] << 8) | (bytes[p + 2 * rows + r] << 16) | (bytes[p + 3 * rows + r] << 24);
+      v = (v + d) | 0;
+      bits[r * cols + c] = v;
+    }
+  }
+  return new Float32Array(bits.buffer);
+}
+
 export class Ephemeris {
   constructor(meta, values) {
     this.start = Date.parse(meta.start);
@@ -25,12 +39,14 @@ export class Ephemeris {
     this.v = values;
   }
 
+  // The browser gets the packed copy (scripts/pack-ephemeris.mjs): per column, the
+  // difference between neighbouring rows' 32-bit patterns, split into byte planes.
   static async load(base = './data/ephemeris') {
     const [meta, buf] = await Promise.all([
       fetch(`${base}.json`).then(r => r.json()),
-      fetch(`${base}.bin`).then(r => r.arrayBuffer()),
+      fetch(`${base}.packed.bin`).then(r => r.arrayBuffer()),
     ]);
-    return new Ephemeris(meta, new Float32Array(buf));
+    return new Ephemeris(meta, unpack(new Uint8Array(buf), meta.rows, COLUMNS.length));
   }
 
   get end() {

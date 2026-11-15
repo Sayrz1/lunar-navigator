@@ -14,7 +14,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "data:regions": "python scripts/prepare_regions.py",
-    "data:ephemeris": "node scripts/fetch-ephemeris.mjs",
+    "data:ephemeris": "node scripts/fetch-ephemeris.mjs && node scripts/pack-ephemeris.mjs",
     "data:horizons": "node scripts/build-horizons.mjs",
     "data:best-spots": "node scripts/find-best-spots.mjs",
     "data:terrain": "python scripts/export_terrain.py",
