@@ -82,15 +82,6 @@ Not an official NASA product.
 - NASA Lunar Surface Data Book, ACD-50044 Rev A (2023): region centres (Table A2-2), polar night survival (Appendix E): https://ntrs.nasa.gov/citations/20230007818
 - Landing regions: NASA, October 2024: https://www.nasa.gov/news-release/nasa-provides-update-on-artemis-iii-moon-landing-regions/
 - NASA's October 2024 region map, used to place the three regions that are not in the Data Book: https://www.nasa.gov/wp-content/uploads/2024/10/artemis-iii-landing-region-candidates.jpg
-- Earlier landing regions: NASA, August 2022 (the list of 13 the 2024 list was cut from): https://www.nasa.gov/news-release/nasa-identifies-candidate-regions-for-landing-next-americans-on-moon/
-
-## Software and fonts
-
-- three.js 0.170 (MIT) for the 3D views: https://threejs.org/
-- GSAP 3.12 for the page animations: https://gsap.com/
-- Vite 6 to build the site: https://vite.dev/
-- IBM Plex Sans and IBM Plex Mono (SIL Open Font License): https://github.com/IBM/plex
-- Readex Pro for Arabic (SIL Open Font License): https://fonts.google.com/specimen/Readex+Pro
 
 ## Use of AI
 
