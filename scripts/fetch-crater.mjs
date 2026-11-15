@@ -29,6 +29,26 @@ for (let y = 2009; y <= now.getUTCFullYear(); y++) {
   wanted.push([y, y % 4 ? 365 : 366]);
 }
 
+// The newest file is named after whatever day the team last processed, so look back from
+// today for it. It is fetched fresh every run, as it grows until its 31 days are complete.
+async function newest() {
+  const y = now.getUTCFullYear();
+  const today = Math.floor((now - Date.UTC(y, 0, 0)) / 86400e3);
+  for (let doy = today; doy > today - 90 && doy > 0; doy--) {
+    const tag = `${y}${String(doy).padStart(3, '0')}`;
+    const res = await fetch(`${BASE}/${tag}/doserates_standard_${tag}_31days_allevents.txt`, { method: 'HEAD' });
+    if (res.ok) return [y, doy];
+  }
+  return null;
+}
+const last = await newest();
+if (last) {
+  for (const kind of ['standard', 'equivalent']) {
+    fs.rmSync(path.join(RAW, `doserates_${kind}_${last[0]}${String(last[1]).padStart(3, '0')}.txt`), { force: true });
+  }
+  wanted.push(last);
+}
+
 async function get([y, doy], kind) {
   const tag = `${y}${String(doy).padStart(3, '0')}`;
   const file = path.join(RAW, `doserates_${kind}_${tag}.txt`);
@@ -84,7 +104,7 @@ const days = [...gy.keys()].sort().map(day => {
 });
 
 fs.writeFileSync(path.join(ROOT, 'public/data/radiation.json'), JSON.stringify({
-  source: 'LRO CRaTER dose rates (standard and equivalent products), University of New Hampshire / NASA: https://crater-web.sr.unh.edu/data/craterProducts/doserates/',
+  source: 'LRO CRaTER dose rates (standard and equivalent products), University of New Hampshire / NASA: https://crater-web.sr.unh.edu/doserates.html (files: https://crater-web.sr.unh.edu/data/craterProducts/doserates/data/YYYYDDD/doserates_standard_YYYYDDD_31days_allevents.txt)',
   quantity: 'detector pair D1&2 at the lunar surface: absorbed dose in water (mGy/day) and dose equivalent (mSv/day)',
   note: 'Files give cGy/day and cSv/day with the silicon-to-water factor (1.333), the altitude correction to the surface and the good-event factor already applied.',
   columns: ['dateUtc', 'medianMGyPerDay', 'maxMGyPerDay', 'hours', 'medianMSvPerDay', 'maxMSvPerDay'],
