@@ -914,6 +914,7 @@ function fillRegionSelect() {
 function play(on) {
   $('play').classList.toggle('on', on);
   $('play').setAttribute('aria-label', t(on ? 'time.pause' : 'time.play'));
+  $('playing-note').hidden = !on;
   if (playing) { cancelAnimationFrame(playing); playing = null; }
   if (!on) { renderNow({ full: true }); return; }
   let last = performance.now();
@@ -1008,6 +1009,7 @@ function bind() {
     if (Number.isFinite(ms)) { setTime(ms); renderPlanner(); renderNow({ full: true }); }
   });
   $('play').addEventListener('click', () => play(!playing));
+  $('play-stop').addEventListener('click', () => play(false));
 
   const timeline = $('timeline');
   const scrub = e => {

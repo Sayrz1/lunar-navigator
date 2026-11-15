@@ -405,6 +405,39 @@ body[data-view='space'] .site-only, body[data-view='site'] .space-only { display
 .grid-2, .grid-3 { display: grid; gap: 16px; }
 .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+/* --- how it works -------------------------------------------------------------------- */
+.steps { list-style: none; margin: 0; padding: 0; }
+.steps .card h3 { color: var(--text); font: 600 1.05rem/1.3 var(--display); }
+.steps .card p, .playback p { margin: 0; color: var(--muted); }
+.playback { margin-top: 16px; border-inline-start: 3px solid var(--accent); }
+.playback h3 { display: flex; align-items: center; gap: 10px; color: var(--text); font-size: 1.05rem; }
+.playback p + p { margin-top: 10px; }
+.playback p { max-width: 90ch; }
+.guide { margin-top: 16px; }
+.guide dl { margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 32px; }
+.guide dt { font-weight: 600; }
+.guide dd { margin: 2px 0 0; color: var(--muted); font-size: 0.92rem; }
+.live-dot { flex: none; width: 9px; height: 9px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 60%, transparent); animation: live 1.6s ease-out infinite; }
+@keyframes live { to { box-shadow: 0 0 0 9px transparent; } }
+@media (prefers-reduced-motion: reduce) { .live-dot { animation: none; } }
+@media (max-width: 900px) { .steps.grid-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .steps.grid-3, .guide dl { grid-template-columns: 1fr; } }
+
+/* shown while time plays, so changing numbers have an explanation wherever you are on the page */
+.playing-note {
+  position: fixed; inset-inline-start: 20px; bottom: 20px; z-index: 40;
+  display: flex; align-items: center; gap: 10px; max-width: calc(100vw - 200px);
+  padding: 8px 8px 8px 14px; border-radius: 999px; font-size: 0.86rem;
+  background: var(--card); border: 1px solid var(--line); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+:dir(rtl) .playing-note, [dir='rtl'] .playing-note { padding: 8px 14px 8px 8px; }
+.playing-note[hidden] { display: none; }
+.playing-note .chip { padding: 4px 12px; font-size: 0.82rem; }
+body.hero-on .playing-note { display: none; }
+@media (max-width: 600px) {
+  .playing-note { inset-inline-start: 12px; bottom: 14px; max-width: calc(100vw - 116px); border-radius: 16px; font-size: 0.78rem; line-height: 1.3; gap: 8px; }
+}
 .card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px 22px; min-width: 0; box-shadow: var(--lift); }
 .card h3 { margin: 0 0 10px; font-size: 0.9rem; font-family: var(--font); color: var(--muted); font-weight: 600; }
 .card.sun { border-top: 3px solid var(--sun); }

@@ -38,6 +38,7 @@
       <a href="#assessment" data-i18n="nav.assess">Assessment</a>
       <a href="#planner" data-i18n="nav.plan">Planner</a>
       <a href="#compare" data-i18n="nav.compare">Compare</a>
+      <a href="#about" data-i18n="nav.about">How it works</a>
       <a href="#trust" data-i18n="nav.trust">Trust</a>
     </nav>
     <label class="when">
@@ -378,6 +379,38 @@
       </div>
     </section>
 
+    <section id="about" class="band">
+      <header class="band-head">
+        <p class="eyebrow" data-i18n="about.eyebrow">About this site</p>
+        <h2 data-i18n="about.title">How it works</h2>
+        <p class="band-lede" data-i18n="about.lede"></p>
+      </header>
+      <ol class="steps grid-3">
+        <li class="card"><h3 data-i18n="about.s1.t"></h3><p data-i18n="about.s1"></p></li>
+        <li class="card"><h3 data-i18n="about.s2.t"></h3><p data-i18n="about.s2"></p></li>
+        <li class="card"><h3 data-i18n="about.s3.t"></h3><p data-i18n="about.s3"></p></li>
+        <li class="card"><h3 data-i18n="about.s4.t"></h3><p data-i18n="about.s4"></p></li>
+        <li class="card"><h3 data-i18n="about.s5.t"></h3><p data-i18n="about.s5"></p></li>
+        <li class="card"><h3 data-i18n="about.s6.t"></h3><p data-i18n="about.s6"></p></li>
+      </ol>
+      <article class="card playback">
+        <h3><span class="live-dot" aria-hidden="true"></span><span data-i18n="about.play.t"></span></h3>
+        <p data-i18n="about.play"></p>
+        <p data-i18n="about.play2"></p>
+      </article>
+      <article class="card guide">
+        <h3 data-i18n="about.guide.t"></h3>
+        <dl>
+          <div><dt data-i18n="nav.stage">3D</dt><dd data-i18n="about.g.stage"></dd></div>
+          <div><dt data-i18n="nav.assess">Assessment</dt><dd data-i18n="about.g.assess"></dd></div>
+          <div><dt data-i18n="nav.plan">Planner</dt><dd data-i18n="about.g.plan"></dd></div>
+          <div><dt data-i18n="nav.compare">Compare</dt><dd data-i18n="about.g.compare"></dd></div>
+          <div><dt data-i18n="nav.trust">Trust</dt><dd data-i18n="about.g.trust"></dd></div>
+          <div><dt data-i18n="navi.open">Ask Navi</dt><dd data-i18n="about.g.navi"></dd></div>
+        </dl>
+      </article>
+    </section>
+
     <section id="trust" class="band">
       <header class="band-head">
         <p class="eyebrow" data-i18n="trust.eyebrow">Validation</p>
@@ -396,6 +429,12 @@
     <p>Tuwaiq Lunar · NASA Space Apps Challenge 2026</p>
     <p data-i18n="foot.nologo">Not an official NASA product.</p>
   </footer>
+
+  <div id="playing-note" class="playing-note" hidden>
+    <span class="live-dot" aria-hidden="true"></span>
+    <span data-i18n="play.note">Time is playing: the numbers follow the clock</span>
+    <button type="button" id="play-stop" class="chip" data-i18n="time.pause">Pause</button>
+  </div>
 
   <button id="navi-open" class="navi-fab" type="button" aria-expanded="false" aria-controls="navi" data-open-navi>
     <span class="navi-face" aria-hidden="true"></span><span data-i18n="navi.open">Ask Navi</span>
