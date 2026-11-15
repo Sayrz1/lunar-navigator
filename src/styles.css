@@ -522,6 +522,14 @@ input[type='datetime-local']:hover { border-color: color-mix(in srgb, var(--text
 .chip.lang span + span { border-inline-start: 1px solid var(--line); }
 html:not([lang='ar']) .chip.lang .en, html[lang='ar'] .chip.lang .ar { color: var(--text); font-weight: 600; }
 .foot { padding: 64px clamp(16px, 4vw, 48px) 96px; color: var(--muted); font-size: 0.85rem; max-width: 1400px; margin: 0 auto; }
+.presentation-link {
+  display: inline-flex; align-items: center; justify-content: center;
+  margin-top: 18px; padding: 12px 20px;
+  border-radius: 999px; background: var(--accent); color: var(--on-accent);
+  font-size: 0.95rem; font-weight: 600; text-decoration: none;
+  transition: background 0.2s, transform 0.2s;
+}
+.presentation-link:hover { background: var(--accent-deep); transform: translateY(-2px); }
 
 /* --- Navi --------------------------------------------------------------------------- */
 

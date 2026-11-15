@@ -202,6 +202,7 @@ const en = {
   'share.csv': 'Download hourly CSV',
   'share.copied': 'Link copied',
   'share.failed': 'Copy the address bar to share',
+  'foot.presentation': 'View presentation (PDF)',
   'score.title': 'Site score',
   'grade.good': 'Strong candidate',
   'grade.ok': 'Workable, with trade-offs',
@@ -345,6 +346,7 @@ const ar = {
   'trust.custom': 'نقاطك الخاصة', 'trust.custom.body': 'النقاط التي تختارها بنفسك تُحسب في متصفحك بخرائط أخف، لذا هي أقل دقة قليلًا: عادةً ضمن {sun} نقطة من الحساب الكامل، وحتى {max} على المنحدرات الحادة.',
 
   'foot.nologo': 'ليس منتجًا رسميًا من ناسا.',
+  'foot.presentation': 'عرض العرض التقديمي (PDF)',
   'nav.about': 'كيف يعمل',
   'about.eyebrow': 'عن الموقع',
   'about.title': 'كيف يعمل',
