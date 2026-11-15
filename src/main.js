@@ -640,7 +640,10 @@ function renderNow({ full = false } = {}) {
 
   // hero
   $('site-meta').textContent = `${latLon(spot.lat, spot.lon)} · ${Math.round(spot.hz.groundM)} m`;
-  $('summary').textContent = (s.sunlit
+  // the Sun counts as up while any of its disc clears the ridge, so its centre can sit just below
+  $('summary').textContent = (s.sunlit && s.sun.clear < 0
+    ? t('sum.sunpart', { span: span(sunNext, now) })
+    : s.sunlit
     ? t('sum.sunup', { clear: Math.abs(s.sun.clear).toFixed(1), span: span(sunNext, now) })
     : t('sum.sundown', { clear: Math.abs(s.sun.clear).toFixed(1), span: span(sunNext, now) })) + ' ' +
     (s.earthInView ? t('sum.earthup', { clear: s.earth.clear.toFixed(1) }) : t('sum.earthdown', { span: span(earthNext, now) }));
